@@ -1,0 +1,3806 @@
+<!DOCTYPE html>
+<html lang="vi-VN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tử Vi Hàng Ngày Và Vận Niên - TVGEMINI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark-blue: #0f172a;
+            --accent: #991b1b;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(135deg, #020617, #1e1b4b, #312e81); margin: 0; padding: 15px; display: flex; justify-content: center; color: #1e293b; min-height: 100vh; }
+        .container { max-width: 500px; width: 100%; background: var(--glass); border-radius: 30px; padding: 25px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); }
+        h2 { text-align: center; color: var(--dark-blue); text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 25px; font-size: 18px; }
+        
+        .group { margin-bottom: 15px; }
+        label { font-weight: 700; display: block; margin-bottom: 6px; font-size: 13px; color: #475569; }
+        input { width: 100%; height: 48px; padding: 0 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 16px; box-sizing: border-box; transition: all 0.3s; }
+        
+        button { width: 100%; height: 55px; background: linear-gradient(45deg, var(--dark-blue), var(--accent)); color: white; font-weight: bold; border: none; border-radius: 15px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; margin-top: 10px; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        .result-card { margin-top: 25px; border-radius: 20px; overflow: hidden; animation: slideUp 0.6s ease; color: white; }
+        .good { background: linear-gradient(135deg, #065f46, #059669); }
+        .normal { background: linear-gradient(135deg, #92400e, #d97706); }
+        .bad { background: linear-gradient(135deg, #7f1d1d, #dc2626); }
+        
+        .header-info { padding: 20px; background: rgba(0,0,0,0.15); }
+        .tech-box { background: rgba(255,255,255,0.1); margin: 12px 0; padding: 15px; border-radius: 12px; font-size: 13px; line-height: 1.6; border: 1px solid rgba(255,255,255,0.2); }
+        .tech-box b { color: #fde047; text-shadow: 1px 1px 1px rgba(0,0,0,0.2); }
+        
+        .luan-content {
+    background: #fff;
+    color: #0f172a;
+    padding: 20px;
+    line-height: 1.7;
+    font-size: 13.5px;
+}
+        .lucky-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .lucky-item { background: var(--dark-blue); color: #fff; padding: 8px; border-radius: 10px; text-align: center; font-size: 12px; font-weight: 600; }
+
+        .do-dont {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    flex-direction: column;
+}
+        .dd-box {
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    border-left: 4px solid;
+    margin-top: 5px;
+}
+        .do { background: #f0fdf4; color: #166534; border-color: #22c55e; }
+        .dont { background: #fef2f2; color: #991b1b; border-color: #ef4444; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+		
+		.time-box {
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f8fafc;
+    font-size: 13px;
+}
+
+.time-item {
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.time-item.good { background: #ecfdf5; color: #166534; }
+.time-item.normal { background: #fefce8; color: #854d0e; }
+.time-item.bad { background: #fef2f2; color: #991b1b; }
+
+.section {
+    margin-top: 6px;
+    font-size: 13.5px;
+    line-height: 1.6;
+}
+
+/* === TRỰC NGÀY === */
+.truc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 6px;
+}
+.truc-good { background: rgba(134,239,172,0.25); color: #bbf7d0; border: 1px solid rgba(134,239,172,0.55); }
+.truc-normal { background: rgba(253,224,71,0.2); color: #fef08a; border: 1px solid rgba(253,224,71,0.5); }
+.truc-bad { background: rgba(252,165,165,0.22); color: #fecaca; border: 1px solid rgba(252,165,165,0.55); }
+
+.truc-detail {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: rgba(248,250,252,0.8);
+    border-radius: 10px;
+    font-size: 12.5px;
+    color: #334155;
+    line-height: 1.6;
+}
+
+/* === SAO NGÀY === */
+.stars-section {
+    padding: 12px 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+.stars-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+.star-badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 600;
+}
+.star-cat { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+.star-hung { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+/* === MAY MẮN SECTION === */
+.lucky-section {
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #0f172a, #1e1b4b);
+    color: white;
+}
+.lucky-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fde047;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+.lucky-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+.lucky-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+}
+.lucky-card-label {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.lucky-card-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fde047;
+}
+.lucky-card-sub {
+    font-size: 11px;
+    color: #cbd5e1;
+    margin-top: 2px;
+}
+
+/* === COLOR DOTS === */
+.color-dots {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+.color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* === THẦN TÀI === */
+.than-tai-box {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: linear-gradient(90deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 10px;
+    font-size: 12.5px;
+    color: #1e293b;
+}
+
+/* === RADAR CHART === */
+#chart {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 16px;
+    padding: 10px;
+}
+
+/* === VẬN NIÊN BOX === */
+.van-nien-box {
+    margin-top: 10px;
+    padding: 12px 15px;
+    background: linear-gradient(135deg, #1e3a5f, #1e1b4b);
+    color: white;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+.van-nien-box b { color: #fde047; }
+
+/* CHÈN THÊM CSS CHO MỤC SAO HẠN MỚI */
+.sao-han-box { margin-top: 15px; padding: 15px; background: #fffcf2; border: 1px solid #f1e4c3; border-radius: 15px; color: #332700; text-align: left; }
+.sao-han-title { font-weight: bold; color: #991b1b; font-size: 14px; border-bottom: 1px dashed #d4af37; padding-bottom: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+.sao-badge { background: #991b1b; color: white; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; }
+.han-badge { background: #d97706; color: white; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; }
+
+/* === TAB SWITCHER (Ngày / Trọn Năm) === */
+.tab-switch {
+    display: flex;
+    gap: 6px;
+    background: #f1f5f9;
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+.tab-btn {
+    flex: 1;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: 0.25s;
+    text-transform: none;
+    margin-top: 0;
+}
+.tab-btn:hover { transform: none; box-shadow: none; color: #1e293b; }
+.tab-btn.active {
+    background: linear-gradient(45deg, var(--dark-blue), var(--accent));
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.tab-panel { animation: slideUp 0.4s ease; }
+.panel-hint {
+    font-size: 12px;
+    color: #64748b;
+    text-align: center;
+    margin: -8px 0 16px;
+    line-height: 1.5;
+}
+
+/* === LỊCH DẠNG LƯỚI THÁNG === */
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+.cal-dow {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    padding-bottom: 4px;
+}
+.cal-cell {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.15s;
+    padding: 2px;
+}
+.cal-cell:active { transform: scale(0.93); }
+.cal-empty { cursor: default; }
+.cal-hoang { background: #dcfce7; border: 1px solid #86efac; }
+.cal-hac { background: #fee2e2; border: 1px solid #fca5a5; }
+.cal-today { outline: 2px solid #7c3aed; outline-offset: 1px; }
+.cal-day-num { font-size: 13px; font-weight: 800; color: #1e293b; line-height: 1.2; }
+.cal-day-than { font-size: 8.5px; color: #475569; line-height: 1.1; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 id="mainTitle">🔮 TỬ VI HÀNG NGÀY VÀ VẬN NIÊN</h2>
+
+    <div class="tab-switch">
+        <button class="tab-btn active" id="tabBtnDay" onclick="switchTab('day')">📅 Xem Theo Ngày</button>
+        <button class="tab-btn" id="tabBtnYear" onclick="switchTab('year')">🌟 Xem Vận Niên</button>
+        <button class="tab-btn" id="tabBtnHop" onclick="switchTab('hop')">💑 Xem Tuổi Kết Hợp</button>
+    </div>
+
+    <!-- ============ PANEL: XEM THEO NGÀY ============ -->
+    <div id="panelDay" class="tab-panel">
+        <p class="panel-hint">Tra cứu nhanh vận khí một ngày cụ thể: công việc, tài lộc, tình cảm, giờ tốt/xấu, sao ngày...</p>
+        <div class="group">
+            <label>📅 Ngày muốn xem </label>
+            <input type="date" id="date">
+        </div>
+        <div class="group">
+            <label>👤 Năm sinh của bạn (Dương lịch)</label>
+            <input type="number" id="year" placeholder="Ví dụ: 1985" inputmode="numeric">
+        </div>
+        <div class="group">
+            <label>🚻 Giới tính bản mệnh</label>
+            <select id="gender" style="width: 100%; height: 48px; padding: 0 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 16px; font-weight: 600; color: #475569;">
+                <option value="Nam">Nam mạng</option>
+                <option value="Nữ">Nữ mạng</option>
+            </select>
+        </div>
+        <div class="group">
+            <label>🎯 Việc cần xem (tùy chọn)</label>
+            <select id="viecCanXem" style="width: 100%; height: 48px; padding: 0 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 16px; font-weight: 600; color: #475569;">
+                <option value="">— Xem tổng quát —</option>
+                <option value="Cưới hỏi">💍 Cưới hỏi, đính hôn</option>
+                <option value="Khai trương">🏪 Khai trương, mở hàng</option>
+                <option value="Động thổ / Xây nhà">🏗️ Động thổ, xây/sửa nhà</option>
+                <option value="Ký hợp đồng">📝 Ký hợp đồng, giao dịch</option>
+                <option value="Xuất hành xa">🧳 Xuất hành, đi xa</option>
+                <option value="Chuyển nhà / Nhập trạch">🏠 Chuyển nhà, nhập trạch</option>
+                <option value="Cầu tài / Đầu tư">💰 Cầu tài, đầu tư</option>
+            </select>
+        </div>
+
+        <button onclick="run()">🔍 XEM NGÀY NÀY</button>
+        <button onclick="toggleMonthView()" id="btnToggleMonth" style="background: linear-gradient(45deg, #0f766e, #0891b2); margin-top: 10px;">📅 XEM CẢ THÁNG</button>
+
+        <div id="monthCalWrap" style="display:none;"></div>
+        <div id="out"></div>
+        <div id="chart-wrap" style="display:none; background:white; border-radius:20px; padding:15px; margin-top:20px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+            <div style="text-align:center; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; letter-spacing:1px;">📊 BIỂU ĐỒ VẬN KHÍ TỔNG QUAN</div>
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
+
+    <!-- ============ PANEL: XEM TRỌN NĂM (NÂNG CAO) ============ -->
+    <div id="panelYear" class="tab-panel" style="display:none;">
+        <p class="panel-hint">Xem vận hạn cả năm theo tuổi: Sao Hạn, Kim Lâu, Hoàng Ốc, Tam Tai, Thái Tuế, Vận Niên — và luận chuyên sâu.</p>
+        <div class="group">
+            <label>👤 Năm sinh của bạn (Dương lịch)</label>
+            <input type="number" id="yearY" placeholder="Ví dụ: 1985" inputmode="numeric">
+        </div>
+        <div class="group">
+            <label>🚻 Giới tính bản mệnh</label>
+            <select id="genderY" style="width: 100%; height: 48px; padding: 0 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 16px; font-weight: 600; color: #475569;">
+                <option value="Nam">Nam mạng</option>
+                <option value="Nữ">Nữ mạng</option>
+            </select>
+        </div>
+        <div class="group">
+            <label>🗓️ Xem vận hạn cho năm</label>
+            <select id="targetYear" style="width: 100%; height: 48px; padding: 0 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 16px; font-weight: 600; color: #475569;"></select>
+        </div>
+
+        <button onclick="runYear()" style="background: linear-gradient(45deg, #7c3aed, #991b1b);">🌟 XEM VẬN NIÊN NĂM NÀY</button>
+
+        <div id="outYear"></div>
+    </div>
+
+    <!-- ============ PANEL: HỢP TUỔI (2 NGƯỜI) ============ -->
+    <div id="panelHop" class="tab-panel" style="display:none;">
+        <p class="panel-hint">Xem mức độ hợp tuổi giữa 2 người — dùng cho hôn nhân hoặc hợp tác làm ăn.</p>
+        <div class="group">
+            <label>👤 Năm sinh Người thứ nhất</label>
+            <input type="number" id="year1" placeholder="Ví dụ: 1990" inputmode="numeric">
+        </div>
+        <div class="group">
+            <label>🚻 Giới tính Người thứ nhất</label>
+            <select id="gender1" style="width: 100%; height: 48px; padding: 0 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 16px; font-weight: 600; color: #475569;">
+                <option value="Nam">Nam mạng</option>
+                <option value="Nữ">Nữ mạng</option>
+            </select>
+        </div>
+        <div class="group">
+            <label>👤 Năm sinh Người thứ hai</label>
+            <input type="number" id="year2" placeholder="Ví dụ: 1992" inputmode="numeric">
+        </div>
+        <div class="group">
+            <label>🚻 Giới tính Người thứ hai</label>
+            <select id="gender2" style="width: 100%; height: 48px; padding: 0 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 16px; font-weight: 600; color: #475569;">
+                <option value="Nữ">Nữ mạng</option>
+                <option value="Nam">Nam mạng</option>
+            </select>
+        </div>
+        <div class="group">
+            <label>🎯 Mục đích xem hợp tuổi</label>
+            <select id="mucDichHop" style="width: 100%; height: 48px; padding: 0 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 16px; font-weight: 600; color: #475569;">
+                <option value="honnhan">💍 Hôn nhân, tình duyên</option>
+                <option value="lamAn">🤝 Hợp tác làm ăn</option>
+            </select>
+        </div>
+
+        <button onclick="runHopTuoi()" style="background: linear-gradient(45deg, #db2777, #f59e0b);">💑 XEM MỨC ĐỘ HỢP TUỔI</button>
+
+        <div id="outHop"></div>
+    </div>
+</div>
+
+<script>
+let chart = null;
+const can=["Giáp","Ất","Bính","Đinh","Mậu","Kỷ","Canh","Tân","Nhâm","Quý"];
+const chi=["Tý","Sửu","Dần","Mão","Thìn","Tỵ","Ngọ","Mùi","Thân","Dậu","Tuất","Hợi"];
+const gioChi = ["Tý (23-01h)","Sửu (01-03h)","Dần (03-05h)","Mão (05-07h)","Thìn (07-09h)","Tỵ (09-11h)","Ngọ (11-13h)","Mùi (13-15h)","Thân (15-17h)","Dậu (17-19h)","Tuất (19-21h)","Hợi (21-23h)"];
+const hoangDaoMap = {
+    "Tý": [2,3,4,5,8,9],
+    "Ngọ": [2,3,4,5,8,9],
+    "Sửu": [0,2,3,6,8,10],
+    "Mùi": [0,2,3,6,8,10],
+    "Dần": [0,1,4,5,7,10],
+    "Thân": [0,1,4,5,7,10],
+    "Mão": [0,2,3,6,7,9],
+    "Dậu": [0,2,3,6,7,9],
+    "Thìn": [1,2,4,6,8,9],
+    "Tuất": [1,2,4,6,8,9],
+    "Tỵ": [2,4,5,8,9,11],
+    "Hợi": [2,4,5,8,9,11]
+};
+const lucXung = {"Tý":"Ngọ","Ngọ":"Tý","Sửu":"Mùi","Mùi":"Sửu","Dần":"Thân","Thân":"Dần","Mão":"Dậu","Dậu":"Mão","Thìn":"Tuất","Tuất":"Thìn","Tỵ":"Hợi","Hợi":"Tỵ"};
+const tamHop = {
+    "Thân":"Tý","Tý":"Thìn","Thìn":"Thân",
+    "Dần":"Ngọ","Ngọ":"Tuất","Tuất":"Dần",
+    "Hợi":"Mão","Mão":"Mùi","Mùi":"Hợi",
+    "Tỵ":"Dậu","Dậu":"Sửu","Sửu":"Tỵ"
+};
+
+const lucHop = {
+    "Tý":"Sửu","Sửu":"Tý",
+    "Dần":"Hợi","Hợi":"Dần",
+    "Mão":"Tuất","Tuất":"Mão",
+    "Thìn":"Dậu","Dậu":"Thìn",
+    "Tỵ":"Thân","Thân":"Tỵ",
+    "Ngọ":"Mùi","Mùi":"Ngọ"
+};
+
+const napAm = {"Giáp Tý":"Hải Trung Kim","Ất Sửu":"Hải Trung Kim","Bính Dần":"Lư Trung Hỏa","Đinh Mão":"Lư Trung Hỏa","Mậu Thìn":"Đại Lâm Mộc","Kỷ Tỵ":"Đại Lâm Mộc","Canh Ngọ":"Lộ Bàng Thổ","Tân Mùi":"Lộ Bàng Thổ","Nhâm Thân":"Kiếm Phong Kim","Quý Dậu":"Kiếm Phong Kim","Giáp Tuất":"Sơn Đầu Hỏa","Ất Hợi":"Sơn Đầu Hỏa","Bính Tý":"Giản Hạ Thủy","Đinh Sửu":"Giản Hạ Thủy","Mậu Dần":"Thành Đầu Thổ","Kỷ Mão":"Thành Đầu Thổ","Canh Thìn":"Bạch Lạp Kim","Tân Tỵ":"Bạch Lạp Kim","Nhâm Ngọ":"Dương Liễu Mộc","Quý Mùi":"Dương Liễu Mộc","Giáp Thân":"Tuyền Trung Thủy","Ất Dậu":"Tuyền Trung Thủy","Bính Tuất":"Ốc Thượng Thổ","Đinh Hợi":"Ốc Thượng Thổ","Mậu Tý":"Tích Lịch Hỏa","Kỷ Sửu":"Tích Lịch Hỏa","Canh Dần":"Tùng Bách Mộc","Tân Mão":"Tùng Bách Mộc","Nhâm Thìn":"Trường Lưu Thủy","Quý Tỵ":"Trường Lưu Thủy","Giáp Ngọ":"Sa Trung Kim","Ất Mùi":"Sa Trung Kim","Bính Thân":"Sơn Hạ Hỏa","Đinh Dậu":"Sơn Hạ Hỏa","Mậu Tuất":"Bình Địa Mộc","Kỷ Hợi":"Bình Địa Mộc","Canh Tý":"Bích Thượng Thổ","Tân Sửu":"Bích Thượng Thổ","Nhâm Dần":"Kim Bạch Kim","Quý Mão":"Kim Bạch Kim","Giáp Thìn":"Phú Đăng Hỏa","Ất Tỵ":"Phú Đăng Hỏa","Bính Ngọ":"Thiên Hà Thủy","Đinh Mùi":"Thiên Hà Thủy","Mậu Thân":"Đại Trạch Thổ","Kỷ Dậu":"Đại Trạch Thổ","Canh Tuất":"Thoa Xuyến Kim","Tân Hợi":"Thoa Xuyến Kim","Nhâm Tý":"Tang Đố Mộc","Quý Sửu":"Tang Đố Mộc","Giáp Dần":"Đại Khê Thủy","Ất Mão":"Đại Khê Thủy","Bính Thìn":"Sa Trung Thổ","Đinh Tỵ":"Sa Trung Thổ","Mậu Ngọ":"Thiên Thượng Hỏa","Kỷ Mùi":"Thiên Thượng Hỏa","Canh Thân":"Thạch Lựu Mộc","Tân Dậu":"Thạch Lựu Mộc","Nhâm Tuất":"Đại Hải Thủy","Quý Hợi":"Đại Hải Thủy"};
+
+const nguHanh = {
+    sinh: {
+        "Mộc": "Hỏa",
+        "Hỏa": "Thổ",
+        "Thổ": "Kim",
+        "Kim": "Thủy",
+        "Thủy": "Mộc"
+    },
+    khac: {
+        "Mộc": "Thổ",
+        "Thổ": "Thủy",
+        "Thủy": "Hỏa",
+        "Hỏa": "Kim",
+        "Kim": "Mộc"
+    }
+};
+
+const luanLib = {
+    tongQuan: {
+    "Sinh nhập": [
+      `🌟 Vận trình hôm nay cực kỳ hanh thông.
+- Năng lượng ngày đang bổ trợ trực tiếp cho bản mệnh, giúp bạn dễ dàng làm chủ tình huống.
+- Những việc tồn đọng có xu hướng được tháo gỡ bất ngờ.
+👉 Đây là thời điểm nên chủ động nắm bắt cơ hội thay vì chờ đợi.`,
+
+      `🌈 Cục diện "thuận thiên thời" đang mở ra.
+- Bạn dễ gặp người hỗ trợ hoặc điều kiện thuận lợi từ bên ngoài.
+- Tâm thế tự tin giúp quyết định trở nên chính xác hơn.
+👉 Càng hành động sớm, lợi thế càng lớn.`
+    ],
+
+    "Sinh xuất": [
+      `⚖️ Vận khí có nhưng phải đánh đổi công sức.
+- Bạn cần bỏ nhiều năng lượng hơn bình thường để đạt kết quả.
+- Thành quả vẫn đến nhưng không “nhẹ nhàng”.
+👉 Nên ưu tiên việc quan trọng, tránh dàn trải.`,
+
+      `🔋 Ngày tiêu hao năng lượng cá nhân.
+- Dễ cảm thấy bận rộn, áp lực dù kết quả không tệ.
+- Nếu không kiểm soát tốt, dễ rơi vào trạng thái quá tải.
+👉 Làm ít nhưng chất sẽ tốt hơn làm nhiều.`
+    ],
+
+    "Tương khắc": [
+      `⚠️ Ngày có nhiều lực cản vô hình.
+- Môi trường xung quanh không thuận, dễ phát sinh tình huống ngoài kế hoạch.
+- Quyết định vội vàng có thể dẫn tới sai lầm.
+👉 Nên quan sát nhiều hơn hành động.`,
+
+      `🌪️ Vận trình lệch nhịp.
+- Dễ xảy ra mâu thuẫn hoặc hiểu sai ý trong giao tiếp.
+- Công việc cần kiểm tra kỹ trước khi chốt.
+👉 Giữ bình tĩnh là chìa khóa hôm nay.`
+    ],
+
+    "Bình hòa": [
+      `🧘 Ngày tương đối ổn định.
+- Không có biến động lớn, phù hợp để duy trì và củng cố.
+- Những việc nhỏ dễ hoàn thành hơn việc lớn.
+👉 Đi chậm nhưng chắc sẽ hiệu quả.`,
+
+      `🌿 Nhịp độ cuộc sống chậm lại.
+- Đây là lúc thích hợp để sắp xếp lại kế hoạch cá nhân.
+- Không nên quá kỳ vọng đột phá trong ngày.
+👉 Tích lũy sẽ mang lại lợi ích lâu dài.`
+    ],
+
+    "Đồng hành": [
+      `🔗 Ngày đồng khí — nội lực được nhân lên.
+- Hành ngày trùng với bản mệnh tạo ra sự cộng hưởng mạnh mẽ.
+- Bạn dễ cảm thấy tự tin, hành động quyết đoán và rõ hướng.
+👉 Thích hợp triển khai kế hoạch đã chuẩn bị từ trước.`,
+
+      `💪 Năng lượng nội tại đang ở mức cao.
+- Khả năng tập trung và ý chí vượt trội so với ngày thường.
+- Mọi thứ bạn bắt tay vào đều dễ hoàn thành hơn.
+👉 Đây là ngày để làm điều lớn — đừng lãng phí.`
+    ],
+
+    "Bị tiết": [
+      `🔋 Ngày mệnh sinh xuất — năng lượng cá nhân đang hao tổn.
+- Bạn có xu hướng cho đi nhiều hơn nhận lại.
+- Hiệu quả vẫn có nhưng cần kiểm soát mức độ tiêu sức.
+👉 Ưu tiên việc quan trọng, không nên ôm đồm.`,
+
+      `⚠️ Sức lực có giới hạn hôm nay — cần phân bổ khéo léo.
+- Dễ cảm thấy mệt mỏi hoặc bị kéo theo nhiều hướng khác nhau.
+- Hỗ trợ người khác là tốt, nhưng đừng quên bảo toàn bản thân.
+👉 Nghỉ ngơi đúng lúc cũng là một chiến lược thông minh.`
+    ]
+  },
+    work: {
+        Tot: [
+      `💼 Công việc có dấu hiệu khởi sắc rõ rệt.
+- Dễ gặp cơ hội thể hiện năng lực hoặc được giao việc quan trọng.
+- Những nỗ lực trước đây bắt đầu có kết quả.
+👉 Nên chủ động đề xuất ý tưởng hoặc hành động sớm.`,
+
+      `💼 Hiệu suất làm việc tăng cao.
+- Tư duy nhanh nhạy, xử lý vấn đề linh hoạt.
+- Quan hệ đồng nghiệp tương đối hài hòa.
+👉 Phù hợp để giải quyết việc tồn đọng hoặc triển khai kế hoạch mới.`
+    ],
+
+    Bad: [
+      `💼 Công việc dễ gặp trở ngại.
+- Có thể phát sinh sai sót nhỏ hoặc bị trì hoãn.
+- Dễ vướng thị phi hoặc bất đồng quan điểm.
+👉 Nên giữ thái độ trung lập và làm việc chắc chắn.`,
+
+      `💼 Áp lực công việc gia tăng.
+- Nhiều việc cùng lúc khiến bạn khó tập trung.
+- Quyết định vội vàng dễ dẫn đến sai lầm.
+👉 Ưu tiên việc quan trọng trước, tránh ôm đồm.`
+    ]
+  },
+    money: {
+        Tot: [
+      `💰 Tài lộc có dấu hiệu tăng trưởng.
+- Có thể xuất hiện khoản thu bất ngờ hoặc cơ hội kiếm tiền.
+- Khả năng kiểm soát tài chính tốt.
+👉 Phù hợp để cân nhắc đầu tư nhỏ hoặc mở rộng nguồn thu.`,
+
+      `💰 Dòng tiền vận hành ổn định.
+- Thu chi cân bằng, ít rủi ro.
+- Có cơ hội cải thiện tài chính nếu biết nắm bắt.
+👉 Nên tận dụng cơ hội thay vì để trôi qua.`
+    ],
+
+    Bad: [
+      `💰 Tài chính cần thận trọng.
+- Dễ phát sinh chi phí ngoài dự kiến.
+- Không nên đầu tư mạo hiểm trong ngày.
+👉 Ưu tiên giữ tiền hơn là kiếm nhanh.`,
+
+      `💰 Nguy cơ hao tài nhẹ.
+- Dễ chi tiêu theo cảm xúc hoặc quyết định thiếu cân nhắc.
+- Có thể gặp mất mát nhỏ.
+👉 Nên kiểm soát ví tiền chặt chẽ.`
+    ]
+  },
+    love: {
+        Hop: [
+      `❤️ Tình cảm hài hòa.
+- Hai bên dễ thấu hiểu và chia sẻ.
+- Không khí nhẹ nhàng, ít xung đột.
+👉 Thích hợp để hâm nóng tình cảm.`,
+
+      `❤️ Nhân duyên thuận lợi.
+- Người độc thân dễ gây ấn tượng tốt.
+- Người có đôi có cặp dễ kết nối sâu hơn.
+👉 Nên chủ động mở lòng.`
+    ],
+
+    Xung: [
+      `💔 Tình cảm dễ hiểu lầm.
+- Giao tiếp thiếu rõ ràng có thể gây mâu thuẫn.
+- Cảm xúc thất thường.
+👉 Nên lắng nghe nhiều hơn nói.`,
+
+      `💔 Khoảng cách cảm xúc xuất hiện.
+- Dễ xảy ra tranh cãi nhỏ.
+- Không nên nhắc lại chuyện cũ.
+👉 Bình tĩnh sẽ giúp giữ hòa khí.`
+    ]
+  },
+   family: {
+    Tot: [
+      `🏠 Gia đạo ổn định.
+- Không khí trong nhà tương đối hòa thuận.
+- Có sự hỗ trợ từ người thân.
+👉 Đây là điểm tựa tốt cho bạn.`,
+
+      `🏠 Gia đình là nguồn năng lượng tích cực.
+- Mọi người dễ chia sẻ và thấu hiểu.
+👉 Nên dành thời gian cho gia đình nhiều hơn.`
+    ],
+
+    Bad: [
+      `🏠 Gia đạo có chút bất ổn.
+- Dễ phát sinh mâu thuẫn nhỏ.
+👉 Nên kiềm chế cảm xúc.`,
+
+      `🏠 Không khí gia đình chưa hài hòa.
+- Có thể có hiểu lầm hoặc áp lực.
+👉 Nên chủ động giữ hòa khí.`
+    ]
+  }
+};
+  
+
+// --- HÀM TIỆN ÍCH ---
+// pickBySeed thay thế pick() — dùng seed deterministic, không dùng Math.random()
+
+// 🔥 RANDOM CÓ SEED (KHÔNG LẶP)
+function seededRandom(seed) {
+    let x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+}
+
+function shuffleBySeed(arr, seed){
+    const newArr = [...arr];
+
+    for(let i = newArr.length - 1; i > 0; i--){
+        const j = Math.floor(seededRandom(seed + i) * (i + 1));
+        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+    }
+
+    return newArr;
+}
+
+function pickBySeed(arr, seed){
+    if(!arr || arr.length === 0){
+
+        const fallbackText = [
+    "📌 Ngày hôm nay mang tính ổn định, nên giữ nhịp đều.",
+    "🔍 Vận trình không nổi bật, cần quan sát kỹ trước khi quyết định.",
+    "⚖️ Trạng thái cân bằng, không nên vội vàng thay đổi.",
+    "🧭 Thời điểm thích hợp để chuẩn bị hơn là bứt phá.",
+    "📖 Nên hoàn thiện những việc còn dang dở."
+    ];
+        return fallbackText[seed % fallbackText.length];
+    }
+
+    const index = Math.floor(seededRandom(seed) * arr.length);
+    return arr[index];
+}
+
+// ====== ✨ CONTENT BUILDER (NÂNG CẤP TEXT) ======
+function buildNarrative(type, arr, finalS, seed){
+
+    const openers = {
+        work: [
+            "💼 Công việc hôm nay không chỉ là hoàn thành nhiệm vụ.",
+            "💼 Một nhịp chuyển đáng chú ý đang diễn ra trong công việc."
+        ],
+        money: [
+            "💰 Tài chính hôm nay phản ánh cách bạn kiểm soát dòng tiền.",
+            "💰 Vận tiền bạc không hoàn toàn ngẫu nhiên."
+        ],
+        love: [
+            "❤️ Tình cảm hôm nay chịu ảnh hưởng từ cảm xúc bên trong.",
+            "❤️ Mối quan hệ hôm nay cần sự tinh tế."
+        ],
+        family: [
+            "🏠 Gia đạo phản ánh trạng thái tinh thần của bạn.",
+            "🏠 Không khí gia đình có sự liên kết cảm xúc."
+        ]
+    };
+
+    const endings = [
+        "👉 Điều quan trọng là cách bạn phản ứng.",
+        "👉 Nếu biết tận dụng, bạn sẽ có lợi thế.",
+        "👉 Đôi khi chậm lại lại là lựa chọn đúng.",
+        "👉 Hãy hành động có chủ đích."
+    ];
+
+    // Mỗi mức điểm có nhiều cách diễn đạt khác nhau, chọn theo seed (khác theo từng khía cạnh)
+    // để tránh 4 mục Công việc/Tài lộc/Tình cảm/Gia đạo cùng ngày bị lặp y hệt 1 câu tone.
+    const toneTiers = {
+        hot: [
+            "🔥 Đây là thời điểm bạn nên chủ động nắm cơ hội.",
+            "🔥 Vận khí đang lên, thích hợp để bứt phá.",
+            "🔥 Nhịp độ đang thuận, nên tận dụng ngay hôm nay.",
+            "🔥 Đây là lúc nên tiến lên thay vì chần chừ."
+        ],
+        warn: [
+            "⚠️ Có dấu hiệu bất ổn, nên thận trọng.",
+            "⚠️ Nhịp độ hôm nay hơi gập ghềnh, cần để ý kỹ hơn.",
+            "⚠️ Có vài yếu tố chưa thuận, nên cẩn trọng trong quyết định.",
+            "⚠️ Không phải ngày để mạo hiểm, nên giữ nhịp chắc chắn."
+        ],
+        stable: [
+            "🌿 Mọi thứ ở mức ổn định.",
+            "🌿 Nhịp độ hôm nay khá đều, không có biến động lớn.",
+            "🌿 Tình hình chung khá cân bằng.",
+            "🌿 Không có gì đột biến, cứ giữ nhịp như thường lệ."
+        ]
+    };
+    const tierKey = finalS >= 8 ? "hot" : finalS <= 4 ? "warn" : "stable";
+    const tonePool = toneTiers[tierKey];
+    const tone = tonePool[(seed + 5) % tonePool.length];
+
+    // Chữ nối trước arr[1] cũng đổi theo seed thay vì luôn cố định "Đồng thời,"
+    const connectors = ["Đồng thời,", "Bên cạnh đó,", "Cùng với đó,", "Ngoài ra,"];
+    const connector = connectors[(seed + 2) % connectors.length];
+
+    const openerArr = openers[type] || ["🔍 Một khía cạnh đáng chú ý."];
+    const opener = openerArr[seed % openerArr.length];
+    const ending = endings[(seed + 3) % endings.length];
+
+    return `
+${opener}
+
+${tone}
+
+${arr[0]}
+
+${connector} ${arr[1].charAt(0).toLowerCase() + arr[1].slice(1)}
+
+${ending}
+`;
+}
+
+function getYearCanChi(y){ return [can[(y+6)%10], chi[(y+8)%12]]; }
+
+function getDayCanChi(d){
+    let x=new Date(d);
+    let dd=x.getDate(), mm=x.getMonth()+1, yy=x.getFullYear();
+    let a=Math.floor((14-mm)/12);
+    let y=yy+4800-a;
+    let m=mm+12*a-3;
+    let JDN=dd+Math.floor((153*m+2)/5)+365*y+Math.floor(y/4)-Math.floor(y/100)+Math.floor(y/400)-32045;
+    return [can[(JDN+9)%10], chi[(JDN+1)%12]];
+}
+function getElement(n){
+    if(n.includes("Kim")) return "Kim";
+    if(/Mộc|Lâm|Liễu|Tùng|Bách|Tang|Khê/.test(n)) return "Mộc";
+    if(n.includes("Thủy")) return "Thủy";
+    if(/Hỏa|Lư|Sơn Hạ|Phú Đăng|Thiên Thượng/.test(n)) return "Hỏa";
+    return "Thổ";
+}
+
+// --- HIỆU CHỈNH TIẾT KHÍ (CHÍNH XÁC HƠN) ---
+// ====== TÍNH JULIAN DAY ======
+// Định dạng ngày theo YYYY-MM-DD dùng giờ ĐỊA PHƯƠNG của trình duyệt (KHÔNG dùng toISOString(),
+// vì toISOString() quy đổi sang UTC — với người dùng ở múi giờ Việt Nam (UTC+7), vào khung giờ
+// 00h00-06h59 sáng, ngày UTC vẫn còn là hôm qua, gây lệch ngày "hôm nay" hiển thị sai.
+function formatDateLocal(d){
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+function jdFromDate(dd, mm, yy) {
+    let a = Math.floor((14 - mm) / 12);
+    let y = yy + 4800 - a;
+    let m = mm + 12 * a - 3;
+    return dd + Math.floor((153 * m + 2) / 5) + 365 * y
+        + Math.floor(y / 4) - Math.floor(y / 100)
+        + Math.floor(y / 400) - 32045;
+}
+
+// ====== TÍNH GÓC MẶT TRỜI ======
+function sunLongitude(jdn) {
+    let T = (jdn - 2451545.0) / 36525;
+    let T2 = T * T;
+
+    let dr = Math.PI / 180;
+    let M = 357.52910 + 35999.05030 * T - 0.0001559 * T2;
+    let L0 = 280.46645 + 36000.76983 * T;
+
+    let DL = (1.914600 - 0.004817 * T) * Math.sin(dr * M)
+        + (0.019993 - 0.000101 * T) * Math.sin(dr * 2 * M)
+        + 0.000290 * Math.sin(dr * 3 * M);
+
+    let L = L0 + DL;
+    L = L * dr;
+    L = L - Math.PI * 2 * Math.floor(L / (Math.PI * 2));
+
+    return L;
+}
+
+// ====== GET TIẾT KHÍ CHUẨN ======
+function getTietKhi(dateStr){
+    const d = new Date(dateStr);
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+
+    const table = [
+        { m:1, d:5, name:"Tiểu Hàn" },
+        { m:1, d:20, name:"Đại Hàn" },
+
+        { m:2, d:4, name:"Lập Xuân" },
+        { m:2, d:19, name:"Vũ Thủy" },
+
+        { m:3, d:6, name:"Kinh Trập" },
+        { m:3, d:21, name:"Xuân Phân" },
+
+        { m:4, d:5, name:"Thanh Minh" },
+        { m:4, d:20, name:"Cốc Vũ" },
+
+        { m:5, d:6, name:"Lập Hạ" },
+        { m:5, d:21, name:"Tiểu Mãn" },
+
+        { m:6, d:6, name:"Mang Chủng" },
+        { m:6, d:21, name:"Hạ Chí" },
+
+        { m:7, d:7, name:"Tiểu Thử" },
+        { m:7, d:23, name:"Đại Thử" },
+
+        { m:8, d:8, name:"Lập Thu" },
+        { m:8, d:23, name:"Xử Thử" },
+
+        { m:9, d:8, name:"Bạch Lộ" },
+        { m:9, d:23, name:"Thu Phân" },
+
+        { m:10, d:8, name:"Hàn Lộ" },
+        { m:10, d:23, name:"Sương Giáng" },
+
+        { m:11, d:7, name:"Lập Đông" },
+        { m:11, d:22, name:"Tiểu Tuyết" },
+
+        { m:12, d:7, name:"Đại Tuyết" },
+        { m:12, d:22, name:"Đông Chí" }
+    ];
+
+    for(let i = table.length - 1; i >= 0; i--){
+        if(
+            m > table[i].m ||
+            (m === table[i].m && day >= table[i].d)
+        ){
+            return table[i].name;
+        }
+    }
+
+    return "Đông Chí";
+}
+
+function getSeason(tietKhi){
+    const xuan = ["Lập Xuân","Vũ Thủy","Kinh Trập","Xuân Phân","Thanh Minh","Cốc Vũ"];
+    const ha = ["Lập Hạ","Tiểu Mãn","Mang Chủng","Hạ Chí","Tiểu Thử","Đại Thử"];
+    const thu = ["Lập Thu","Xử Thử","Bạch Lộ","Thu Phân","Hàn Lộ","Sương Giáng"];
+    const dong = ["Lập Đông","Tiểu Tuyết","Đại Tuyết","Đông Chí","Tiểu Hàn","Đại Hàn"];
+
+    if(xuan.includes(tietKhi)) return "Mộc";
+    if(ha.includes(tietKhi)) return "Hỏa";
+    if(thu.includes(tietKhi)) return "Kim";
+    if(dong.includes(tietKhi)) return "Thủy";
+
+    return "Thổ";
+}
+const _tkXuan = ["Lập Xuân","Vũ Thủy","Kinh Trập","Xuân Phân","Thanh Minh","Cốc Vũ"];
+const _tkHa   = ["Lập Hạ","Tiểu Mãn","Mang Chủng","Hạ Chí","Tiểu Thử","Đại Thử"];
+const _tkThu  = ["Lập Thu","Xử Thử","Bạch Lộ","Thu Phân","Hàn Lộ","Sương Giáng"];
+const _tkDong = ["Lập Đông","Tiểu Tuyết","Đại Tuyết","Đông Chí","Tiểu Hàn","Đại Hàn"];
+
+function getTietKhiIcon(tietKhi){
+    if(_tkXuan.includes(tietKhi)) return "🌱";
+    if(_tkHa.includes(tietKhi))   return "☀️";
+    if(_tkThu.includes(tietKhi))  return "🍂";
+    if(_tkDong.includes(tietKhi)) return "❄️";
+    return "🌿";
+}
+
+function getTietKhiStyle(tietKhi){
+    if(_tkXuan.includes(tietKhi)) return "color:#16a34a";
+    if(_tkHa.includes(tietKhi))   return "color:#f97316";
+    if(_tkThu.includes(tietKhi))  return "color:#ca8a04";
+    if(_tkDong.includes(tietKhi)) return "color:#3b82f6";
+    return "color:#64748b";
+}
+// ===================================================================
+// 🌙 CHUYỂN ĐỔI DƯƠNG LỊCH → ÂM LỊCH (thuật toán thiên văn chuẩn, múi giờ VN +7)
+// Dùng để xác định ngày Tam Nương, Nguyệt Kỵ, Sát Chủ (đều tính theo ngày ÂM LỊCH)
+// ===================================================================
+function am_INT(d){ return Math.floor(d); }
+
+function am_jdn(dd, mm, yy){
+    let a = am_INT((14 - mm) / 12);
+    let y = yy + 4800 - a;
+    let m = mm + 12*a - 3;
+    let jd = dd + am_INT((153*m+2)/5) + 365*y + am_INT(y/4) - am_INT(y/100) + am_INT(y/400) - 32045;
+    if(jd < 2299161){
+        jd = dd + am_INT((153*m+2)/5) + 365*y + am_INT(y/4) - 32083;
+    }
+    return jd;
+}
+
+function am_newMoon(k){
+    let T = k/1236.85, T2 = T*T, T3 = T2*T;
+    let dr = Math.PI/180;
+    let Jd1 = 2415020.75933 + 29.53058868*k + 0.0001178*T2 - 0.000000155*T3;
+    Jd1 = Jd1 + 0.00033*Math.sin((166.56+132.87*T-0.009173*T2)*dr);
+    let M = 359.2242 + 29.10535608*k - 0.0000333*T2 - 0.00000347*T3;
+    let Mpr = 306.0253 + 385.81691806*k + 0.0107306*T2 + 0.00001236*T3;
+    let F = 21.2964 + 390.67050646*k - 0.0016528*T2 - 0.00000239*T3;
+    let C1 = (0.1734 - 0.000393*T)*Math.sin(M*dr) + 0.0021*Math.sin(2*dr*M);
+    C1 = C1 - 0.4068*Math.sin(Mpr*dr) + 0.0161*Math.sin(dr*2*Mpr);
+    C1 = C1 - 0.0004*Math.sin(dr*3*Mpr);
+    C1 = C1 + 0.0104*Math.sin(dr*2*F) - 0.0051*Math.sin(dr*(M+Mpr));
+    C1 = C1 - 0.0074*Math.sin(dr*(M-Mpr)) + 0.0004*Math.sin(dr*(2*F+M));
+    C1 = C1 - 0.0004*Math.sin(dr*(2*F-M)) - 0.0006*Math.sin(dr*(2*F+Mpr));
+    C1 = C1 + 0.0010*Math.sin(dr*(2*F-Mpr)) + 0.0005*Math.sin(dr*(2*Mpr+M));
+    let deltat = (T < -11)
+        ? 0.001 + 0.000839*T + 0.0002261*T2 - 0.00000845*T3 - 0.000000081*T*T3
+        : -0.000278 + 0.000265*T + 0.000262*T2;
+    return Jd1 + C1 - deltat;
+}
+
+function am_sunLongitudeAcc(jd){
+    let T = (jd - 2451545.0)/36525, T2 = T*T;
+    let dr = Math.PI/180;
+    let M = 357.52910 + 35999.05030*T - 0.0001559*T2 - 0.00000048*T*T2;
+    let L0 = 280.46645 + 36000.76983*T + 0.0003032*T2;
+    let DL = (1.914600 - 0.004817*T - 0.000014*T2)*Math.sin(dr*M);
+    DL = DL + (0.019993-0.000101*T)*Math.sin(dr*2*M) + 0.000290*Math.sin(dr*3*M);
+    let L = (L0 + DL)*dr;
+    L = L - Math.PI*2*am_INT(L/(Math.PI*2));
+    return L;
+}
+
+function am_getSunLongitude(dayNumber, tz){ return am_INT(am_sunLongitudeAcc(dayNumber - 0.5 - tz/24)/Math.PI/2*12); }
+function am_getNewMoonDay(k, tz){ return am_INT(am_newMoon(k) + 0.5 + tz/24); }
+
+function am_getLunarMonth11(yy, tz){
+    let off = am_jdn(31, 12, yy) - 2415021;
+    let k = am_INT(off / 29.530588853);
+    let nm = am_getNewMoonDay(k, tz);
+    if(am_getSunLongitude(nm, tz) >= 9){ nm = am_getNewMoonDay(k-1, tz); }
+    return nm;
+}
+
+function am_getLeapMonthOffset(a11, tz){
+    let k = am_INT((a11 - 2415021.076998695) / 29.530588853 + 0.5);
+    let last = 0, i = 1;
+    let arc = am_getSunLongitude(am_getNewMoonDay(k+i, tz), tz);
+    do{
+        last = arc; i++;
+        arc = am_getSunLongitude(am_getNewMoonDay(k+i, tz), tz);
+    } while(arc !== last && i < 14);
+    return i-1;
+}
+
+// Trả về [ngàyÂL, thángÂL, nămÂL, cóNhuận(0/1)]
+function convertSolar2Lunar(dd, mm, yy, tz){
+    tz = (tz === undefined) ? 7 : tz;
+    let dayNumber = am_jdn(dd, mm, yy);
+    let k = am_INT((dayNumber - 2415021.076998695) / 29.530588853);
+    let monthStart = am_getNewMoonDay(k+1, tz);
+    if(monthStart > dayNumber){ monthStart = am_getNewMoonDay(k, tz); }
+    let a11 = am_getLunarMonth11(yy, tz);
+    let b11 = a11;
+    let lunarYear;
+    if(a11 >= monthStart){
+        lunarYear = yy;
+        a11 = am_getLunarMonth11(yy-1, tz);
+    } else {
+        lunarYear = yy+1;
+        b11 = am_getLunarMonth11(yy+1, tz);
+    }
+    let lunarDay = dayNumber - monthStart + 1;
+    let diff = am_INT((monthStart - a11)/29);
+    let lunarLeap = 0;
+    let lunarMonth = diff + 11;
+    if(b11 - a11 > 365){
+        let leapMonthDiff = am_getLeapMonthOffset(a11, tz);
+        if(diff >= leapMonthDiff){
+            lunarMonth = diff + 10;
+            if(diff === leapMonthDiff) lunarLeap = 1;
+        }
+    }
+    if(lunarMonth > 12) lunarMonth -= 12;
+    if(lunarMonth >= 11 && diff < 4) lunarYear -= 1;
+    return [lunarDay, lunarMonth, lunarYear, lunarLeap];
+}
+
+function solar2LunarInfo(dateStr){
+    const d = new Date(dateStr);
+    const [lDay, lMonth, lYear, lLeap] = convertSolar2Lunar(d.getDate(), d.getMonth()+1, d.getFullYear(), 7);
+    return { lDay, lMonth, lYear, lLeap };
+}
+
+// --- Ngày xấu tính theo ÂM LỊCH: Tam Nương, Nguyệt Kỵ, Sát Chủ ---
+const TAM_NUONG_DAYS = [3, 7, 13, 18, 22, 27];
+const NGUYET_KY_DAYS = [5, 14, 23];
+// Bảng Sát Chủ theo tháng âm lịch — tham khảo phổ biến trong lịch vạn niên, có thể khác đôi chút giữa các phái.
+const SAT_CHU_CHI_BY_MONTH = {
+    1:"Ngọ", 2:"Tỵ", 3:"Thìn", 4:"Mão", 5:"Dần", 6:"Sửu",
+    7:"Tý", 8:"Hợi", 9:"Tuất", 10:"Dậu", 11:"Thân", 12:"Mùi"
+};
+
+function getNgayXauInfo(dateStr){
+    const am = solar2LunarInfo(dateStr);
+    const [, chD] = getDayCanChi(dateStr);
+    const canhBao = [];
+
+    if(TAM_NUONG_DAYS.includes(am.lDay)){
+        canhBao.push({ ten:"Tam Nương", mota:"Dân gian kiêng khởi sự việc lớn, cưới hỏi, xuất hành xa, ký kết hợp đồng quan trọng." });
+    }
+    if(NGUYET_KY_DAYS.includes(am.lDay)){
+        canhBao.push({ ten:"Nguyệt Kỵ", mota:"Ngày Dương Công kỵ nhật — nên tránh khai trương, động thổ, xuất hành xa." });
+    }
+    if(SAT_CHU_CHI_BY_MONTH[am.lMonth] === chD){
+        canhBao.push({ ten:"Sát Chủ", mota:"Ngày Sát Chủ trong tháng — kỵ xuất hành, khai trương, động thổ, cưới hỏi, an táng." });
+    }
+    return { am, canhBao };
+}
+
+function danhGiaSucKhoe(tietKhi, menh){
+    let season = getSeason(tietKhi);
+
+    const sinh = {"Kim":"Thủy","Thủy":"Mộc","Mộc":"Hỏa","Hỏa":"Thổ","Thổ":"Kim"};
+    const khac = {"Kim":"Mộc","Mộc":"Thổ","Thổ":"Thủy","Thủy":"Hỏa","Hỏa":"Kim"};
+
+    // 🔴 ngày khắc mệnh (xấu nhất)
+    if(khac[season] === menh){
+        return "⚠️ Ngũ hành khắc mệnh, dễ suy nhược, cần nghỉ ngơi.";
+    }
+
+    // 🔴 mệnh bị ngày khắc (cũng xấu)
+    if(khac[menh] === season){
+        return "❌ Mệnh bị tiết hao, nên tránh làm việc quá sức.";
+    }
+
+    // 🟢 ngày sinh mệnh
+    if(sinh[season] === menh){
+        return "💪 Sinh khí tốt, cơ thể khỏe, nên vận động.";
+    }
+
+    // 🟢 mệnh sinh ngày (hao lực)
+    if(sinh[menh] === season){
+        return "🔋 Hao năng lượng, nên ngủ đủ và ăn uống tốt.";
+    }
+
+    return "🧘 Cân bằng, trạng thái ổn định.";
+}
+
+function loiKhuyenSucKhoe(tietKhi){
+    if(_tkXuan.includes(tietKhi)) return "🌱 Ăn nhiều rau xanh, ngủ đủ giấc, vận động buổi sáng.";
+    if(_tkHa.includes(tietKhi))   return "☀️ Uống đủ nước, tránh nắng gắt, không thức quá khuya.";
+    if(_tkThu.includes(tietKhi))  return "🍂 Giữ ấm phổi, ăn thêm hoa quả, tránh gió lạnh.";
+    if(_tkDong.includes(tietKhi)) return "❄️ Giữ ấm cơ thể, không ra ngoài sáng sớm khi lạnh.";
+    return "⚖️ Sinh hoạt điều độ, ngủ đủ giấc, tránh căng thẳng kéo dài.";
+}
+
+function aiLuan({relType, finalS, chiS, eU, eD, tietKhi}){
+
+const sinh = {"Kim":"Thủy","Thủy":"Mộc","Mộc":"Hỏa","Hỏa":"Thổ","Thổ":"Kim"};
+const khac = {"Kim":"Mộc","Mộc":"Thổ","Thổ":"Thủy","Thủy":"Hỏa","Hỏa":"Kim"};
+
+    let text = "";
+
+    // ===== TỔNG QUAN =====
+    if(finalS >= 8){
+        text += "🌟 Vận khí hôm nay cực vượng, dễ thành công nếu chủ động nắm bắt.<br>";
+    } else if(finalS >= 6){
+        text += "✨ Vận trình khá ổn, nên tiến từng bước chắc chắn.<br>";
+    } else {
+        text += "⚠️ Ngày có nhiều biến động, nên lấy tĩnh chế động.<br>";
+    }
+
+    // ===== NGŨ HÀNH =====
+    if(sinh[eD] === eU){
+    text += "🔥 Ngày sinh trợ mệnh, vận khí mở rộng, dễ gặp quý nhân.<br>";
+}
+else if(khac[eD] === eU){
+    text += "❌ Ngày khắc mệnh, dễ gặp cản trở, nên giữ thế an toàn.<br>";
+}
+else if(eU === eD){
+    text += "🔗 Đồng hành, nội lực mạnh, thích hợp làm việc lớn.<br>";
+}
+else if(sinh[eU] === eD){
+    text += "🔋 Sinh xuất, dễ hao sức, nên chọn việc nhẹ.<br>";
+}
+else{
+    text += "⚖️ Ngũ hành trung hòa, tiến chậm sẽ chắc.<br>";
+}
+
+    // ===== TÌNH CẢM =====
+    if(chiS < 0){
+        text += "💔 Tình cảm dễ xảy ra xung đột nhỏ, nên nhường nhịn.<br>";
+    } else {
+        text += "❤️ Nhân duyên ổn định, thích hợp kết nối và chia sẻ.<br>";
+    }
+
+    // ===== TIẾT KHÍ =====
+    if(_tkXuan.includes(tietKhi)){
+        text += "🌱 Năng lượng mùa xuân giúp khởi đầu thuận lợi, thích hợp mở rộng và phát triển.<br>";
+    } else if(_tkHa.includes(tietKhi)){
+        text += "☀️ Dương khí cực thịnh, nên hành động quyết đoán và tận dụng tối đa năng lượng.<br>";
+    } else if(_tkThu.includes(tietKhi)){
+        text += "🍂 Thời điểm thu hoạch thành quả, thích hợp tổng kết và củng cố.<br>";
+    } else if(_tkDong.includes(tietKhi)){
+        text += "❄️ Âm khí mạnh, nên tích lũy và nghỉ ngơi, tránh mạo hiểm.<br>";
+    }
+
+    // ===== CHỐT =====
+    // ===== CHỐT =====
+if(finalS >= 8){
+    text += "<br>💎 Lời khuyên: Mạnh dạn tiến lên, cơ hội hiếm có.";
+} else if(finalS <= 4){
+    text += "<br>🧘 Lời khuyên: Giữ vững tâm lý, tránh quyết định lớn.";
+} else {
+    text += "<br>📌 Lời khuyên: Đi chậm mà chắc sẽ đạt kết quả tốt.";
+}
+
+return text;
+}
+
+// 🏮 Không còn dùng — giữ lại để tham chiếu nếu cần
+// traditionalActs và vipActs đã được thay bằng pool theo relType + chi
+
+function hashString(str){
+    let hash = 0;
+    for(let i = 0; i < str.length; i++){
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return Math.abs(hash);
+}
+
+const aiContent = {
+
+work: {
+    good: {
+        Kim: [
+            "Công việc tiến triển rõ rệt, bạn dễ đạt được kết quả cụ thể nếu chủ động hành động.",
+            "Khả năng kiểm soát tình huống tốt giúp bạn xử lý công việc hiệu quả.",
+            "Đây là thời điểm thích hợp để chốt kế hoạch hoặc triển khai ý tưởng.",
+            "Bạn có xu hướng làm việc logic, dễ được cấp trên đánh giá cao.",
+            "Những nỗ lực trước đó bắt đầu mang lại kết quả tích cực."
+        ],
+        Mộc: [
+            "Công việc có dấu hiệu mở rộng, nên tận dụng cơ hội để phát triển.",
+            "Ý tưởng mới dễ được đón nhận, phù hợp sáng tạo và đề xuất.",
+            "Bạn có nhiều cảm hứng làm việc, tiến độ được cải thiện.",
+            "Dễ gặp người hỗ trợ hoặc cùng chí hướng.",
+            "Có thể bắt đầu kế hoạch dài hạn."
+        ],
+        Thủy: [
+            "Tư duy linh hoạt giúp bạn xử lý tình huống nhanh chóng.",
+            "Công việc thuận lợi khi làm việc nhóm hoặc kết nối.",
+            "Có cơ hội học hỏi thêm kỹ năng mới.",
+            "Khả năng thích nghi cao giúp vượt qua trở ngại.",
+            "Những việc tồn đọng có thể giải quyết dần."
+        ],
+        Hỏa: [
+            "Năng lượng mạnh mẽ giúp bạn làm việc nhanh và quyết đoán.",
+            "Phù hợp hành động, triển khai dự án.",
+            "Bạn có xu hướng dẫn dắt người khác.",
+            "Công việc tiến triển nhanh nếu không do dự.",
+            "Có thể đạt kết quả vượt mong đợi."
+        ],
+        Thổ: [
+            "Công việc ổn định, phù hợp duy trì và củng cố.",
+            "Bạn làm việc chắc chắn, ít sai sót.",
+            "Phù hợp hoàn thiện kế hoạch cũ.",
+            "Có thể xây dựng nền tảng dài hạn.",
+            "Tiến độ chậm nhưng bền vững."
+        ]
+    },
+
+    bad: {
+        Kim: [
+            "Dễ gặp áp lực hoặc yêu cầu cao trong công việc.",
+            "Bạn có thể cảm thấy bị kiểm soát hoặc hạn chế.",
+            "Không nên quyết định vội vàng.",
+            "Dễ xảy ra sai sót do thiếu linh hoạt.",
+            "Cần kiểm tra kỹ trước khi hoàn thành."
+        ],
+        Mộc: [
+            "Công việc thiếu định hướng rõ ràng.",
+            "Dễ bị phân tâm hoặc thay đổi kế hoạch.",
+            "Không nên mở rộng quá nhanh.",
+            "Cần tránh nóng vội khi đề xuất.",
+            "Có thể gặp người không cùng quan điểm."
+        ],
+        Thủy: [
+            "Dễ bị ảnh hưởng bởi môi trường xung quanh.",
+            "Thiếu tập trung khiến hiệu suất giảm.",
+            "Không nên ôm quá nhiều việc cùng lúc.",
+            "Cần tránh thay đổi liên tục.",
+            "Khó đưa ra quyết định dứt khoát."
+        ],
+        Hỏa: [
+            "Dễ nóng vội, dẫn đến sai lầm.",
+            "Không nên hành động khi chưa suy nghĩ kỹ.",
+            "Dễ xảy ra xung đột trong công việc.",
+            "Cần kiểm soát cảm xúc.",
+            "Tránh áp đặt ý kiến cá nhân."
+        ],
+        Thổ: [
+            "Công việc trì trệ, thiếu động lực.",
+            "Khó có sự đột phá.",
+            "Dễ bị chậm tiến độ.",
+            "Không nên cố thay đổi lớn.",
+            "Cần kiên nhẫn và giữ nhịp ổn định."
+        ]
+    }
+},
+
+money: {
+    good: {
+        Kim: ["Tài chính ổn định, dễ kiểm soát chi tiêu.","Có cơ hội tăng thu nhập từ nguồn cũ.","Phù hợp tích lũy lâu dài.","Dễ quản lý tài chính hiệu quả.","Có thể thu hồi khoản đã chi trước đó."],
+        Mộc: ["Có cơ hội kiếm tiền từ ý tưởng mới.","Thu nhập có thể tăng nếu chủ động.","Phù hợp mở rộng nguồn thu.","Dễ gặp cơ hội hợp tác tài chính.","Có thể thử đầu tư nhỏ."],
+        Thủy: ["Dòng tiền linh hoạt, dễ xoay chuyển.","Có thể nhận được hỗ trợ tài chính.","Thu nhập đến từ nhiều nguồn.","Phù hợp giao dịch hoặc kinh doanh.","Có thể tận dụng cơ hội ngắn hạn."],
+        Hỏa: ["Tài chính tăng nhanh nếu biết nắm bắt.","Có thể kiếm tiền từ hành động nhanh.","Phù hợp đầu tư ngắn hạn.","Có cơ hội sinh lời cao.","Nên tận dụng thời điểm."],
+        Thổ: ["Tài chính ổn định, ít biến động.","Phù hợp tiết kiệm và giữ tiền.","Có thể tích lũy dần dần.","Không có rủi ro lớn.","Nên ưu tiên an toàn."]
+    },
+
+    bad: {
+        Kim: ["Dễ chi tiêu vượt kế hoạch.","Cần tránh đầu tư lớn.","Không nên cho vay tiền.","Có thể phát sinh chi phí bất ngờ.","Nên kiểm soát tài chính chặt chẽ."],
+        Mộc: ["Dễ bị lôi kéo vào cơ hội không rõ ràng.","Không nên mở rộng tài chính.","Cần cân nhắc trước khi chi tiêu.","Có thể mất tiền do thiếu kiểm soát.","Nên giữ tiền hơn là đầu tư."],
+        Thủy: ["Dòng tiền không ổn định.","Dễ chi tiêu theo cảm xúc.","Không nên giao dịch lớn.","Cần tránh rủi ro tài chính.","Dễ bị ảnh hưởng bởi người khác."],
+        Hỏa: ["Dễ đầu tư nóng vội.","Có nguy cơ mất tiền nhanh.","Không nên quyết định tài chính lớn.","Cần kiểm soát hành động.","Dễ bị cuốn theo cơ hội ảo."],
+        Thổ: ["Tài chính trì trệ, khó tăng trưởng.","Không nên kỳ vọng lợi nhuận cao.","Dễ bị đóng băng dòng tiền.","Cần kiên nhẫn quản lý tiền bạc.","Tránh thay đổi chiến lược tài chính."]
+    }
+},
+
+love: {
+    good: {
+        Kim: ["Tình cảm rõ ràng, dễ hiểu nhau.","Mối quan hệ ổn định.","Dễ tạo sự tin tưởng.","Phù hợp nói chuyện thẳng thắn.","Có thể tiến xa hơn."],
+        Mộc: ["Tình cảm phát triển tự nhiên.","Dễ kết nối cảm xúc.","Có cơ hội bắt đầu mối quan hệ mới.","Phù hợp hẹn hò.","Không khí nhẹ nhàng."],
+        Thủy: ["Cảm xúc sâu sắc, dễ chia sẻ.","Tình cảm linh hoạt.","Dễ hiểu đối phương.","Phù hợp tâm sự.","Kết nối tinh thần tốt."],
+        Hỏa: ["Tình cảm mạnh mẽ, nhiều cảm xúc.","Dễ bùng nổ cảm xúc tích cực.","Phù hợp thể hiện tình cảm.","Có thể tiến triển nhanh.","Nhiệt huyết trong mối quan hệ."],
+        Thổ: ["Tình cảm ổn định, bền vững.","Dễ xây dựng niềm tin.","Phù hợp gắn bó lâu dài.","Ít biến động.","Cảm giác an toàn."]
+    },
+
+    bad: {
+        Kim: ["Dễ xảy ra hiểu lầm.","Thiếu sự linh hoạt.","Cần tránh cứng nhắc.","Dễ lạnh nhạt.","Không nên tranh luận."],
+        Mộc: ["Tình cảm thiếu ổn định.","Dễ thay đổi cảm xúc.","Không nên vội vàng.","Dễ hiểu sai ý nhau.","Cần kiên nhẫn."],
+        Thủy: ["Cảm xúc thất thường.","Dễ suy nghĩ nhiều.","Không nên giữ trong lòng.","Dễ bị ảnh hưởng bên ngoài.","Cần chia sẻ rõ ràng."],
+        Hỏa: ["Dễ nóng giận.","Có thể tranh cãi.","Không nên phản ứng nhanh.","Cần kiềm chế cảm xúc.","Dễ tổn thương nhau."],
+        Thổ: ["Tình cảm chậm tiến triển.","Dễ nhàm chán.","Thiếu sự mới mẻ.","Không nên ép buộc.","Cần tạo sự thay đổi."]
+    }
+},
+
+family: {
+    good: {
+        Kim: ["Gia đạo ổn định.","Mọi việc trong nhà rõ ràng.","Dễ thống nhất quan điểm.","Không khí trật tự.","Ít xung đột."],
+        Mộc: ["Gia đình ấm áp.","Dễ chia sẻ.","Có sự gắn kết.","Không khí tích cực.","Phù hợp sum họp."],
+        Thủy: ["Gia đình linh hoạt, dễ thích nghi.","Dễ giải quyết mâu thuẫn.","Không khí nhẹ nhàng.","Có sự thấu hiểu.","Phù hợp trò chuyện."],
+        Hỏa: ["Gia đình sôi động.","Nhiều năng lượng tích cực.","Dễ tạo niềm vui.","Không khí vui vẻ.","Gắn kết nhanh."],
+        Thổ: ["Gia đình ổn định lâu dài.","Có sự bền vững.","Ít thay đổi.","Cảm giác an toàn.","Phù hợp duy trì nề nếp."]
+    },
+
+    bad: {
+        Kim: ["Dễ xảy ra mâu thuẫn nhỏ.","Cần tránh cứng nhắc.","Không khí hơi căng.","Cần linh hoạt hơn.","Tránh tranh luận."],
+        Mộc: ["Gia đình dễ thay đổi cảm xúc.","Không ổn định.","Cần giữ bình tĩnh.","Tránh quyết định nhanh.","Dễ hiểu lầm."],
+        Thủy: ["Dễ bị ảnh hưởng cảm xúc.","Không khí thiếu rõ ràng.","Cần chia sẻ nhiều hơn.","Tránh giữ trong lòng.","Dễ suy nghĩ tiêu cực."],
+        Hỏa: ["Dễ xảy ra tranh cãi.","Không khí nóng.","Cần kiềm chế.","Tránh xung đột.","Dễ bùng phát cảm xúc."],
+        Thổ: ["Gia đình trầm lắng.","Thiếu kết nối.","Cần chủ động hơn.","Dễ xa cách.","Không nên im lặng quá lâu."]
+    }
+}
+
+};
+function getAIContent(type, eU, finalS, seed){
+    let level = "mid";
+
+    if(finalS >= 8) level = "good";
+    else if(finalS <= 4) level = "bad";
+
+    let source;
+
+    if(level === "good"){
+        source = aiContent[type]?.good?.[eU];
+    } 
+    else if(level === "bad"){
+        source = aiContent[type]?.bad?.[eU];
+    } 
+    else {
+        const good = aiContent[type]?.good?.[eU] || [];
+        const bad = aiContent[type]?.bad?.[eU] || [];
+        source = [...good.slice(0,2), ...bad.slice(0,1)];
+    }
+
+    // 🧯 fallback chống crash
+    if(!source || source.length === 0){
+        return "📌 Ngày ở trạng thái trung bình, tránh quá nhiều sự thay đổi";
+    }
+
+    const index = (seed + type.length + eU.length) % source.length;
+    return source[index];
+}
+
+function humanize(text, seed){
+    const variants = ["Bạn", "Có vẻ bạn", "Dường như bạn"];
+    const s = typeof seed === "number" ? seed : 0;
+    return text.replace("Bạn", variants[s % variants.length]);
+}
+
+function get2Content(type, eU, finalS, seed){
+    const text1 = humanize(getAIContent(type, eU, finalS, seed), seed);
+    let   text2 = humanize(getAIContent(type, eU, finalS, seed + 7), seed + 1);
+    if(text1 === text2){
+        text2 = humanize(getAIContent(type, eU, finalS, seed + 13), seed + 2);
+    }
+    return buildNarrative(type, [text1, text2], finalS, seed);
+}
+
+// ========== TRỰC NGÀY ==========
+const trucArr = ["Kiến","Trừ","Mãn","Bình","Định","Chấp","Phá","Nguy","Thành","Thu","Khai","Bế"];
+const trucMeaning = {
+    "Kiến": { type:"good", icon:"🏗️", short:"Khởi sự tốt", desc:"Ngày Kiến — thuận lợi khởi sự, xây dựng, nhậm chức, xuất hành.", avoid:"Kiện tụng, an táng." },
+    "Trừ": { type:"normal", icon:"🧹", short:"Tẩy trừ, chữa bệnh", desc:"Ngày Trừ — thích hợp dọn dẹp, khám bệnh, tẩy uế không gian.", avoid:"Khai trương lớn." },
+    "Mãn": { type:"good", icon:"🌕", short:"Viên mãn, đầy đủ", desc:"Ngày Mãn — viên mãn, phú túc. Tốt cho buôn bán, tích lũy, cưới hỏi.", avoid:"Kiện tụng, mộ phần." },
+    "Bình": { type:"normal", icon:"⚖️", short:"Cân bằng, ổn định", desc:"Ngày Bình — cân bằng. Tốt cho du lịch, giao lưu, hòa giải.", avoid:"Xây dựng, an táng, ký kết hợp đồng quan trọng." },
+    "Định": { type:"good", icon:"🎯", short:"Ổn định, ký kết", desc:"Ngày Định — vững chắc, ổn định. Tốt cho ký kết, xây dựng, cầu tài, xuất hành.", avoid:"Kiện cáo." },
+    "Chấp": { type:"normal", icon:"⚙️", short:"Thực thi, sửa chữa", desc:"Ngày Chấp — thực thi, chấp hành. Tốt cho sửa chữa nhỏ, nông nghiệp.", avoid:"Khai trương lớn, hôn nhân." },
+    "Phá": { type:"bad", icon:"💥", short:"Ngày phá — hạn chế", desc:"Ngày Phá — nhiều bất lợi. Hạn chế mọi việc quan trọng.", avoid:"Mọi việc quan trọng, khai trương." },
+    "Nguy": { type:"bad", icon:"⚠️", short:"Tiềm ẩn nguy hiểm", desc:"Ngày Nguy — ẩn chứa rủi ro. Nên thận trọng, tránh mạo hiểm.", avoid:"Xuất hành xa, leo trèo, vay mượn lớn." },
+    "Thành": { type:"good", icon:"✅", short:"Thành tựu, kết quả", desc:"Ngày Thành — kết quả tốt đẹp. Rất tốt cho khai trương, ký kết, cưới hỏi, giao dịch.", avoid:"Kiện tụng." },
+    "Thu": { type:"normal", icon:"🌾", short:"Thu hoạch, đòi nợ", desc:"Ngày Thu — thu hoạch, thu hồi. Tốt cho đòi nợ, tổng kết, thu tiền.", avoid:"Gieo trồng, mở rộng." },
+    "Khai": { type:"good", icon:"🔑", short:"Khai mở — rất tốt", desc:"Ngày Khai — khai mở, vượng khí. Tốt cho hầu hết mọi việc: học hành, ký kết, xuất hành.", avoid:"An táng, chôn cất." },
+    "Bế": { type:"bad", icon:"🚪", short:"Đóng kín, thu về", desc:"Ngày Bế — thu về, bảo thủ. Thích hợp giữ gìn, bảo quản tài sản.", avoid:"Khai trương, xuất hành, hôn nhân." }
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎯 CHẤM ĐIỂM NGÀY THEO VIỆC CỤ THỂ — dựa trên Trực (yếu tố chính) + Ngày Hoàng/Hắc Đạo (yếu tố phụ)
+// ═══════════════════════════════════════════════════════════════════
+const VIEC_THEO_TRUC = {
+    "Kiến": { "Cưới hỏi":"tot", "Khai trương":"tot", "Động thổ / Xây nhà":"binh", "Ký hợp đồng":"tot", "Xuất hành xa":"tot", "Chuyển nhà / Nhập trạch":"binh", "Cầu tài / Đầu tư":"tot" },
+    "Trừ":  { "Cưới hỏi":"xau",  "Khai trương":"xau", "Động thổ / Xây nhà":"binh", "Ký hợp đồng":"binh", "Xuất hành xa":"binh", "Chuyển nhà / Nhập trạch":"xau", "Cầu tài / Đầu tư":"tot" },
+    "Mãn":  { "Cưới hỏi":"tot",  "Khai trương":"tot", "Động thổ / Xây nhà":"binh", "Ký hợp đồng":"binh", "Xuất hành xa":"xau",  "Chuyển nhà / Nhập trạch":"tot", "Cầu tài / Đầu tư":"tot" },
+    "Bình": { "Cưới hỏi":"binh", "Khai trương":"binh", "Động thổ / Xây nhà":"xau", "Ký hợp đồng":"xau", "Xuất hành xa":"binh", "Chuyển nhà / Nhập trạch":"xau", "Cầu tài / Đầu tư":"binh" },
+    "Định": { "Cưới hỏi":"tot",  "Khai trương":"tot", "Động thổ / Xây nhà":"tot", "Ký hợp đồng":"tot", "Xuất hành xa":"tot",  "Chuyển nhà / Nhập trạch":"binh", "Cầu tài / Đầu tư":"tot" },
+    "Chấp": { "Cưới hỏi":"xau",  "Khai trương":"xau", "Động thổ / Xây nhà":"binh", "Ký hợp đồng":"binh", "Xuất hành xa":"xau",  "Chuyển nhà / Nhập trạch":"binh", "Cầu tài / Đầu tư":"binh" },
+    "Phá":  { "Cưới hỏi":"xau",  "Khai trương":"xau", "Động thổ / Xây nhà":"xau", "Ký hợp đồng":"xau", "Xuất hành xa":"xau",  "Chuyển nhà / Nhập trạch":"xau", "Cầu tài / Đầu tư":"xau" },
+    "Nguy": { "Cưới hỏi":"binh", "Khai trương":"binh", "Động thổ / Xây nhà":"binh", "Ký hợp đồng":"xau", "Xuất hành xa":"xau",  "Chuyển nhà / Nhập trạch":"xau", "Cầu tài / Đầu tư":"xau" },
+    "Thành":{ "Cưới hỏi":"binh", "Khai trương":"tot", "Động thổ / Xây nhà":"tot", "Ký hợp đồng":"binh", "Xuất hành xa":"binh", "Chuyển nhà / Nhập trạch":"tot", "Cầu tài / Đầu tư":"tot" },
+    "Thu":  { "Cưới hỏi":"xau", "Khai trương":"xau", "Động thổ / Xây nhà":"xau", "Ký hợp đồng":"binh", "Xuất hành xa":"binh", "Chuyển nhà / Nhập trạch":"xau", "Cầu tài / Đầu tư":"binh" },
+    "Khai": { "Cưới hỏi":"tot",  "Khai trương":"tot", "Động thổ / Xây nhà":"tot", "Ký hợp đồng":"tot", "Xuất hành xa":"tot",  "Chuyển nhà / Nhập trạch":"tot", "Cầu tài / Đầu tư":"tot" },
+    "Bế":   { "Cưới hỏi":"xau",  "Khai trương":"xau", "Động thổ / Xây nhà":"binh", "Ký hợp đồng":"xau", "Xuất hành xa":"xau",  "Chuyển nhà / Nhập trạch":"xau", "Cầu tài / Đầu tư":"xau" }
+};
+
+function getDanhGiaViec(truc, ngayThanLoai, viec){
+    if(!viec) return null;
+    const rateMap = { tot: 2, binh: 0, xau: -2 };
+    const rate = (VIEC_THEO_TRUC[truc] || {})[viec] || "binh";
+    let score = rateMap[rate] + (ngayThanLoai === 'hoang' ? 1 : -1);
+
+    let verdict, mauSac, icon;
+    if(score >= 2){ verdict = "RẤT TỐT — nên tiến hành"; mauSac = "#16a34a"; icon = "✅"; }
+    else if(score >= 0){ verdict = "BÌNH THƯỜNG — có thể làm, nên cân nhắc thêm"; mauSac = "#d97706"; icon = "⚠️"; }
+    else { verdict = "KHÔNG NÊN — nên chọn ngày khác"; mauSac = "#dc2626"; icon = "❌"; }
+
+    return { viec, verdict, mauSac, icon, score };
+}
+
+function getTruc(dateStr){
+    const d = new Date(dateStr);
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    // Tiết khí tháng → chi tháng
+    const tkMonths = [
+        {m:1,d:5,chi:1},{m:2,d:4,chi:2},{m:3,d:6,chi:3},
+        {m:4,d:5,chi:4},{m:5,d:6,chi:5},{m:6,d:6,chi:6},
+        {m:7,d:7,chi:7},{m:8,d:8,chi:8},{m:9,d:8,chi:9},
+        {m:10,d:8,chi:10},{m:11,d:7,chi:11},{m:12,d:7,chi:0}
+    ];
+    let monthChi = 0;
+    for(let i = tkMonths.length-1; i>=0; i--){
+        if(m > tkMonths[i].m || (m===tkMonths[i].m && day>=tkMonths[i].d)){
+            monthChi = tkMonths[i].chi; break;
+        }
+    }
+    const [,chDay] = getDayCanChi(dateStr);
+    const dayChiIdx = chi.indexOf(chDay);
+    return trucArr[(dayChiIdx - monthChi + 12) % 12];
+}
+
+// ========== NGÀY HOÀNG ĐẠO / HẮC ĐẠO (12 vị Thần trực ngày) ==========
+// Đây là hệ KHÁC với "giờ Hoàng Đạo" (vốn xoay theo Chi của ngày, áp dụng cho 12 khung giờ trong 1 ngày).
+// Hệ này xoay theo THÁNG ÂM LỊCH (dùng chung mốc "Nguyệt Kiến" với Trực), áp dụng cho chính NGÀY đó.
+// Tương quan chuẩn 12 Trực ↔ 12 Thần (cùng vị trí trong chu kỳ): Kiến=Thanh Long, Trừ=Minh Đường,
+// Mãn=Thiên Hình, Bình=Chu Tước, Định=Kim Quỹ, Chấp=Bảo Quang, Phá=Bạch Hổ, Nguy=Ngọc Đường,
+// Thành=Thiên Lao, Thu=Nguyên Vũ, Khai=Tư Mệnh, Bế=Câu Trận.
+const NGAY_THAN_ARR = ["Thanh Long","Minh Đường","Thiên Hình","Chu Tước","Kim Quỹ","Bảo Quang","Bạch Hổ","Ngọc Đường","Thiên Lao","Nguyên Vũ","Tư Mệnh","Câu Trận"];
+const NGAY_THAN_INFO = {
+    "Thanh Long": { loai:"hoang", mota:"Sao tốt bậc nhất, chủ về công danh, phú quý.", nen:"khai trương, cưới hỏi, xuất hành, ký kết" },
+    "Minh Đường": { loai:"hoang", mota:"Sao tốt, chủ về sáng suốt, dễ gặp quý nhân.", nen:"yết kiến, cầu tài, hội họp quan trọng" },
+    "Thiên Hình": { loai:"hac",   mota:"Sao xấu, chủ về hình phạt, kiện tụng, tai họa.", nen:"kỵ kiện tụng, tranh chấp, xử phạt — các việc dân sự khác vẫn có thể tiến hành nếu đã xem thêm Trực và giờ Hoàng Đạo phù hợp" },
+    "Chu Tước":   { loai:"hac",   mota:"Sao xấu, chủ về khẩu thiệt, tranh cãi, thị phi.", nen:"kỵ ký kết, tranh luận, kiện tụng, cưới hỏi" },
+    "Kim Quỹ":    { loai:"hoang", mota:"Sao tốt, chủ về hôn nhân, tài lộc.", nen:"cầu hôn, đính hôn, cưới hỏi, giao dịch" },
+    "Bảo Quang":  { loai:"hoang", mota:"Sao tốt (còn gọi Kim Đường), chủ về hanh thông.", nen:"sửa chữa, chấp hành việc đã định, duy trì công việc đang có sẵn" },
+    "Bạch Hổ":    { loai:"hac",   mota:"Sao xấu, chủ về sát phạt, tai họa.", nen:"kỵ động thổ, xây cất, an táng, xuất hành xa" },
+    "Ngọc Đường": { loai:"hoang", mota:"Sao tốt, chủ về học hành, thi cử, gặp quý nhân.", nen:"thi cử, viết lách, an táng" },
+    "Thiên Lao":  { loai:"hac",   mota:"Sao xấu, chủ về giam cầm, bó buộc.", nen:"kỵ cưới hỏi, nhập học, nhậm chức, ký kết" },
+    "Nguyên Vũ":  { loai:"hac",   mota:"Sao xấu, chủ về thất bại, mất mát.", nen:"kỵ cưới hỏi, làm nhà, nhập trạch, khai trương" },
+    "Tư Mệnh":    { loai:"hoang", mota:"Sao tốt, chủ về may mắn ban ngày (giờ Dần-Thân).", nen:"hầu hết việc ban ngày, ban đêm kém thuận hơn" },
+    "Câu Trận":   { loai:"hac",   mota:"Sao xấu, chủ về vướng mắc, trì trệ.", nen:"kỵ cưới hỏi, động thổ, xuất hành, tố tụng" }
+};
+function getNgayHoangDao(dateStr){
+    const d = new Date(dateStr);
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    const tkMonths = [
+        {m:1,d:5,chi:1},{m:2,d:4,chi:2},{m:3,d:6,chi:3},
+        {m:4,d:5,chi:4},{m:5,d:6,chi:5},{m:6,d:6,chi:6},
+        {m:7,d:7,chi:7},{m:8,d:8,chi:8},{m:9,d:8,chi:9},
+        {m:10,d:8,chi:10},{m:11,d:7,chi:11},{m:12,d:7,chi:0}
+    ];
+    let monthChi = 0;
+    for(let i = tkMonths.length-1; i>=0; i--){
+        if(m > tkMonths[i].m || (m===tkMonths[i].m && day>=tkMonths[i].d)){
+            monthChi = tkMonths[i].chi; break;
+        }
+    }
+    const [,chDay] = getDayCanChi(dateStr);
+    const dayChiIdx = chi.indexOf(chDay);
+    const than = NGAY_THAN_ARR[(dayChiIdx - monthChi + 12) % 12];
+    return { than, ...NGAY_THAN_INFO[than] };
+}
+
+// ========== SAO NGÀY ==========
+const catStarsMap = {
+    "Tý": ["Thiên Đức","Phúc Tinh","Hoàng Đạo"],
+    "Sửu": ["Nguyệt Đức","Thiên Y","Lộc Khố"],
+    "Dần": ["Thiên Xá","Hoàng Ân","Thiên Đức Hợp"],
+    "Mão": ["Thiên Đức Hợp","Ngọc Đường","Lộc Mã"],
+    "Thìn": ["Nguyệt Đức Hợp","Phúc Hậu","Kim Quỹ"],
+    "Tỵ": ["Thiên Ân","Đại Hội","Phổ Hộ"],
+    "Ngọ": ["Thiên Xá","Kim Đường","Thiên Tài"],
+    "Mùi": ["Thiên Y","Lộc Mã","Phúc Sinh"],
+    "Thân": ["Thiên Đức","Ngọc Đường","Thiên Hỷ"],
+    "Dậu": ["Nguyệt Đức","Kim Quỹ","Phúc Tinh"],
+    "Tuất": ["Thiên Tài","Phúc Sinh","Hoàng Ân"],
+    "Hợi": ["Thiên Ân","Thiên Xá","Thiên Đức"]
+};
+const hungStarsMap = {
+    "Tý": ["Địa Tặc","Thiên Hình"],
+    "Sửu": ["Ngũ Hư","Câu Trần"],
+    "Dần": ["Thiên Hình","Bạch Hổ"],
+    "Mão": ["Câu Trần","Thiên Không"],
+    "Thìn": ["Chu Tước","Nguyên Vũ"],
+    "Tỵ": ["Thiên Không","Thiên Lao"],
+    "Ngọ": ["Bạch Hổ","Địa Tặc"],
+    "Mùi": ["Thiên Tặc","Ngũ Hư"],
+    "Thân": ["Nguyên Vũ","Câu Trần"],
+    "Dậu": ["Thiên Lao","Thiên Hình"],
+    "Tuất": ["Câu Trần","Chu Tước"],
+    "Hợi": ["Thiên Hình","Thiên Không"]
+};
+
+// ========== MÀU SẮC MAY MẮN ==========
+const luckyColorData = {
+    "Kim": { colors:["Trắng","Bạc","Vàng nhạt"], hex:["#f0f0f0","#C0C0C0","#e8d48b"] },
+    "Mộc": { colors:["Xanh lá","Xanh lam","Nâu gỗ"], hex:["#22c55e","#3b82f6","#92400e"] },
+    "Thủy": { colors:["Đen","Xanh tím than","Xanh biển"], hex:["#334155","#312e81","#0284c7"] },
+    "Hỏa": { colors:["Đỏ","Cam","Hồng"], hex:["#ef4444","#f97316","#ec4899"] },
+    "Thổ": { colors:["Vàng đất","Nâu","Beige"], hex:["#d97706","#92400e","#d4af37"] }
+};
+
+// ========== SỐ MAY MẮN ==========
+const canLuckyNum = {
+    "Giáp":[1,3,8],"Ất":[2,8,6],"Bính":[3,7,2],"Đinh":[4,9,1],
+    "Mậu":[5,0,8],"Kỷ":[6,1,3],"Canh":[7,2,9],"Tân":[8,3,4],
+    "Nhâm":[9,4,6],"Quý":[0,6,5]
+};
+
+// ========== HƯỚNG MAY MẮN ==========
+const luckyDirMap = {
+    "Tý":"Bắc 🧭","Ngọ":"Nam 🧭","Mão":"Đông 🧭","Dậu":"Tây 🧭",
+    "Dần":"Đông Bắc 🧭","Thân":"Tây Nam 🧭","Tỵ":"Đông Nam 🧭","Hợi":"Tây Bắc 🧭",
+    "Thìn":"Đông Nam 🧭","Tuất":"Tây Bắc 🧭","Sửu":"Đông Bắc 🧭","Mùi":"Tây Nam 🧭"
+};
+const avoidDirMap = {
+    "Tý":"Nam","Ngọ":"Bắc","Mão":"Tây","Dậu":"Đông",
+    "Dần":"Tây Nam","Thân":"Đông Bắc","Tỵ":"Tây Bắc","Hợi":"Đông Nam",
+    "Thìn":"Tây Bắc","Tuất":"Đông Nam","Sửu":"Tây Nam","Mùi":"Đông Bắc"
+};
+
+// ========== THẦN TÀI HƯỚNG ==========
+const thanTaiDir = {
+    "Tý":"Đông Bắc","Sửu":"Đông Bắc","Dần":"Bắc","Mão":"Bắc",
+    "Thìn":"Tây Bắc","Tỵ":"Tây Bắc","Ngọ":"Tây","Mùi":"Tây",
+    "Thân":"Tây Nam","Dậu":"Tây Nam","Tuất":"Nam","Hợi":"Nam"
+};
+
+// ========== KIM LÂU TUỔI (hạn tuổi xây nhà/chuyển nhà) ==========
+function getKimLau(age){
+    const kimLauAges = [1,3,6,8,11,13,16,18,21,23,26,28,31,33,36,38,41,43,46,48,51,53,56,58,61,63,66,68,71,73];
+    return kimLauAges.includes(age % 60);
+}
+
+// ========== 🐾 TƯỚNG TINH & 🙏 BỔN MẠNG PHẬT THEO 12 CON GIÁP ==========
+const TUONG_TINH = {
+    "Tý":"Chuột", "Sửu":"Trâu", "Dần":"Hổ", "Mão":"Mèo", "Thìn":"Rồng", "Tỵ":"Rắn",
+    "Ngọ":"Ngựa", "Mùi":"Dê", "Thân":"Khỉ", "Dậu":"Gà", "Tuất":"Chó", "Hợi":"Lợn"
+};
+
+const BON_MANG_PHAT = {
+    "Tý": "Thiên Thủ Thiên Nhãn Bồ Tát (Quán Thế Âm nghìn mắt nghìn tay)",
+    "Sửu": "Hư Không Tạng Bồ Tát", "Dần": "Hư Không Tạng Bồ Tát",
+    "Mão": "Văn Thù Sư Lợi Bồ Tát",
+    "Thìn": "Phổ Hiền Bồ Tát", "Tỵ": "Phổ Hiền Bồ Tát",
+    "Ngọ": "Đại Thế Chí Bồ Tát",
+    "Mùi": "Đại Nhật Như Lai", "Thân": "Đại Nhật Như Lai",
+    "Dậu": "Bất Động Tôn Bồ Tát (Bất Động Minh Vương)",
+    "Tuất": "A Di Đà Phật", "Hợi": "A Di Đà Phật"
+};
+
+// Diễn giải quan hệ ngũ hành MỆNH TUỔI ↔ NGŨ HÀNH NĂM XEM (khác ngày xem) — dùng cho vận niên cả năm
+const VAN_NIEN_REL_TEXT = {
+    "Sinh nhập": (eU, eNam) => `Mệnh <b>${eU}</b> được năm <b>${eNam}</b> sinh trợ — đây là năm <b>"Sinh nhập"</b>, vận khí được bồi đắp thêm sinh khí. Đây là năm khá thuận lợi để phát triển sự nghiệp, mở rộng quy mô, khởi sự những việc lớn còn ấp ủ. Tài lộc có xu hướng vào nhiều hơn ra, sức khỏe được nâng đỡ nếu biết giữ gìn điều độ.`,
+    "Sinh xuất": (eU, eNam) => `Mệnh <b>${eU}</b> sinh xuất nuôi năm <b>${eNam}</b> — đây là năm <b>"Sinh xuất"</b>, bản thân phải bỏ ra công sức, tâm huyết, tiền bạc nhiều hơn để nuôi dưỡng các mối quan hệ, dự án, con cái hoặc học trò. Vất vả nhưng nếu kiên trì sẽ gặt quả ngọt về lâu dài, không nên nóng vội đòi hỏi kết quả ngay trong năm.`,
+    "Tương khắc": (eU, eNam) => `Năm <b>${eNam}</b> khắc chế mệnh <b>${eU}</b> — đây là năm <b>"Tương khắc"</b>, vận hạn dễ có trở ngại, thị phi, sức khỏe hao tổn nếu chủ quan. Nên giữ tâm thế phòng thủ hơn tấn công, hạn chế đầu tư mạo hiểm, tránh tranh chấp pháp lý, và tăng cường lễ bái để hóa giải bớt xung khắc.`,
+    "Bị tiết": (eU, eNam) => `Mệnh <b>${eU}</b> khắc chế được năm <b>${eNam}</b> nhưng cũng phải hao tổn tâm sức để chế ngự — đây là năm <b>"Bị tiết"</b>, công việc tuy có phần thuận nhưng dễ mệt mỏi, hao tổn thể lực và tinh thần. Nên chú trọng cân bằng nghỉ ngơi, tránh ôm đồm quá nhiều việc cùng lúc.`,
+    "Đồng hành": (eU, eNam) => `Mệnh <b>${eU}</b> cùng hành với năm <b>${eNam}</b> — đây là năm <b>"Đồng hành"</b>, tính chất khá trung tính, thuận lợi cho hợp tác, liên kết cùng người đồng chí hướng, nhưng cũng dễ nảy sinh cạnh tranh nội bộ hoặc so bì nếu không khéo léo phân chia lợi ích rõ ràng ngay từ đầu.`,
+    "Bình hòa": (eU, eNam) => `Mệnh <b>${eU}</b> và năm <b>${eNam}</b> ở thế bình hòa, không sinh không khắc rõ rệt — vận niên tương đối ổn định, không có biến động lớn. Đây là năm phù hợp để củng cố nền tảng, tích lũy nội lực, chuẩn bị cho các bước chuyển mình ở những năm tiếp theo.`
+};
+
+// Diễn giải chi tiết + phong phú cho phần VẬN NIÊN cả năm (khác với sao hạn theo ngày)
+function getVanNienRich(p){
+    const { age, chU, eU, canChiXem, eNamXem, relYear, sh, kl, ho, tamTaiInfo, thaiTue } = p;
+    const tuongTinh = TUONG_TINH[chU] || "—";
+    const bonMang = BON_MANG_PHAT[chU] || "—";
+    const relFn = VAN_NIEN_REL_TEXT[relYear] || VAN_NIEN_REL_TEXT["Bình hòa"];
+    const relText = relFn(eU, eNamXem);
+
+    let luuYList = [];
+    if(kl.pham) luuYList.push(`Phạm <b>Kim Lâu</b> (${kl.loai}) — hạn chế xây/sửa nhà, cưới hỏi, chuyển chỗ ở lớn trong năm.`);
+    if(ho.pham) luuYList.push(`Phạm <b>Hoàng Ốc</b> (${ho.name}) — thận trọng khi động thổ, nhập trạch, sửa chữa nhà cửa.`);
+    if(tamTaiInfo.pham) luuYList.push(`Đang trong hạn <b>Tam Tai</b> (${tamTaiInfo.giaiDoan}) — giữ tâm thế phòng thủ, tránh mạo hiểm lớn về tiền bạc/sức khỏe.`);
+    if(thaiTue.pham) luuYList.push(`Phạm <b>Thái Tuế</b> (${thaiTue.loai}) — nên cúng an Thái Tuế đầu năm để hóa giải bớt xung khắc.`);
+    if(age % 12 === 0) luuYList.push(`Năm nay là <b>năm xung bản mệnh</b> (đúng chu kỳ 12 năm tuổi) — nên cẩn thận đi lại, cầu an đầu năm.`);
+    if(age % 10 === 0) luuYList.push(`Năm nay rơi vào <b>mốc đại hạn 10 năm</b> — thường có biến động lớn về công việc/nơi ở, nên chuẩn bị tâm thế trước.`);
+    if(luuYList.length === 0) luuYList.push("Không phạm các hạn nặng (Kim Lâu/Hoàng Ốc/Tam Tai/Thái Tuế) trong năm — vận niên tương đối nhẹ nhàng, thuận lợi để chủ động hành động.");
+
+    return `
+        <p style="margin:4px 0;">🐾 <b>Tướng tinh:</b> ${tuongTinh} (tuổi ${chU}) &nbsp;|&nbsp; 🙏 <b>Vị Phật/Bồ Tát độ mạng:</b> ${bonMang}</p>
+        <p style="margin:8px 0;line-height:1.65;">${relText}</p>
+        <p style="margin:8px 0;line-height:1.65;">⭐ Sao chiếu mệnh năm <b>${canChiXem[0]} ${canChiXem[1]}</b> là <b>${sh.sao}</b>${sh.han ? `, mang hạn <b>${sh.han}</b>` : ''}. ${(DATA_SAO_CUU_DIEU[sh.sao] && DATA_SAO_CUU_DIEU[sh.sao].chuy) || ''}</p>
+        <p style="margin:10px 0 4px 0;"><b>📌 Những điểm cần lưu ý nhất trong năm:</b></p>
+        <ul style="margin:2px 0 4px 15px;padding:0;">
+            ${luuYList.map(i=>`<li>${i}</li>`).join("")}
+        </ul>
+        <p style="font-size:11px;color:#94a3b8;margin-top:8px;">⚠️ Nội dung mang tính tham khảo tử vi - phong tục dân gian, không thay thế tư vấn chuyên gia/thầy cúng tại địa phương.</p>
+    `;
+}
+
+function getVanNienHint(age, relType, finalS){
+    const kimLau = getKimLau(age);
+    let hints = [];
+    if(kimLau) hints.push("⚠️ <b>Kim Lâu năm</b>: Thận trọng khi sửa nhà, chuyển chỗ ở.");
+    if(age % 12 === 0) hints.push("🔄 <b>Năm xung tuổi</b>: Năm bản mệnh — nên cẩn thận, cầu an.");
+    if(age % 10 === 0) hints.push("🌟 <b>Năm đại hạn</b>: Thường có biến động lớn, nên chuẩn bị tâm thế.");
+    if(relType === "Sinh nhập" && finalS >= 8) hints.push("💫 <b>Năm vận đại thịnh</b>: Phù hợp mở rộng sự nghiệp, đầu tư.");
+    if(hints.length === 0) hints.push("🌿 Vận niên bình ổn, không có hạn lớn.");
+    return hints.join("<br>");
+}
+
+// ========== BÌNH LUẬN THEO CON GIÁP (chU) — ĐỂ PHÂN BIỆT 2 NGƯỜI CÙNG HÀNH ==========
+// Đây là lớp nội dung riêng biệt theo CHI năm sinh, không phụ thuộc vào ngũ hành
+const chiDayComment = {
+    "Tý": [
+        "Trực giác nhạy bén giúp bạn phát hiện cơ hội mà người khác bỏ qua hôm nay.",
+        "Khả năng thích nghi linh hoạt là lợi thế lớn của người tuổi Tý trong ngày này.",
+        "Bạn dễ đọc được ý định người xung quanh — hãy dùng sự tinh tế đó để tạo lợi thế.",
+        "Hôm nay người tuổi Tý nên tin vào linh cảm hơn là phân tích quá nhiều."
+    ],
+    "Sửu": [
+        "Sự kiên định bền bỉ của bạn sẽ tạo kết quả vững chắc hơn những nỗ lực nhất thời.",
+        "Hôm nay thích hợp để người tuổi Sửu hoàn thiện thay vì bắt đầu việc mới.",
+        "Đừng để áp lực từ người khác làm bạn dao động — hôm nay hãy tin vào lộ trình của mình.",
+        "Người tuổi Sửu làm việc chắc chắn, hôm nay đặc biệt phù hợp với các công việc đòi hỏi tỉ mỉ."
+    ],
+    "Dần": [
+        "Bản năng lãnh đạo của bạn được phát huy rõ nếu chủ động bước lên trước hôm nay.",
+        "Hôm nay người tuổi Dần nên ra quyết định dứt khoát — bản năng của bạn đang ở đỉnh cao.",
+        "Năng lượng dồi dào của tuổi Dần là lợi thế — hãy kênh hóa đúng hướng thay vì phân tán.",
+        "Không ngại thách thức, người tuổi Dần hôm nay thích hợp đối mặt với vấn đề lâu nay còn né tránh."
+    ],
+    "Mão": [
+        "Sự tinh tế và khéo léo của bạn tạo ấn tượng tốt với người xung quanh hôm nay.",
+        "Người tuổi Mão dễ được yêu mến — hôm nay là lúc để kết nối và mở rộng quan hệ.",
+        "Hôm nay trực giác thẩm mỹ của bạn rất nhạy — phù hợp với công việc sáng tạo hoặc giao tiếp.",
+        "Hãy dùng sự duyên dáng tự nhiên của mình để hóa giải căng thẳng trong ngày."
+    ],
+    "Thìn": [
+        "Người tuổi Thìn mang năng lượng mạnh mẽ — hãy dùng nó để vượt qua thách thức hôm nay.",
+        "Tầm nhìn xa của bạn giúp đưa ra quyết định đúng mà người khác chưa nhận ra.",
+        "Hôm nay thích hợp để tuổi Thìn bày tỏ tham vọng hoặc đặt mục tiêu lớn hơn.",
+        "Đừng ngại bộc lộ quan điểm — sự tự tin của người tuổi Thìn hôm nay sẽ được ghi nhận."
+    ],
+    "Tỵ": [
+        "Sự khéo léo và tư duy sâu sắc giúp bạn tìm ra giải pháp ẩn mà người khác bỏ qua.",
+        "Người tuổi Tỵ không nên hành động vội — hôm nay bạn phát huy tốt nhất khi suy nghĩ kỹ.",
+        "Khả năng quan sát tinh tế là vũ khí bí mật của bạn trong ngày này.",
+        "Hôm nay người tuổi Tỵ dễ đưa ra phán đoán chuẩn xác — hãy tin vào nhận định của mình."
+    ],
+    "Ngọ": [
+        "Nhiệt huyết của tuổi Ngọ có thể truyền cảm hứng cho người xung quanh hôm nay.",
+        "Hôm nay bạn có xu hướng hành động trực tiếp — đây là ngày để tiến lên mà không do dự.",
+        "Người tuổi Ngọ cần kiểm soát tốc độ — quá nhanh dễ bỏ sót chi tiết quan trọng.",
+        "Nhiệt tình là điểm mạnh nhưng hãy lắng nghe người khác thêm một chút để tránh hiểu lầm."
+    ],
+    "Mùi": [
+        "Sự ôn hòa và chăm chút của tuổi Mùi tạo ra môi trường hợp tác tốt hôm nay.",
+        "Hôm nay thích hợp để tuổi Mùi củng cố mối quan hệ hơn là xây dựng cái mới.",
+        "Trực giác cảm xúc mạnh giúp bạn đưa ra quyết định phù hợp trong ngày.",
+        "Sự cẩn thận chu đáo của bạn được người xung quanh đánh giá cao hơn bạn nghĩ."
+    ],
+    "Thân": [
+        "Sự nhanh nhẹn và linh hoạt của tuổi Thân giúp bạn thích nghi tốt với mọi tình huống hôm nay.",
+        "Bạn dễ tìm ra hướng đi khác biệt khi người khác còn chưa nghĩ ra.",
+        "Người tuổi Thân học nhanh — hôm nay phù hợp tiếp thu kiến thức hoặc kỹ năng mới.",
+        "Hãy dùng óc sáng tạo để biến trở ngại thành cơ hội — đó là thế mạnh của tuổi Thân."
+    ],
+    "Dậu": [
+        "Sự chỉn chu và cẩn thận của tuổi Dậu giúp công việc đạt chuẩn cao hơn hôm nay.",
+        "Hôm nay thích hợp để tuổi Dậu kiểm tra lại công việc, bắt lỗi và hoàn thiện chi tiết.",
+        "Người tuổi Dậu có khiếu thẩm mỹ — hôm nay dễ tạo ấn tượng qua cách trình bày.",
+        "Tiêu chuẩn cao của bạn là tài sản — nhưng hôm nay đừng để cầu toàn cản trở tiến độ."
+    ],
+    "Tuất": [
+        "Lòng trung thành và tinh thần trách nhiệm của tuổi Tuất được phát huy rõ rệt hôm nay.",
+        "Hôm nay thích hợp để tuổi Tuất bảo vệ quyền lợi của người thân hoặc đối tác.",
+        "Người tuổi Tuất đáng tin cậy — ai giao việc cho bạn hôm nay sẽ không thất vọng.",
+        "Sự trung thực thẳng thắn của bạn đôi khi gây hiểu lầm — hôm nay hãy thêm chút khéo léo."
+    ],
+    "Hợi": [
+        "Sự thành thật và ấm áp của tuổi Hợi tạo ra năng lượng tích cực trong giao tiếp hôm nay.",
+        "Hôm nay thích hợp để tuổi Hợi hàn gắn mối quan hệ hoặc tìm kiếm sự hỗ trợ.",
+        "Người tuổi Hợi thường may mắn về nhân duyên — hôm nay dễ gặp quý nhân hoặc sự giúp đỡ bất ngờ.",
+        "Tấm lòng rộng mở của bạn thu hút năng lượng tốt — hôm nay nên chủ động kết nối."
+    ]
+};
+
+// ===================================================================
+// 🤖 TÍCH HỢP AI (CLAUDE) — LUẬN SAO HẠN + NÊN/KHÔNG NÊN HÀNG NGÀY
+// - Chạy trong claude.ai / app Claude: gọi thẳng, MIỄN PHÍ, không cần API Key.
+// - Chạy file .html độc lập ngoài trình duyệt: cần dán API Key 1 lần (lưu ở
+//   localStorage của máy đó), sau đó tự dùng lại cho các lần sau.
+// ===================================================================
+
+function getStoredApiKey(){
+    try { return localStorage.getItem('tvvn_ai_key') || null; }
+    catch(e){ return null; } // Safari Private Browsing có thể chặn localStorage
+}
+function setStoredApiKey(key){
+    try { localStorage.setItem('tvvn_ai_key', key); } catch(e){}
+}
+function clearStoredApiKey(){
+    try { localStorage.removeItem('tvvn_ai_key'); } catch(e){}
+}
+
+async function callClaudeAPI(prompt, maxTokens){
+    maxTokens = maxTokens || 1200;
+
+    // Bước 1: thử gọi thẳng, không kèm key — hoạt động miễn phí khi chạy trong claude.ai/app Claude
+    try {
+        const res = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                model: "claude-sonnet-4-6",
+                max_tokens: maxTokens,
+                messages: [{ role: "user", content: prompt }]
+            })
+        });
+        if(res.ok){
+            const data = await res.json();
+            return (data.content || []).map(b => b.text || "").join("\n").trim();
+        }
+        if(res.status !== 401 && res.status !== 403){
+            throw new Error("Lỗi gọi chuyên sâu (mã " + res.status + ")");
+        }
+        // 401/403 -> rơi xuống bước cần API Key (đang chạy ngoài claude.ai)
+    } catch(e){
+        // Lỗi mạng/CORS khi chạy file offline -> cũng rơi xuống bước cần API Key
+    }
+
+    // Bước 2: cần API Key riêng (chỉ xảy ra khi mở file .html offline ngoài Claude)
+    let key = getStoredApiKey();
+    if(!key){
+        key = window.prompt(
+            "App đang chạy độc lập ngoài Claude.ai nên cần API Key Anthropic để dùng tính năng luận chuyên sâu.\n" +
+            "Dán API Key của bạn vào đây (chỉ lưu trên trình duyệt này, không gửi đi đâu khác):"
+        );
+        if(key) setStoredApiKey(key.trim());
+    }
+    if(!key) throw new Error("Chưa có API Key nên không thể dùng tính năng luận chuyên sâu.");
+
+    const res2 = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "x-api-key": key,
+            "anthropic-version": "2023-06-01",
+            "anthropic-dangerous-direct-browser-access": "true"
+        },
+        body: JSON.stringify({
+            model: "claude-sonnet-4-6",
+            max_tokens: maxTokens,
+            messages: [{ role: "user", content: prompt }]
+        })
+    });
+
+    if(!res2.ok){
+        clearStoredApiKey(); // key sai/hết hạn -> xoá để lần sau hỏi lại
+        throw new Error("API Key không hợp lệ hoặc lỗi gọi chuyên sâu (mã " + res2.status + ").");
+    }
+    const data2 = await res2.json();
+    return (data2.content || []).map(b => b.text || "").join("\n").trim();
+}
+
+function extractTag(text, tag){
+    const re = new RegExp("<" + tag + ">([\\s\\S]*?)<\\/" + tag + ">", "i");
+    const m = text.match(re);
+    return m ? m[1].trim() : "";
+}
+
+function bulletsToLi(block){
+    return (block || "")
+        .split("\n")
+        .map(s => s.replace(/^[-•*]\s*/, "").trim())
+        .filter(Boolean)
+        .map(s => `<li>${s}</li>`)
+        .join("");
+}
+
+// --- 🏮 AI: Phân tích chuyên sâu Thuận Lợi - Khó Khăn của sao hạn năm xem ---
+async function runAISaoHan(){
+    const ctx = window.__tuviYearContext;
+    if(!ctx){ alert("Vui lòng bấm 'XEM VẬN NIÊN NĂM NÀY' trước khi dùng tính năng luận chuyên sâu."); return; }
+    const box = document.getElementById("aiSaoHanResult");
+    box.style.display = "block";
+    box.innerHTML = `<div style="padding:10px;font-size:12.5px;color:#92400e;">🔮 Đang phân tích chuyên sâu thuận lợi - khó khăn của vận hạn năm nay, vui lòng chờ...</div>`;
+
+    const { ageTa, genderV, sh, kl, ho, tamTaiInfo, thaiTue, canChiXem, chU, nl } = ctx;
+
+    const prompt = `Bạn là chuyên gia tử vi phong thủy Việt Nam, chuyên phân tích chuyên sâu về sao hạn.
+
+Dữ kiện người xem:
+- Tuổi: ${chU}, ${genderV} mạng, tuổi âm ${ageTa}, năm xem ${canChiXem[0]} ${canChiXem[1]}.
+- Sao chiếu mệnh năm nay: ${sh.sao}. Hạn niên: ${sh.han || "không rõ"}.
+- Kim Lâu: ${kl.pham ? "Phạm " + kl.loai : "Không phạm"}.
+- Hoàng Ốc: ${ho.pham ? "Phạm " + ho.name : "Không phạm, cung " + ho.name}.
+- Tam Tai: ${tamTaiInfo.pham ? "Phạm Tam Tai, " + tamTaiInfo.giaiDoan : "Không phạm Tam Tai"}.
+- Thái Tuế: ${thaiTue.pham ? "Phạm " + thaiTue.loai : "Không phạm Thái Tuế"}.
+- (Ứng dụng đã có sẵn phần nghi lễ cúng sao ${sh.sao}: ngày ${nl.ngay} âm lịch, hướng ${nl.huong}, ${nl.soDen} đèn — KHÔNG cần lặp lại phần này.)
+
+Hãy đưa ra một bài phân tích CHUYÊN SÂU, cụ thể theo đúng tổ hợp dữ kiện trên, tránh chung chung, KHÔNG lặp lại phần nghi lễ đã có. CHỈ trả về đúng định dạng XML sau, không thêm lời dẫn hay markdown:
+
+<thuan_loi>
+- Điểm thuận lợi 1 (nêu rõ lĩnh vực: công việc/tài chính/sức khỏe/gia đạo/quan hệ, lý giải ngắn gọn vì sao thuận)
+- Điểm thuận lợi 2
+- Điểm thuận lợi 3
+- Điểm thuận lợi 4
+</thuan_loi>
+<kho_khan>
+- Khó khăn/thách thức 1 (nêu rõ lĩnh vực, lý giải ngắn gọn vì sao cần đề phòng)
+- Khó khăn/thách thức 2
+- Khó khăn/thách thức 3
+- Khó khăn/thách thức 4
+</kho_khan>
+<loi_khuyen_hanh_dong>
+- Lời khuyên hành động cụ thể 1 (để tận dụng thuận lợi hoặc hóa giải khó khăn nêu trên, không chung chung)
+- Lời khuyên hành động cụ thể 2
+- Lời khuyên hành động cụ thể 3
+</loi_khuyen_hanh_dong>
+<luu_y_ca_nhan>1-2 câu lưu ý cá nhân hóa thêm cho việc cúng lễ, phù hợp riêng với tuổi ${chU} ${genderV} mạng năm nay (bổ sung thêm góc nhìn, không lặp lại nghi lễ đã có).</luu_y_ca_nhan>`;
+
+    try {
+        const raw = await callClaudeAPI(prompt, 1400);
+        const thuanLoi = extractTag(raw, "thuan_loi");
+        const khoKhan = extractTag(raw, "kho_khan");
+        const loiKhuyen = extractTag(raw, "loi_khuyen_hanh_dong");
+        const luuYCaNhan = extractTag(raw, "luu_y_ca_nhan");
+
+        box.innerHTML = `
+            <div style="margin-top:10px;padding-top:10px;border-top:1px dashed #d4af37;text-align:left;">
+                <div style="font-weight:bold;color:#991b1b;font-size:13px;margin-bottom:8px;">🔍 Phân Tích Chuyên Sâu: Thuận Lợi - Khó Khăn</div>
+
+                <div class="do-dont">
+                    <div class="dd-box do">
+                        <b>🌟 Thuận lợi năm nay</b>
+                        <ul style="margin:6px 0 0 15px;padding:0;">${bulletsToLi(thuanLoi)}</ul>
+                    </div>
+                    <div class="dd-box dont">
+                        <b>⚠️ Khó khăn cần đề phòng</b>
+                        <ul style="margin:6px 0 0 15px;padding:0;">${bulletsToLi(khoKhan)}</ul>
+                    </div>
+                </div>
+
+                <div style="font-weight:bold;font-size:12.5px;margin-top:10px;color:#166534;">💡 Lời khuyên hành động</div>
+                <ul style="margin:6px 0 0 15px;padding:0;font-size:12.5px;line-height:1.6;">${bulletsToLi(loiKhuyen)}</ul>
+
+                <div style="font-weight:bold;font-size:12.5px;margin-top:10px;color:#7c3aed;">🕯️ Lưu ý thêm cho nghi lễ (cá nhân hóa)</div>
+                <p style="font-size:12.5px;line-height:1.6;margin:4px 0;">${luuYCaNhan}</p>
+
+                <p style="font-size:11px;color:#94a3b8;margin-top:8px;">⚠️ Nội dung tổng hợp mang tính tham khảo tử vi dân gian, không thay thế tư vấn thầy cúng/chuyên gia tại địa phương.</p>
+            </div>
+        `;
+    } catch(e){
+        box.innerHTML = `<div style="padding:10px;font-size:12.5px;color:#b91c1c;">❌ Không thể thực hiện luận chuyên sâu: ${e.message}</div>`;
+    }
+}
+
+// --- 📌 AI: Nên làm / Không nên làm hôm nay theo ngũ hành + tiết khí ---
+async function runAIDoDont(){
+    const ctx = window.__tuviDayContext;
+    if(!ctx){ alert("Vui lòng bấm 'XEM NGÀY NÀY' trước khi dùng tính năng luận chuyên sâu."); return; }
+    const box = document.getElementById("aiDoDontResult");
+    box.style.display = "block";
+    box.innerHTML = `<div style="padding:10px;font-size:12.5px;color:#475569;">🔍 Đang phân tích ngũ hành và tiết khí để đưa ra gợi ý riêng cho hôm nay...</div>`;
+
+    const { cU, chU, cD, chD, eU, eD, tietKhi, relType, finalS, genderV, ngayXau } = ctx;
+    const ngayXauText = ngayXau.canhBao.length > 0
+        ? ngayXau.canhBao.map(cb => cb.ten).join(", ") + " (cần thận trọng với việc xuất hành, khai trương, cưới hỏi)"
+        : "không phạm Tam Nương/Nguyệt Kỵ/Sát Chủ";
+
+    const prompt = `Bạn là chuyên gia tử vi phong thủy Việt Nam, chuyên tư vấn việc nên làm/không nên làm hàng ngày dựa trên ngũ hành, tiết khí và các ngày kiêng kỵ dân gian.
+
+Dữ kiện:
+- Người xem: tuổi ${chU} (${genderV} mạng), bản mệnh ngũ hành ${eU}.
+- Ngày xem: ${cD} ${chD}, ngũ hành ngày ${eD}, tiết khí hiện tại: ${tietKhi}.
+- Quan hệ ngũ hành mệnh-ngày: ${relType}, điểm vận khí hôm nay: ${finalS}/10.
+- Tình trạng ngày kiêng kỵ: ${ngayXauText}.
+
+Viết nội dung NÊN LÀM và KHÔNG NÊN LÀM riêng cho hôm nay, phong phú, thực tế, gắn với đời sống hiện đại (công việc, tài chính, sức khỏe, giao tiếp, xuất hành, ăn chay/phóng sinh nếu phù hợp), lý giải ngắn gọn theo ngũ hành/tiết khí/ngày kiêng kỵ, tránh câu sáo rỗng lặp lại. Nếu ngày phạm Tam Nương/Nguyệt Kỵ/Sát Chủ thì PHẢI nêu rõ nên hạn chế xuất hành xa/khai trương/việc trọng đại trong phần không nên làm. CHỈ trả về đúng định dạng XML sau, không thêm lời dẫn:
+
+<nen_lam>
+- Mục 1 (kèm 1 câu lý do ngắn liên hệ ngũ hành/tiết khí)
+- Mục 2
+- Mục 3
+- Mục 4
+</nen_lam>
+<khong_nen_lam>
+- Mục 1 (kèm 1 câu lý do ngắn)
+- Mục 2
+- Mục 3
+- Mục 4
+</khong_nen_lam>
+<tom_tat>Một câu tóm tắt chốt lại tinh thần của ngày, giọng gần gũi, dễ nhớ.</tom_tat>`;
+
+    try {
+        const raw = await callClaudeAPI(prompt, 1300);
+        const nenLam = extractTag(raw, "nen_lam");
+        const khongNenLam = extractTag(raw, "khong_nen_lam");
+        const tomTat = extractTag(raw, "tom_tat");
+
+        box.innerHTML = `
+            <div style="margin-top:12px;padding-top:10px;border-top:1px dashed #cbd5e1;text-align:left;">
+                <div style="font-weight:bold;color:#7c3aed;font-size:13px;margin-bottom:6px;">🔍 Gợi Ý Chuyên Sâu Riêng Cho Hôm Nay</div>
+                <div class="do-dont">
+                    <div class="dd-box do">
+                        <b>✅ Nên làm (phân tích chuyên sâu)</b>
+                        <ul style="margin:6px 0 0 15px;padding:0;">${bulletsToLi(nenLam)}</ul>
+                    </div>
+                    <div class="dd-box dont">
+                        <b>❌ Nên tránh (phân tích chuyên sâu)</b>
+                        <ul style="margin:6px 0 0 15px;padding:0;">${bulletsToLi(khongNenLam)}</ul>
+                    </div>
+                </div>
+                <p style="font-size:12.5px;margin-top:8px;font-style:italic;color:#334155;">💬 ${tomTat}</p>
+            </div>
+        `;
+    } catch(e){
+        box.innerHTML = `<div style="padding:10px;font-size:12.5px;color:#b91c1c;">❌ Không thể thực hiện luận chuyên sâu: ${e.message}</div>`;
+    }
+}
+
+// --- 📜 AI: Báo cáo Tử Vi Trọn Năm (tổng quan, sao hạn, công danh, tài lộc, tình cảm, sức khỏe, phong thủy, nên/không nên, FAQ) ---
+async function runAIFullYearReport(){
+    const ctx = window.__tuviYearContext;
+    if(!ctx){ alert("Vui lòng bấm 'XEM VẬN NIÊN NĂM NÀY' trước khi dùng tính năng luận chuyên sâu."); return; }
+    const box = document.getElementById("aiFullReportResult");
+    box.style.display = "block";
+    box.innerHTML = `<div style="padding:12px;font-size:12.5px;color:#92400e;">🔮 Đang biên soạn báo cáo tử vi trọn năm chuyên sâu, nội dung khá dài nên có thể mất khoảng 20-30 giây, vui lòng chờ...</div>`;
+
+    const {
+        ageTa, genderV, sh, kl, ho, tamTaiInfo, thaiTue, canChiXem, chU, cU, eU, nU,
+        menhColorData, menhLuckyNums, menhLuckyDir, menhAvoidDir, viewYear, yearV
+    } = ctx;
+
+    const tuongTinh = TUONG_TINH[chU] || "—";
+    const bonMang = BON_MANG_PHAT[chU] || "—";
+
+    const prompt = `Bạn là chuyên gia tử vi phong thủy Việt Nam, chuyên biên soạn các bài luận giải tử vi trọn năm chi tiết, mạch lạc, đúng nguyên lý cổ truyền, văn phong gần gũi dễ hiểu cho người đọc phổ thông.
+
+DỮ KIỆN CHÍNH XÁC (bắt buộc dùng đúng, không tự suy đoán hay thay đổi):
+- Tuổi: ${cU} ${chU} (sinh năm ${yearV}), ${genderV} mạng, bản mệnh nạp âm: ${nU} (ngũ hành ${eU}).
+- Năm xem: ${canChiXem[0]} ${canChiXem[1]} ${viewYear}, tuổi âm năm nay: ${ageTa}.
+- Tướng tinh: ${tuongTinh}. Vị Phật/Bồ Tát độ mạng: ${bonMang}.
+- Sao chiếu mệnh năm nay: ${sh.sao}. Hạn niên: ${sh.han || "không có hạn nặng"}.
+- Kim Lâu: ${kl.pham ? "Phạm " + kl.loai : "Không phạm"}.
+- Hoàng Ốc: ${ho.pham ? "Phạm " + ho.name : "Không phạm, cung " + ho.name}.
+- Tam Tai: ${tamTaiInfo.pham ? "Phạm Tam Tai, " + tamTaiInfo.giaiDoan : "Không phạm Tam Tai"}.
+- Thái Tuế: ${thaiTue.pham ? "Phạm " + thaiTue.loai : "Không phạm Thái Tuế"}.
+- Màu hợp mệnh: ${menhColorData.colors.join(", ")}. Số may mắn hợp mệnh: ${menhLuckyNums.join(", ")}. Hướng tốt: ${menhLuckyDir}. Hướng nên tránh: ${menhAvoidDir}.
+
+YÊU CẦU NỘI DUNG — viết bằng tiếng Việt, giọng văn tự nhiên, súc tích đúng độ dài yêu cầu ở mỗi thẻ (không viết dài hơn), KHÔNG bịa số liệu thống kê y tế/khoa học cụ thể (không dùng %, tỷ lệ, nghiên cứu) vì không có nguồn kiểm chứng — phần sức khỏe chỉ đưa lời khuyên sinh hoạt tổng quát. Đây là 8 mục bắt buộc phải có ĐẦY ĐỦ, tuyệt đối không được bỏ sót hoặc để trống mục nào, đặc biệt là <nen_khong_nen> và <faq> ở cuối. CHỈ trả về đúng định dạng XML sau, không thêm lời dẫn hay markdown ngoài các thẻ:
+
+<tong_quan>Đoạn văn 4-6 câu: tính cách ưu/nhược điểm điển hình của người tuổi ${chU} mạng ${nU}, và khái quát vận đời qua 3 giai đoạn (tiền vận/trung vận/hậu vận), nhấn vào việc năm nay (tuổi ${ageTa}) đang ở giai đoạn nào.</tong_quan>
+
+<sao_han_chi_tiet>Đoạn văn 5-7 câu diễn giải chi tiết đặc tính sao ${sh.sao} chiếu mệnh năm nay, kèm rủi ro cụ thể và điểm tích cực có thể tận dụng, đề cập luôn ý nghĩa hạn ${sh.han || "không có hạn nặng"} nếu có.</sao_han_chi_tiet>
+
+<cong_danh>
+[Người làm công/viên chức]: 2-3 câu lời khuyên cụ thể.
+[Người làm chủ/kinh doanh]: 2-3 câu lời khuyên cụ thể.
+[Lời khuyên chung]: 2-3 gạch đầu dòng, mỗi dòng bắt đầu bằng "- ".
+</cong_danh>
+
+<tai_loc>Đoạn văn 4-5 câu về tổng quan tài chính năm nay, kèm 2-3 gạch đầu dòng "Lưu ý tránh mất tiền" (mỗi dòng bắt đầu bằng "- ").</tai_loc>
+
+<tinh_cam>
+[Đã lập gia đình]: 2-3 câu lời khuyên cụ thể về vợ chồng/con cái.
+[Độc thân]: 2-3 câu lời khuyên cụ thể.
+[Điểm cần lưu ý]: 1-2 gạch đầu dòng, mỗi dòng bắt đầu bằng "- ".
+</tinh_cam>
+
+<suc_khoe>Đoạn văn 4-5 câu về những vùng cơ thể/khía cạnh sức khỏe cần quan tâm hơn theo ngũ hành ${eU} và sao ${sh.sao} (KHÔNG bịa số liệu %), kèm 3-4 gạch đầu dòng lời khuyên sinh hoạt/dinh dưỡng thực tế, mỗi dòng bắt đầu bằng "- ".</suc_khoe>
+
+<nen_khong_nen>
+[Nên làm]: 4 gạch đầu dòng cụ thể cho cả năm, mỗi dòng bắt đầu bằng "- ".
+[Không nên làm]: 4 gạch đầu dòng cụ thể cho cả năm, mỗi dòng bắt đầu bằng "- ".
+</nen_khong_nen>
+
+<faq>
+Q: câu hỏi 1 thường gặp liên quan tuổi ${chU} năm ${canChiXem[1]}?
+A: trả lời 2-3 câu.
+Q: câu hỏi 2?
+A: trả lời 2-3 câu.
+Q: câu hỏi 3?
+A: trả lời 2-3 câu.
+</faq>`;
+
+    try {
+        const raw = await callClaudeAPI(prompt, 6500);
+        const tongQuan = extractTag(raw, "tong_quan");
+        const saoHanCt = extractTag(raw, "sao_han_chi_tiet");
+        const congDanh = extractTag(raw, "cong_danh");
+        const taiLoc = extractTag(raw, "tai_loc");
+        const tinhCam = extractTag(raw, "tinh_cam");
+        const sucKhoe = extractTag(raw, "suc_khoe");
+        let nenKhongNen = extractTag(raw, "nen_khong_nen");
+        const faq = extractTag(raw, "faq");
+
+        // Fallback: nếu AI bị cắt cụt phản hồi (hết token) khiến tag này rỗng,
+        // dùng database Nên/Không nên tĩnh theo sao chiếu mệnh thay vì để trống.
+        if(!nenKhongNen){
+            const fb = yearNenKhongNenBySao[sh.sao] || { nen: [], khong: [] };
+            nenKhongNen = `[Nên làm]:\n${fb.nen.map(i=>"- "+i).join("\n")}\n[Không nên làm]:\n${fb.khong.map(i=>"- "+i).join("\n")}`;
+        }
+
+        // Render FAQ dạng Q&A đẹp
+        const faqHtml = faq.split(/\n(?=Q:)/).map(block => {
+            const qMatch = block.match(/Q:\s*(.*)/);
+            const aMatch = block.match(/A:\s*([\s\S]*)/);
+            if(!qMatch) return "";
+            return `<p style="margin:8px 0 2px 0;"><b>❓ ${qMatch[1].trim()}</b></p><p style="margin:2px 0;color:#475569;">${(aMatch ? aMatch[1].trim() : "").replace(/\n/g,"<br>")}</p>`;
+        }).join("");
+
+        box.innerHTML = `
+            <div style="margin-top:12px;padding:14px;background:rgba(153,27,27,0.05);border:1px solid rgba(212,175,55,0.3);border-radius:12px;">
+                <div style="font-weight:bold;color:#991b1b;font-size:15px;margin-bottom:10px;text-align:center;">📜 TỬ VI ${cU.toUpperCase()} ${chU.toUpperCase()} (${genderV.toUpperCase()} MẠNG) — NĂM ${canChiXem[0].toUpperCase()} ${canChiXem[1].toUpperCase()} ${viewYear}</div>
+
+                <p style="font-size:13px;font-weight:bold;color:#7c3aed;margin:10px 0 4px 0;">🔮 Tổng quan tuổi ${chU}</p>
+                <p style="font-size:12.5px;line-height:1.65;margin:2px 0;">${tongQuan}</p>
+
+                <p style="font-size:13px;font-weight:bold;color:#7c3aed;margin:12px 0 4px 0;">⭐ Sao chiếu mệnh & hạn năm nay</p>
+                <p style="font-size:12.5px;line-height:1.65;margin:2px 0;">${saoHanCt}</p>
+
+                <p style="font-size:13px;font-weight:bold;color:#7c3aed;margin:12px 0 4px 0;">💼 Công danh - Sự nghiệp</p>
+                <p style="font-size:12.5px;line-height:1.65;margin:2px 0;white-space:pre-line;">${congDanh}</p>
+
+                <p style="font-size:13px;font-weight:bold;color:#7c3aed;margin:12px 0 4px 0;">💰 Tài lộc - Tiền bạc</p>
+                <p style="font-size:12.5px;line-height:1.65;margin:2px 0;white-space:pre-line;">${taiLoc}</p>
+
+                <p style="font-size:13px;font-weight:bold;color:#7c3aed;margin:12px 0 4px 0;">❤️ Tình cảm - Gia đạo</p>
+                <p style="font-size:12.5px;line-height:1.65;margin:2px 0;white-space:pre-line;">${tinhCam}</p>
+
+                <p style="font-size:13px;font-weight:bold;color:#7c3aed;margin:12px 0 4px 0;">🩺 Sức khỏe - Tinh thần</p>
+                <p style="font-size:12.5px;line-height:1.65;margin:2px 0;white-space:pre-line;">${sucKhoe}</p>
+
+                <p style="font-size:13px;font-weight:bold;color:#7c3aed;margin:12px 0 4px 0;">🎨 Phong thủy hợp mệnh</p>
+                <p style="font-size:12.5px;line-height:1.65;margin:2px 0;">Màu hợp: <b>${menhColorData.colors.join(", ")}</b> &nbsp;|&nbsp; Số may mắn: <b>${menhLuckyNums.join(", ")}</b> &nbsp;|&nbsp; Hướng tốt: <b>${menhLuckyDir}</b> &nbsp;|&nbsp; Hướng tránh: <b>${menhAvoidDir}</b></p>
+
+                <p style="font-size:13px;font-weight:bold;color:#166534;margin:12px 0 4px 0;">✅❌ Nên làm - Không nên làm trong năm</p>
+                <p style="font-size:12.5px;line-height:1.65;margin:2px 0;white-space:pre-line;">${nenKhongNen}</p>
+
+                <p style="font-size:13px;font-weight:bold;color:#1e3a5f;margin:12px 0 4px 0;">❓ Câu hỏi thường gặp</p>
+                <div style="font-size:12.5px;">${faqHtml}</div>
+
+                <p style="font-size:11px;color:#94a3b8;margin-top:10px;">⚠️ Báo cáo chuyên sâu dựa trên nguyên lý tử vi - phong thủy dân gian, mang tính tham khảo, không thay thế tư vấn y tế/tài chính/pháp lý chuyên nghiệp.</p>
+            </div>
+        `;
+    } catch(e){
+        box.innerHTML = `<div style="padding:10px;font-size:12.5px;color:#b91c1c;">❌ Không thể thực hiện luận chuyên sâu: ${e.message}</div>`;
+    }
+}
+
+// ============ LỊCH DẠNG LƯỚI THÁNG ============
+let monthViewOn = false;
+
+function toggleMonthView(){
+    const dateV = document.getElementById("date").value;
+    if(!dateV){ alert("Vui lòng chọn 1 ngày trước để xác định tháng cần xem lịch."); return; }
+    monthViewOn = !monthViewOn;
+    document.getElementById("monthCalWrap").style.display = monthViewOn ? "block" : "none";
+    document.getElementById("btnToggleMonth").textContent = monthViewOn ? "✖️ ĐÓNG LỊCH THÁNG" : "📅 XEM CẢ THÁNG";
+    if(monthViewOn) renderMonthCalendar();
+}
+
+function renderMonthCalendar(){
+    const dateV = document.getElementById("date").value;
+    const d = new Date(dateV);
+    const y = d.getFullYear(), m = d.getMonth() + 1;
+    const daysInMonth = new Date(y, m, 0).getDate();
+    const firstDow = new Date(y, m - 1, 1).getDay();
+    const todayStr = formatDateLocal(new Date());
+
+    let cells = '';
+    for(let i = 0; i < firstDow; i++) cells += `<div class="cal-cell cal-empty"></div>`;
+
+    for(let day = 1; day <= daysInMonth; day++){
+        const dateStr = `${y}-${String(m).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        const than = getNgayHoangDao(dateStr);
+        const isHoang = than.loai === 'hoang';
+        const isToday = dateStr === todayStr;
+        cells += `<div class="cal-cell ${isHoang ? 'cal-hoang' : 'cal-hac'} ${isToday ? 'cal-today' : ''}" onclick="chonNgayTuLich('${dateStr}')">
+            <div class="cal-day-num">${day}</div>
+            <div class="cal-day-than">${than.than}</div>
+        </div>`;
+    }
+
+    document.getElementById("monthCalWrap").innerHTML = `
+        <div style="background:white;border-radius:16px;padding:14px;margin-top:14px;box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                <button onclick="doiThang(-1)" style="width:auto;height:36px;padding:0 16px;font-size:14px;margin:0;">◀</button>
+                <div style="font-weight:800;font-size:14px;color:#1e293b;">Tháng ${m}/${y}</div>
+                <button onclick="doiThang(1)" style="width:auto;height:36px;padding:0 16px;font-size:14px;margin:0;">▶</button>
+            </div>
+            <div style="display:flex;gap:10px;font-size:11px;color:#64748b;justify-content:center;margin-bottom:8px;">
+                <span>🟩 Hoàng Đạo</span><span>🟥 Hắc Đạo</span>
+            </div>
+            <div class="cal-grid">
+                ${["CN","T2","T3","T4","T5","T6","T7"].map(dw => `<div class="cal-dow">${dw}</div>`).join("")}
+                ${cells}
+            </div>
+            <div style="font-size:11px;color:#94a3b8;margin-top:10px;text-align:center;">👆 Bấm vào 1 ngày để xem chi tiết ngày đó</div>
+        </div>
+    `;
+}
+
+function doiThang(delta){
+    const cur = new Date(document.getElementById("date").value);
+    const ngayCu = cur.getDate();
+    // Set về mùng 1 trước khi cộng/trừ tháng để tránh lỗi tràn tháng của JS Date
+    // (VD: 31/1 cộng 1 tháng lẽ ra phải ra 2/2026 nhưng "31/2" không tồn tại nên JS tự tràn sang 3/3).
+    const d = new Date(cur.getFullYear(), cur.getMonth() + delta, 1);
+    // Giữ lại đúng ngày cũ nếu tháng mới đủ ngày, còn không thì lấy ngày cuối tháng mới.
+    const soNgayThangMoi = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+    d.setDate(Math.min(ngayCu, soNgayThangMoi));
+    document.getElementById("date").value = formatDateLocal(d);
+    renderMonthCalendar();
+}
+
+function chonNgayTuLich(dateStr){
+    document.getElementById("date").value = dateStr;
+    run();
+    monthViewOn = false;
+    document.getElementById("monthCalWrap").style.display = "none";
+    document.getElementById("btnToggleMonth").textContent = "📅 XEM CẢ THÁNG";
+    document.getElementById("out").scrollIntoView && document.getElementById("out").scrollIntoView({ behavior: "smooth" });
+}
+
+function run(){
+    const dateV = document.getElementById("date").value;
+    const yearV = parseInt(document.getElementById("year").value);
+
+    if(!dateV || !yearV){
+        alert("Nhập thiếu dữ liệu");
+        return;
+    }
+
+    const viewYear = new Date(dateV).getFullYear();
+    // SEED DUY NHẤT (theo ngày + năm sinh)
+    const seedBase = yearV * 100000 + new Date(dateV).getTime();
+    const age = viewYear - yearV;
+
+    // Kiểm tra ngày xem có trùng ngày lễ dương lịch cố định nào không (Nhà giáo VN, Quốc khánh, Giáng Sinh...)
+    const ngayLeHomNay = checkNgayLeHomNay(dateV);
+
+    if(age < 12){
+        document.getElementById("out").innerHTML = `
+            <div style="padding:20px;background:#fee;border-radius:10px">
+                ⚠️ Chỉ dành cho người trên 12 tuổi
+            </div>`;
+        return;
+    }
+
+    // 🔥 FIX: tính tiết khí trước khi dùng
+    // Tính tiết khí trước khi dùng
+    const tietKhi = getTietKhi(dateV);
+
+    const [cU, chU] = getYearCanChi(yearV);
+    const [cD, chD] = getDayCanChi(dateV);
+    const nU = napAm[`${cU} ${chU}`];
+    const nD = napAm[`${cD} ${chD}`];
+
+    const eU = getElement(nU);
+    const eD = getElement(nD);
+
+    const sucKhoe = danhGiaSucKhoe(tietKhi, eU);
+    const loiKhuyen = loiKhuyenSucKhoe(tietKhi);
+
+    const sinh = {"Kim":"Thủy","Thủy":"Mộc","Mộc":"Hỏa","Hỏa":"Thổ","Thổ":"Kim"};
+    const khac = {"Kim":"Mộc","Mộc":"Thổ","Thổ":"Thủy","Thủy":"Hỏa","Hỏa":"Kim"};
+
+    let baseS = 5, relType = "Bình hòa";
+
+    if(sinh[eD] === eU){
+        baseS = 9; relType = "Sinh nhập";
+    } else if(sinh[eU] === eD){
+        baseS = 7; relType = "Sinh xuất";
+    } else if(khac[eD] === eU){
+        baseS = 3; relType = "Tương khắc";
+    } else if(khac[eU] === eD){
+        baseS = 4; relType = "Bị tiết";
+    } else if(eU === eD){
+        baseS = 8; relType = "Đồng hành";
+    }
+
+    // Câu châm ngôn hôm nay — chọn theo ĐÚNG tương quan ngày-mệnh (relType) để bám sát tinh thần luận giải,
+    // cố định theo Julian Day của ngày xem nên bấm lại vẫn ra cùng 1 câu.
+    const chamNgonPool = CHAM_NGON_BY_REL[relType] || CHAM_NGON_BY_REL["Bình hòa"];
+    const chamNgonHomNay = chamNgonPool[jdFromDate(new Date(dateV).getDate(), new Date(dateV).getMonth()+1, viewYear) % chamNgonPool.length];
+
+    const pairs = {"Tý-Sửu":2,"Dần-Hợi":2,"Mão-Tuất":2,"Thìn-Dậu":2,"Tỵ-Thân":2,"Ngọ-Mùi":2,
+    "Tý-Ngọ":-3,"Sửu-Mùi":-3,"Dần-Thân":-3,"Mão-Dậu":-3,"Thìn-Tuất":-3,"Tỵ-Hợi":-3};
+
+    let chiS = pairs[`${chU}-${chD}`] || pairs[`${chD}-${chU}`] || 0;
+    let finalS = baseS + chiS;
+
+    const contentSeed = hashString(
+        cD + "|" + chD + "|" + nD + "|" +
+        cU + "|" + chU + "|" +
+        String(yearV) + "|" +
+        String(age) + "|" +
+        String(chi.indexOf(chU) * 997) + "|" +
+        String(can.indexOf(cU) * 101)
+    );
+
+    const rand = (contentSeed % 3) - 1;
+
+    // Bình luận theo con giáp của bạn
+    const chiCmtArr = chiDayComment[chU] || ["Bạn có những điểm mạnh riêng trong ngày hôm nay."];
+    const chiCmt = chiCmtArr[(contentSeed + chi.indexOf(chU) * 37) % chiCmtArr.length];
+
+    finalS = finalS + rand;
+    if(finalS > 10) finalS = 10;
+    if(finalS < 1) finalS = 1;
+
+    const season = getSeason(tietKhi);
+    if(season === eU) finalS += 1;
+    if(khac[eU] === season) finalS -= 1;
+
+    if(relType === "Sinh nhập") finalS += 1;
+    if(relType === "Tương khắc") finalS -= 1;
+    finalS = Math.max(1, Math.min(10, finalS));
+
+    const aiText = aiLuan({ relType, finalS, chiS, eU, eD, tietKhi });
+
+    const truc = getTruc(dateV);
+    const ngayThan = getNgayHoangDao(dateV);
+    const viecCanXem = document.getElementById("viecCanXem").value;
+    const danhGiaViec = getDanhGiaViec(truc, ngayThan.loai, viecCanXem);
+    const trucInfo = trucMeaning[truc] || {};
+
+    const ngayXau = getNgayXauInfo(dateV);
+
+    const catStars = catStarsMap[chD] || [];
+    const hungStars = hungStarsMap[chD] || [];
+
+    const colorData = luckyColorData[eD] || luckyColorData["Thổ"];
+    const luckyNums = canLuckyNum[cD] || [1,6,8];
+    const luckyDir = luckyDirMap[chD] || "Bắc";
+    const avoidDir = avoidDirMap[chD] || "Nam";
+    const thanTai = thanTaiDir[chD] || "Đông Bắc";
+
+    const keywords = ["Kiên nhẫn","Hành động","Quan sát","Tích lũy","Đột phá"];
+    const todayKey = pickBySeed(keywords, contentSeed + 20);
+
+    // 🎯 LUẬN
+   let luan = `
+    ${pickBySeed(luanLib.tongQuan[relType], contentSeed + 1)}
+    <div style="margin:10px 0 4px; padding:9px 12px; background:#f0f9ff; border-left:3px solid #38bdf8; border-radius:0 8px 8px 0; font-size:13px; color:#0c4a6e; line-height:1.6;">
+        🐾 <b>Người tuổi ${chU} hôm nay:</b> ${chiCmt}
+    </div>
+    <br><b>💼 Công việc</b><br>
+    ${get2Content("work", eU, finalS, contentSeed + chi.indexOf(chU) * 3)}
+    <br><br><b>💰 Tài lộc</b><br>
+    ${get2Content("money", eU, finalS, contentSeed + chi.indexOf(chU) * 3 + 1)}
+    <br><br><b>❤️ Tình cảm</b><br>
+    ${get2Content("love", eU, finalS, contentSeed + chi.indexOf(chU) * 3 + 2)}
+    <br><br><b>🏠 Gia đạo</b><br>
+    ${get2Content("family", eU, finalS, contentSeed + chi.indexOf(chU) * 3 + 3)}
+    `;
+
+    // Sao Hạn / Kim Lâu / Hoàng Ốc / Tam Tai / Thái Tuế / Vận Niên đã CHUYỂN sang tab "Xem Trọn Năm"
+    // (đây là dữ liệu theo NĂM ÂM LỊCH XEM, không đổi theo từng ngày — xem hàm runYear() bên dưới).
+    const genderV = document.getElementById("gender").value;
+
+// ===================================================================
+// 🎯 VIỆC NÊN / KHÔNG NÊN
+// Thiết kế: mỗi pool có ĐÚNG 12 item (1 per chi).
+// Chọn bằng chiIdx offset — đảm bảo 12 chi luôn cho ra 12 item khác nhau,
+// không phụ thuộc vào shuffle hay seed collision.
+// ===================================================================
+const chiIdx = chi.indexOf(chU); // 0–11, cố định theo con giáp
+
+// ── Hàm chọn item theo offset, tránh trùng ──
+function pickByChiOffset(pool, offset){
+    return pool[offset % pool.length];
+}
+
+// ═══════════════════════════════════════════════════
+// POOL NÊN — theo relType, 12 item mỗi loại
+// ═══════════════════════════════════════════════════
+const shouldDoPoolByRel = {
+    "Sinh nhập": [
+        "Khai trương, mở hàng","Ký kết hợp đồng quan trọng",
+        "Xuất hành, gặp đối tác chiến lược","Cầu tài, cầu lộc tại chùa",
+        "Khởi động dự án mới","Gặp gỡ quý nhân, mở rộng quan hệ",
+        "Đề xuất ý tưởng táo bạo lên cấp trên","Đàm phán, thương lượng hợp đồng",
+        "Ra mắt sản phẩm hoặc dịch vụ mới","Tuyển dụng, mở rộng nhân sự",
+        "Chốt thương vụ lâu nay đang chờ","Mở tài khoản, khởi động đầu tư mới"
+    ],
+    "Sinh xuất": [
+        "Hỗ trợ đồng nghiệp hoàn thành công việc","Chia sẻ kiến thức, đào tạo người khác",
+        "Làm việc nhóm và dẫn dắt tập thể","Đóng góp vào dự án chung của tổ chức",
+        "Chủ động cho đi để tạo thiện cảm","Hoàn thiện báo cáo hoặc tài liệu quan trọng",
+        "Xử lý việc tồn đọng để giải phóng áp lực","Trao đổi thẳng thắn với đối tác",
+        "Tặng quà hoặc tri ân người thân","Tổ chức họp mặt, sum họp bạn bè",
+        "Tình nguyện hoặc làm việc thiện","Viết lách, sáng tác, chia sẻ nội dung"
+    ],
+    "Tương khắc": [
+        "Nghỉ ngơi, phục hồi thể lực và tinh thần","Đọc sách, nâng cao kiến thức chuyên môn",
+        "Thiền định, dọn dẹp không gian sống","Lập kế hoạch dài hạn — chưa cần hành động",
+        "Xem xét lại chiến lược hiện tại","Học kỹ năng mới, tham gia khóa học online",
+        "Chăm sóc sức khỏe, đi khám định kỳ","Ổn định tài chính, tránh đầu tư mới",
+        "Dưỡng tâm, tránh môi trường căng thẳng","Hoàn thiện việc cũ thay vì mở việc mới",
+        "Giữ im lặng trong mâu thuẫn chưa cần giải quyết","Tích lũy, không phô trương"
+    ],
+    "Bị tiết": [
+        "Nghỉ ngơi đúng mức, không ép bản thân","Ăn uống đầy đủ, bổ sung năng lượng",
+        "Hoàn thiện công việc cũ còn dang dở","Tập thể dục nhẹ, đi bộ buổi sáng",
+        "Ngủ sớm, phục hồi sức khỏe","Đọc sách hoặc xem phim thư giãn",
+        "Chăm sóc bản thân, làm điều mình thích","Gặp gỡ người thân trong không khí nhẹ nhàng",
+        "Nấu ăn tại nhà, tránh ra ngoài nhiều","Giữ nhịp ổn định, không nhận thêm việc",
+        "Thiền định hoặc hít thở sâu","Sắp xếp lại không gian cá nhân"
+    ],
+    "Đồng hành": [
+        "Hợp tác với người cùng chí hướng","Triển khai kế hoạch đã chuẩn bị từ trước",
+        "Tham gia sự kiện, hội thảo, networking","Xây dựng liên minh hoặc mạng lưới đối tác",
+        "Đề xuất sáng kiến cải tiến quy trình","Chủ động kết nối người cũ chưa liên lạc lâu",
+        "Ra quyết định quan trọng đã trì hoãn","Tổ chức nhóm dự án, phân công rõ ràng",
+        "Đầu tư vào mối quan hệ dài hạn","Công khai dự án hoặc kế hoạch cá nhân",
+        "Hòa giải, xây dựng sự đồng thuận","Chia sẻ tầm nhìn với người xung quanh"
+    ],
+    "Bình hòa": [
+        "Duy trì tiến độ công việc đang có","Hoàn thiện kế hoạch sắp triển khai",
+        "Học thêm kỹ năng hoặc kiến thức mới","Kết nối lại với bạn bè, người thân",
+        "Cân bằng giữa công việc và nghỉ ngơi","Xem xét lại mục tiêu cá nhân",
+        "Tích lũy, tiết kiệm dần dần","Cải thiện thói quen hàng ngày",
+        "Đọc sách hoặc nghe podcast phát triển bản thân","Chăm sóc cây cảnh, vật nuôi — thư giãn",
+        "Dọn dẹp email, công việc tồn đọng nhỏ","Ghi chép ý tưởng cho kế hoạch tương lai"
+    ]
+};
+
+// ═══════════════════════════════════════════════════
+// POOL TRÁNH — theo relType, 12 item mỗi loại
+// ═══════════════════════════════════════════════════
+const avoidPoolByRel = {
+    "Sinh nhập": [
+        "Chủ quan, tự mãn vì đang vận tốt","Quyết định vội vàng không cân nhắc kỹ",
+        "Chi tiêu bốc đồng, không có kế hoạch","Bỏ qua cảnh báo từ người thân hoặc cố vấn",
+        "Ký kết hợp đồng không đọc kỹ","Hứa hẹn quá mức khả năng của mình",
+        "Đầu tư dàn trải, không tập trung","Xem thường đối thủ hoặc rủi ro",
+        "Nói nhiều hơn làm trong ngày này","Bỏ bê sức khỏe vì quá hưng phấn",
+        "Tranh công với đồng đội","Để cảm xúc chi phối quyết định kinh doanh"
+    ],
+    "Sinh xuất": [
+        "Làm việc quá sức, thức quá khuya","Nhận thêm trách nhiệm khi chưa xong việc cũ",
+        "Bỏ bê sức khỏe vì áp lực công việc","Hứa hẹn vượt quá khả năng hiện tại",
+        "Phớt lờ cơ thể khi đã mệt mỏi","Để người khác kéo vào việc không liên quan",
+        "Chi tiêu lớn vì cảm xúc nhất thời","Ôm đồm nhiều dự án cùng lúc",
+        "Bỏ bữa ăn vì quá bận","Xao nhãng việc quan trọng vì tiểu tiết",
+        "Không đặt ranh giới với yêu cầu ngoài giờ","Hy sinh giấc ngủ để làm thêm"
+    ],
+    "Tương khắc": [
+        "Khai trương hoặc đầu tư quy mô lớn","Xuất hành xa, di chuyển dài ngày",
+        "Ký kết hợp đồng quan trọng hôm nay","Tranh luận hoặc xung đột với người khác",
+        "Khởi sự việc mới trong ngày này","Cho vay hoặc mượn tiền số lượng lớn",
+        "Quyết định hôn nhân, chuyển nhà","Thay đổi công việc, nghỉ việc đột ngột",
+        "Phẫu thuật hoặc can thiệp y tế lớn","Mua sắm tài sản lớn không cần thiết",
+        "Đối đầu trực tiếp với cấp trên","Công bố điều quan trọng chưa sẵn sàng"
+    ],
+    "Bị tiết": [
+        "Làm việc quá sức khi cơ thể đã mệt","Mạo hiểm tài chính hoặc đầu tư lớn",
+        "Nhận thêm dự án khi chưa giải phóng được việc cũ","Bỏ bê ăn uống và sinh hoạt điều độ",
+        "Thức khuya dù không cần thiết","Kích động tranh cãi hoặc xung đột",
+        "Đưa ra quyết định lớn trong trạng thái kiệt sức","Tiêu tiền không có kế hoạch",
+        "Lơ là các mối quan hệ quan trọng","Ép bản thân theo nhịp độ người khác",
+        "Uống rượu bia hoặc chất kích thích","Bỏ qua dấu hiệu cảnh báo sức khỏe"
+    ],
+    "Đồng hành": [
+        "Tự cao, phủ nhận ý kiến người khác","Quyết định đơn phương việc chung của nhóm",
+        "Tranh công hoặc không chia sẻ thành quả","Áp đặt quan điểm lên đồng đội",
+        "Bỏ qua phản hồi vì quá tự tin","Cạnh tranh nội bộ không cần thiết",
+        "Phô trương hoặc khoe khoang thành tích","Làm giảm động lực của người xung quanh",
+        "Bỏ bê việc nhỏ vì tập trung việc lớn","Thiếu kiên nhẫn với người chậm hơn mình",
+        "Làm mất lòng đối tác vì lời nói bốc đồng","Đặt cái tôi lên trên lợi ích chung"
+    ],
+    "Bình hòa": [
+        "Kỳ vọng kết quả đột phá ngay hôm nay","Thay đổi kế hoạch một cách đột ngột",
+        "Hành động bốc đồng thiếu cân nhắc","Đầu tư mạo hiểm khi chưa nghiên cứu kỹ",
+        "Tranh luận về những việc chưa chín muồi","Mở rộng quá nhanh khi chưa có nền tảng",
+        "Bỏ qua tín hiệu cảnh báo từ môi trường","So sánh bản thân với người khác tiêu cực",
+        "Trì hoãn việc quan trọng vì cảm giác an toàn","Buông lơi thói quen tốt đã duy trì",
+        "Tin vào may rủi thay vì nỗ lực","Phớt lờ lời khuyên của người có kinh nghiệm"
+    ]
+};
+
+// ═══════════════════════════════════════════════════
+// GỢI Ý RIÊNG THEO CON GIÁP (12 chi = 12 item khác nhau hoàn toàn)
+// Đây là lớp phân biệt CỐT LÕI giữa các tuổi cùng ngũ hành
+// ═══════════════════════════════════════════════════
+const chiUniqueDo = {
+    "Tý":  "Khai thác mạng lưới xã giao — hôm nay bạn dễ gặp người đúng lúc",
+    "Sửu": "Tập trung hoàn thiện một việc đến cùng thay vì làm nhiều thứ nửa vời",
+    "Dần": "Đứng đầu, dẫn dắt — đây là ngày để bạn thể hiện vai trò lãnh đạo",
+    "Mão": "Tạo ấn tượng qua sự tinh tế: lời nói, hình ảnh, cách cư xử",
+    "Thìn": "Đặt mục tiêu lớn và chia sẻ tầm nhìn đó với người xung quanh",
+    "Tỵ":  "Phân tích sâu trước khi hành động — đây là thế mạnh của bạn hôm nay",
+    "Ngọ": "Ra tay ngay khi thấy cơ hội — do dự là điều bạn cần tránh nhất",
+    "Mùi": "Vun đắp các mối quan hệ — một cử chỉ quan tâm hôm nay có giá trị lớn",
+    "Thân": "Thử góc nhìn hoặc cách làm mới — sáng tạo là lợi thế của bạn hôm nay",
+    "Dậu": "Rà soát và hoàn thiện chi tiết — độ chính xác của bạn là lợi thế cạnh tranh",
+    "Tuất": "Giữ vững lập trường và bảo vệ cam kết — đáng tin là tài sản lớn nhất hôm nay",
+    "Hợi": "Chủ động tìm kiếm sự hỗ trợ — mở lòng đón nhận sẽ mang lại điều bất ngờ"
+};
+
+const chiUniqueAvoid = {
+    "Tý":  "Hành động khi chưa có đủ thông tin — trực giác tốt nhưng cần dữ liệu xác nhận",
+    "Sửu": "Thay đổi kế hoạch vào phút chót — sự ổn định là sức mạnh, hãy giữ lấy",
+    "Dần": "Do dự và chần chừ — mỗi phút trì hoãn là một cơ hội bị người khác nắm lấy",
+    "Mão": "Cứng nhắc trong giao tiếp — linh hoạt và tinh tế mới là điểm mạnh của bạn",
+    "Thìn": "Phô trương thành tích khi chưa đến lúc — hãy để kết quả tự nói thay",
+    "Tỵ":  "Hành động theo cảm tính không qua tính toán — bạn giỏi nhất khi suy nghĩ kỹ",
+    "Ngọ": "Bỏ qua chi tiết vì quá hứng khởi — tốc độ cần đi kèm sự chú tâm",
+    "Mùi": "Để người khác ra quyết định thay bạn — tin vào phán đoán của chính mình",
+    "Thân": "Thay đổi hướng đi liên tục — chọn một hướng và đi đến cùng hôm nay",
+    "Dậu": "Cầu toàn đến mức không dám bước tiếp — đủ tốt đôi khi còn hơn hoàn hảo",
+    "Tuất": "Cứng đầu không chịu lắng nghe — trung thành với mục tiêu nhưng linh hoạt trong cách",
+    "Hợi": "Tin tưởng người chưa được kiểm chứng — lòng tốt cần đi kèm sự khôn ngoan"
+};
+
+// ═══════════════════════════════════════════════════
+// TỔNG HỢP: Mỗi người nhận đúng 5 item NÊN + 5 item TRÁNH
+// Công thức chọn: chiIdx offset → đảm bảo 12 chi cho 12 kết quả khác nhau
+// ═══════════════════════════════════════════════════
+let shouldDo = [];
+let avoid    = [];
+
+const relDoPool  = shouldDoPoolByRel[relType] || shouldDoPoolByRel["Bình hòa"];
+const relAvPool  = avoidPoolByRel[relType]    || avoidPoolByRel["Bình hòa"];
+
+// Lấy 2 item NÊN từ pool relType — dùng chiIdx làm offset trực tiếp
+shouldDo.push(relDoPool[chiIdx % relDoPool.length]);
+shouldDo.push(relDoPool[(chiIdx + 4) % relDoPool.length]);  // +4 đảm bảo không trùng với item trên
+
+// Lấy 2 item TRÁNH từ pool relType — tương tự
+avoid.push(relAvPool[chiIdx % relAvPool.length]);
+avoid.push(relAvPool[(chiIdx + 4) % relAvPool.length]);
+
+// 1 item NÊN riêng theo con giáp — LUÔN KHÁC NHAU giữa 12 tuổi
+shouldDo.push(chiUniqueDo[chU]);
+// 1 item TRÁNH riêng theo con giáp
+avoid.push(chiUniqueAvoid[chU]);
+
+// Điều chỉnh nhẹ theo điểm và chiS để không hoàn toàn cố định
+if(finalS >= 9){
+    shouldDo.push("Mạnh dạn khởi sự — vận khí đang ở đỉnh cao");
+} else if(finalS <= 3){
+    avoid.push("Khởi động việc lớn mới — chưa phải thời điểm tốt");
+}
+if(chiS < 0){
+    avoid.push("Để cảm xúc quyết định trong các cuộc tranh luận");
+} else if(chiS > 0){
+    shouldDo.push("Tranh thủ giao lưu, kết nối — nhân duyên đang thuận");
+}
+
+// Tiết khí đặc biệt
+if(tietKhi.includes("Thanh Minh")) shouldDo.push("Tảo mộ, tưởng nhớ tổ tiên");
+if(tietKhi.includes("Đông Chí"))   shouldDo.push("Cúng lễ, sum họp gia đình");
+
+// Ngày xấu (Tam Nương / Nguyệt Kỵ / Sát Chủ) — tính theo ÂM LỊCH, ưu tiên cảnh báo lên đầu danh sách
+if(ngayXau.canhBao.length > 0){
+    const tenNgayXau = ngayXau.canhBao.map(cb => cb.ten).join(", ");
+    avoid.unshift(`Xuất hành xa, khai trương, cưới hỏi, ký kết lớn — hôm nay phạm ngày ${tenNgayXau}`);
+    shouldDo.unshift("Ăn chay, giữ tâm tĩnh lặng, hạn chế tranh cãi — ngày xấu nên lấy nhu chế cương");
+} else if(finalS >= 7){
+    shouldDo.push("Xuất hành, gặp gỡ đối tác xa — ngày không phạm Tam Nương/Nguyệt Kỵ/Sát Chủ, khá thuận cho di chuyển");
+}
+
+// Loại trùng, giới hạn 5
+shouldDo = [...new Set(shouldDo.filter(Boolean))].slice(0, 5);
+avoid    = [...new Set(avoid.filter(Boolean))].slice(0, 5);
+
+// ── Tính điểm từng mảng thực sự (không hardcode) ──
+const sHealthRaw = danhGiaSucKhoe(tietKhi, eU);
+const scoreHealth = sHealthRaw.includes("💪") ? Math.min(10, finalS + 1)
+                  : sHealthRaw.includes("🔋") ? Math.max(1, finalS - 1)
+                  : sHealthRaw.includes("❌") || sHealthRaw.includes("⚠️") ? Math.max(1, finalS - 2)
+                  : finalS;
+
+const scoreLove   = chiS > 0  ? Math.min(10, finalS + 1)
+                  : chiS < 0  ? Math.max(1,  finalS - 1)
+                  : finalS;
+
+const scoreMoney  = (relType === "Sinh nhập" || relType === "Đồng hành")
+                  ? Math.min(10, finalS + 1)
+                  : (relType === "Tương khắc" || relType === "Bị tiết")
+                  ? Math.max(1, finalS - 1)
+                  : finalS;
+
+const scoreText = `
+🔥 Công việc: ${finalS}/10
+💰 Tài lộc: ${scoreMoney}/10
+❤️ Tình cảm: ${scoreLove}/10
+🩺 Sức khỏe: ${scoreHealth}/10
+`;
+	let hDaoIdx = hoangDaoMap[chD] || [];
+	let gioHoangDao = [];
+	let gioHacDao = [];
+
+for(let i=0; i<12; i++) {
+    let chiGio = chi[i];
+    let tenGio = gioChi[i];
+    let hopTuoi = (lucHop[chU] === chiGio) || (tamHop[chU] === chiGio);
+    let xungTuoi = (lucXung[chU] === chiGio);
+
+    if(hDaoIdx.includes(i)){
+        gioHoangDao.push(hopTuoi ? `${tenGio} ⭐` : tenGio);
+    } else {
+        gioHacDao.push(xungTuoi ? `${tenGio} ⚠️` : tenGio);
+    }
+}
+
+
+    
+	// === HẾT ĐOẠN CHÈN THÊM ===	
+
+	// 🤖 Lưu lại ngữ cảnh NGÀY để nút "Luận chuyên sâu ngũ hành hôm nay" (runAIDoDont) dùng lại.
+	// Tách riêng khỏi __tuviYearContext (tab Trọn Năm) để 2 tab không ghi đè context của nhau.
+	window.__tuviDayContext = {
+	    genderV, ngayXau,
+	    cU, chU, cD, chD, eU, eD, nU, nD, tietKhi, relType, finalS, viewYear, dateV, yearV
+	};
+
+	document.getElementById("out").innerHTML = `
+        <div class="result-card ${finalS >= 8 ? 'good' : (finalS >= 6 ? 'normal' : 'bad')}">
+            <div class="header-info">
+                👤 Bản mệnh: <b>${cU} ${chU} - ${nU}</b><br>
+                📅 Ngày xem: <b>${cD} ${chD} - ${nD}</b><br>
+                🌿 Tiết khí: 
+				<span style="${getTietKhiStyle(tietKhi)}">
+                ${getTietKhiIcon(tietKhi)} ${tietKhi}
+                </span><br>
+                <div style="margin-top:8px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                    <span style="font-size:12px; opacity:0.85;">📋 Trực ngày:</span>
+                    <span class="truc-badge truc-${trucInfo.type || 'normal'}">
+                        ${trucInfo.icon || '📌'} ${truc} — ${trucInfo.short || ''}
+                    </span>
+                </div>
+                <div style="margin-top:8px; font-size:12px; opacity:0.9;">
+                    🌙 Ngày âm lịch: <b>${ngayXau.am.lDay}/${ngayXau.am.lMonth}${ngayXau.am.lLeap ? " (nhuận)" : ""}</b> năm <b>${getYearCanChi(ngayXau.am.lYear)[0]} ${getYearCanChi(ngayXau.am.lYear)[1]}</b>${ngayLeHomNay.length > 0 ? ` <span style="color:#b45309;">— 🎊 ${ngayLeHomNay.map(l=>l.ten).join(", ")}</span>` : ''}
+                </div>
+                <div style="margin-top:6px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    ${ngayXau.canhBao.length > 0
+                        ? ngayXau.canhBao.map(cb => `<span class="truc-badge truc-bad" title="${cb.mota}">⚠️ ${cb.ten}</span>`).join("")
+                        : `<span class="truc-badge truc-good">✅ Không phạm Tam Nương / Nguyệt Kỵ / Sát Chủ</span>`
+                    }
+                </div>
+                ${ngayXau.canhBao.length > 0 ? `<div style="margin-top:6px;font-size:11.5px;opacity:0.85;line-height:1.5;">${ngayXau.canhBao.map(cb => `⚠️ <b>${cb.ten}:</b> ${cb.mota}`).join("<br>")}</div>` : ''}
+            </div>
+
+            <!-- SAO NGÀY -->
+            <div class="stars-section">
+                <div style="font-size:12px; font-weight:700; color:#475569; margin-bottom:4px;">⭐ SAO NGÀY</div>
+                <div class="stars-row">
+                    ${catStars.map(s => `<span class="star-badge star-cat">✨ ${s}</span>`).join("")}
+                    ${hungStars.slice(0,2).map(s => `<span class="star-badge star-hung">☁️ ${s}</span>`).join("")}
+                </div>
+                <div class="truc-detail">
+                    📋 <b>${truc}:</b> ${trucInfo.desc || ''} <span style="color:#dc2626;">🚫 Nên tránh: ${trucInfo.avoid || ''}</span>
+                </div>
+                <div class="truc-detail" style="margin-top:6px;">
+                    ${ngayThan.loai === 'hoang' ? '🟢' : '🔴'} <b>Ngày ${ngayThan.than} (${ngayThan.loai === 'hoang' ? 'Hoàng Đạo' : 'Hắc Đạo'}):</b> ${ngayThan.mota}
+                    <span style="color:${ngayThan.loai === 'hoang' ? '#16a34a' : '#dc2626'};">${ngayThan.loai === 'hoang' ? '✅ Nên: ' : '🚫 Kỵ: '}${ngayThan.nen}</span>
+                </div>
+            </div>
+
+            <div class="luan-content">
+
+    ${danhGiaViec ? `
+    <div style="margin:0 0 12px; padding:14px; background:${danhGiaViec.mauSac}14; border:2px solid ${danhGiaViec.mauSac}; border-radius:12px; text-align:center;">
+        <div style="font-size:12px; color:#64748b; margin-bottom:4px;">🎯 Đánh giá cho việc: <b>${danhGiaViec.viec}</b></div>
+        <div style="font-size:16px; font-weight:800; color:${danhGiaViec.mauSac};">${danhGiaViec.icon} ${danhGiaViec.verdict}</div>
+        <div style="font-size:11.5px; color:#64748b; margin-top:6px;">Dựa trên Trực <b>${truc}</b> (${trucInfo.short || ''}) kết hợp Ngày ${ngayThan.than} (${ngayThan.loai === 'hoang' ? 'Hoàng Đạo' : 'Hắc Đạo'}) — nhớ chọn thêm khung giờ Hoàng Đạo ở mục "Đánh giá các khung giờ" bên dưới để tăng thêm phần chắc chắn.</div>
+    </div>` : ''}
+
+    <div style="margin:0 0 12px; padding:12px 14px; background:linear-gradient(135deg,#fef9e7,#fdf2e9); border:1px dashed #d4af37; border-radius:10px; font-size:12.5px; line-height:1.7; text-align:center; font-style:italic; color:#5b4636;">
+        📜 “${chamNgonHomNay}”
+    </div>
+
+    <b>🧠 TỔNG QUAN </b><br>
+    <div style="margin-bottom:10px; font-size:13px; line-height:1.6;">
+    ${scoreText.replace(/\n/g, "<br>")}
+    </div>
+
+    ${luan}
+    
+	<div style="height:10px"></div>
+    <b>🤖 KẾT LUẬN </b><br>
+   <div style="margin-bottom:8px;">
+🔑 Từ khóa hôm nay: <b>${todayKey}</b>
+   </div>
+
+   ${aiText}
+    
+	<div style="height:10px"></div>
+    <b style="display:block; margin-top:10px;">📌 VIỆC NÊN / KHÔNG NÊN </b>
+    
+	<div class="do-dont">
+    <div class="dd-box do">
+        <b>✅ Nên làm</b>
+        <ul style="margin:6px 0 0 15px; padding:0;">
+            ${shouldDo.map(i => `<li>${i}</li>`).join("")}
+        </ul>
+    </div>
+
+    <div class="dd-box dont">
+        <b>❌ Nên tránh</b>
+        <ul style="margin:6px 0 0 15px; padding:0;">
+            ${avoid.map(i => `<li>${i}</li>`).join("")}
+        </ul>
+    </div>
+</div>
+
+<div style="text-align:center;margin-top:10px;">
+    <button onclick="runAIDoDont()" style="width:auto;height:auto;padding:9px 16px;font-size:12px;background:linear-gradient(45deg,#7c3aed,#db2777);border:none;border-radius:12px;color:white;font-weight:bold;cursor:pointer;letter-spacing:0.5px;">🔍 LUẬN CHUYÊN SÂU NGŨ HÀNH HÔM NAY</button>
+</div>
+<div id="aiDoDontResult" style="display:none;"></div>
+	
+    <div style="height:10px"></div>
+    <div class="section">
+    <b>🩺 SỨC KHỎE </b><br>
+    Mệnh: <b>${eU}</b> | TIẾT KHÍ (${tietKhi}): <b>${getSeason(tietKhi)}</b><br>
+    ${sucKhoe}<br>
+    ${loiKhuyen}
+</div>
+
+    <div style="height:10px"></div>
+    
+   <b>⏰ ĐÁNH GIÁ CÁC KHUNG GIỜ </b><br>
+   
+    <div class="time-item good">
+        💎 Giờ Hoàng Đạo (nên dùng): ${gioHoangDao.join(", ")}
+    </div>
+	<div style="height:10px"></div>
+    <div class="time-item bad">
+        ❌ Giờ Hắc Đạo (nên tránh): ${gioHacDao.join(", ")}
+    </div>
+    <div style="font-size:11px;color:#94a3b8;margin-top:6px;">⭐ = đặc biệt hợp tuổi bạn &nbsp;|&nbsp; ⚠️ = đặc biệt xung tuổi bạn, nên tránh trước tiên trong nhóm giờ xấu</div>
+</div>
+</div>
+
+<!-- YẾU TỐ MAY MẮN -->
+<div class="lucky-section">
+    <div class="lucky-section-title">✨ YẾU TỐ MAY MẮN NGÀY ${cD} ${chD}</div>
+    <div class="lucky-grid-3">
+        <div class="lucky-card">
+            <div class="lucky-card-label">Màu sắc</div>
+            <div class="color-dots">
+                ${colorData.hex.map(h=>`<span class="color-dot" style="background:${h}"></span>`).join("")}
+            </div>
+            <div class="lucky-card-value" style="font-size:11px; margin-top:3px;">${colorData.colors.join(", ")}</div>
+        </div>
+        <div class="lucky-card">
+            <div class="lucky-card-label">Số may mắn</div>
+            <div class="lucky-card-value">${luckyNums.join(" · ")}</div>
+            <div class="lucky-card-sub">Hành ${eD}</div>
+        </div>
+        <div class="lucky-card">
+            <div class="lucky-card-label">Hướng tốt</div>
+            <div class="lucky-card-value" style="font-size:12px;">${luckyDir}</div>
+            <div class="lucky-card-sub" style="color:#f87171;">Tránh: ${avoidDir}</div>
+        </div>
+    </div>
+    <div style="margin-top:10px; padding:10px; background:rgba(212,175,55,0.12); border:1px solid rgba(212,175,55,0.3); border-radius:10px; font-size:12.5px; color:#fde68a;">
+        💰 <b>Thần Tài</b> hướng <b>${thanTai}</b> — Cúng hoặc mở cửa hướng này để chiêu tài lộc
+    </div>
+</div>
+</div>
+`;
+
+    // 🔥 FIX: destroy chart cũ
+    if(chart) chart.destroy();
+    document.getElementById("chart-wrap").style.display = "block";
+
+    chart = new Chart(document.getElementById("chart"), {
+        type: 'bar',
+        data: {
+            labels: ["💼 Công việc","💰 Tài lộc","❤️ Tình cảm","🩺 Sức khỏe"],
+            datasets: [{
+    data: [finalS, scoreMoney, scoreLove, scoreHealth],
+    backgroundColor: ['rgba(59,130,246,0.75)','rgba(16,185,129,0.75)','rgba(239,68,68,0.75)','rgba(245,158,11,0.75)'],
+    borderColor: ['#3b82f6','#10b981','#ef4444','#f59e0b'],
+    borderWidth: 1.5,
+    borderRadius: 8,
+    maxBarThickness: 56,
+}]
+        },
+        options: {
+    scales: {
+        y: {
+            beginAtZero: true,
+            max: 10,
+            min: 0,
+            ticks: { stepSize: 2, font: { size: 11 } },
+            grid: { color: 'rgba(0,0,0,0.08)' }
+        },
+        x: {
+            ticks: { font: { size: 11, weight: '600' }, color: '#334155' },
+            grid: { display: false }
+        }
+    },
+    plugins: {
+        legend: { display: false },
+        tooltip: {
+            callbacks: {
+                label: function(context) {
+                    return "Điểm: " + context.raw + "/10";
+                }
+            }
+        }
+    }
+}
+    });
+}
+
+// ===================================================================
+// 🌟 KHO DỮ LIỆU VÀ CÁC HÀM XỬ LÝ SAO HẠN - KIM LÂU - HOANG ỐC - LUẬN AI
+// ===================================================================
+const DATA_SAO_CUU_DIEU = {
+    "La Hầu": {
+        Nam: "Sao xấu, hung tinh. Chủ về hao tán tiền bạc, thị phi, công quyền pháp lý, cần đề phòng các bệnh về tai mắt, máu huyết.",
+        Nữ: "Sao trung tính, ít nặng hơn nam nhưng vẫn cần giữ mồm giữ miệng, tránh tranh chấp cãi vã kẻo mang tai tiếng vạ gió.",
+        chuy: "Tháng Giêng và tháng 7 âm lịch là hai tháng động, hạn chế đầu tư mạo hiểm, không tham gia thị phi hay đứng ra bao đồng."
+    },
+    "Thổ Tú": {
+        Nam: "Sao trung tính. Dễ gặp tiểu nhân gièm pha, gia đạo có chút bất an nhẹ, xuất hành đi xa không thuận lắm.",
+        Nữ: "Tương đối bình hòa nhưng cần chú ý lời ăn tiếng nói, tránh ngủ muộn suy nghĩ tiêu cực sinh tâm bệnh.",
+        chuy: "Kỵ nhất tháng 4 và tháng 8 âm lịch. Không nên nuôi vật nuôi mới hoặc ký kết những cam kết mơ hồ."
+    },
+    "Thủy Diệu": {
+        Nam: "Cát tinh chủ về tài lộc, có hỷ sự buôn bán thuận lợi. Tuy nhiên cần tránh vùng sông nước sâu.",
+        Nữ: "Rất tốt cho công danh sự nghiệp, tài lộc dồi dào. Nhưng cẩn thận khẩu thiệt, đố kỵ từ đồng nghiệp nữ.",
+        chuy: "Kỵ tháng 4 và tháng 8 âm lịch chủ về tai nạn sông nước hoặc thị phi nhỏ, đi lại vùng biển, phà sông phải chú ý."
+    },
+    "Thái Bạch": {
+        Nam: "Triều dương tinh, hung tinh cực mạnh về tiền tài. Chủ về hao tài tốn của, làm nhiều đổ bể nhiều, phòng bệnh nội tạng.",
+        Nữ: "Hạn rất nặng về tài chính lẫn sức khỏe, dễ bị người khác lừa gạt kinh doanh hoặc mất cắp tiền của.",
+        chuy: "Kỵ nhất tháng 5 âm lịch. Giữ nguyên mô hình cũ, tuyệt đối không cho vay mượn lớn hay hùn vốn làm ăn năm nay."
+    },
+    "Thái Dương": {
+        Nam: "Đại cát tinh. Công danh hiển đạt, quý nhân phù trợ, kinh doanh phát tài phát lộc, gặp hung hóa cát.",
+        Nữ: "Sao trung tính với nữ. Có thể gặp bất lợi về sức khỏe hoặc sự bất đồng với nam giới trong gia đạo.",
+        chuy: "Tốt nhất vào tháng 6 và tháng 10 âm lịch. Nữ giới cần nhún nhường, tránh lấn át chồng/cha trong gia đình."
+    },
+    "Vân Hớn": {
+        Nam: "Hung tinh nhẹ. Công việc trung bình, dễ bảo thủ, tính tình nóng nảy sinh tranh chấp, phòng thương tật nhẹ.",
+        Nữ: "Dễ vướng vào tranh cãi lời qua tiếng lại, thai sản (nếu có) cần chăm sóc kỹ lưỡng.",
+        chuy: "Nặng nhất tháng 2 và tháng 8 âm lịch. Nên giữ tâm thế bình tĩnh, không nên đôi co thắng thua ngoài đường."
+    },
+    "Kế Đô": {
+        Nam: "Hung tinh hung tợn. Chủ về ám muội, lo âu, tai tiếng, tiền bạc thất thoát khó kiểm soát, tâm trạng u sầu.",
+        Nữ: "Đại hung tinh với nữ giới. Dễ gặp tai tiếng thị phi đại hạn, gia đạo sóng gió. Riêng phụ nữ mang thai lại gặp may.",
+        chuy: "Kỵ nhất tháng 3 và tháng 9 âm lịch. Tối kỵ nghe lời đường mật dụ dỗ đầu tư tài chính ảo."
+    },
+    "Thái Âm": {
+        Nam: "Cát tinh tốt cho cả nam lẫn nữ. Chủ về danh lợi, tài lộc dồi dào, toại nguyện về đất đai nhà cửa.",
+        Nữ: "Cực kỳ hanh thông, tinh thần vui vẻ, có cơ hội thăng tiến sự nghiệp mạnh mẽ.",
+        chuy: "Cát tinh cực vượng vào tháng 9 âm lịch. Tháng 11 âm lịch cần chú ý giữ ấm cơ thể tránh cảm lạnh."
+    },
+    "Mộc Đức": {
+        Nam: "Cát tinh vương giả. Chủ về hôn sự, quý nhân nâng đỡ, học hành đỗ đạt, gặp may mắn bất ngờ.",
+        Nữ: "Tốt lành, công việc hanh thông, sức khỏe có chút lưu ý về các bệnh máu huyết nhẹ.",
+        chuy: "Rất tốt vào tháng 10 và tháng Chạp âm lịch. Có cơ hội thăng quan tiến chức rõ rệt."
+    }
+};
+
+
+// ===================================================================
+// 🕯️ DỮ LIỆU TĨNH: NGHI LỄ CÚNG SAO HẠN (tham khảo dân gian phổ biến)
+// Luôn hiển thị sẵn, không cần AI — AI chỉ bổ sung thêm phần phân tích
+// thuận lợi/khó khăn chuyên sâu và cá nhân hóa nghi lễ.
+// ===================================================================
+const DATA_NGHI_LE_SAO_HAN = {
+    "La Hầu":     { tinhQuan: "Thiên Cung Thần Thủ La Hầu Tinh Quân",     ngay: "Mùng 8",  gio: "Giờ Hợi (21h-23h)", huong: "Chính Bắc", soDen: 9,  mau: "Vàng",             ghiChu: "Hung tinh chủ thị phi, hao tài — nên cúng đều đặn hằng tháng để giải trừ." },
+    "Thổ Tú":     { tinhQuan: "Trung Ương Mậu Kỷ Thổ Đức Tinh Quân",      ngay: "Ngày 19", gio: "Giờ Dậu (17h-19h)",                       huong: "Đông Bắc",  soDen: 5,  mau: "Vàng đất",         ghiChu: "Sao trung tính — cúng để gia trạch yên ổn, tránh tiểu nhân gièm pha." },
+    "Thủy Diệu":  { tinhQuan: "Bắc Phương Nhâm Quý Thủy Đức Tinh Quân",   ngay: "Ngày 21", gio: "Giờ Hợi (21h-23h)",                         huong: "Chính Bắc", soDen: 7,  mau: "Đen / Xanh dương", ghiChu: "Cát tinh về tài lộc — vẫn nên cúng an gia trấn trạch, tránh chủ quan." },
+    "Thái Bạch":  { tinhQuan: "Tây Phương Canh Tân Kim Đức Tinh Quân",    ngay: "Rằm (15)", gio: "Giờ Dậu (17h-19h)",                      huong: "Chính Tây", soDen: 8,  mau: "Trắng",             ghiChu: "Hung tinh nặng về tài chính — cúng nghiêm túc, tránh cho vay/hùn vốn lớn trong tháng." },
+    "Thái Dương": { tinhQuan: "Nhật Cung Thái Dương Thiên Tử Tinh Quân",  ngay: "Ngày 27", gio: "Giờ Mão (5h-7h) hoặc giờ Dậu (17h-19h)",         huong: "Chính Đông", soDen: 12, mau: "Đỏ / Cam",         ghiChu: "Cát tinh công danh — nên cúng trọng thể để cầu quan lộc, đặc biệt với nam mạng." },
+    "Vân Hớn":    { tinhQuan: "Nam Phương Bính Đinh Hỏa Đức Tinh Quân",   ngay: "Ngày 29", gio: "Giờ Hợi (21h-23h)",                       huong: "Chính Nam", soDen: 15, mau: "Đỏ",               ghiChu: "Hung tinh nhẹ, dễ nóng giận thị phi — cúng để giữ hòa khí, tránh tranh chấp." },
+    "Kế Đô":      { tinhQuan: "Thiên Vĩ Cung Phân Kế Đô Tinh Quân",       ngay: "Ngày 18", gio: "Giờ Tuất (19h-21h)",                       huong: "Chính Tây", soDen: 21, mau: "Vàng",             ghiChu: "Đại hung tinh, nặng nhất với nữ mạng — nên cúng đều đặn, thành tâm mỗi tháng." },
+    "Thái Âm":    { tinhQuan: "Nguyệt Cung Thái Âm Hoàng Hậu Tinh Quân",  ngay: "Ngày 26", gio: "Giờ Dậu (17h-19h)",                       huong: "Chính Tây", soDen: 7,  mau: "Trắng / Bạc",      ghiChu: "Cát tinh, đặc biệt tốt với nữ mạng — cúng để tăng thêm phần may mắn, danh lợi." },
+    "Mộc Đức":    { tinhQuan: "Đông Phương Giáp Ất Mộc Đức Tinh Quân",    ngay: "Ngày 25", gio: "Giờ Dậu (17h-19h)",                       huong: "Chính Đông", soDen: 20, mau: "Xanh lá",          ghiChu: "Cát tinh vương giả — cúng để giữ vững phúc lộc và quý nhân đã có." }
+};
+
+const LE_VAT_CUNG_SAO_CHUNG = [
+    "Hương (nhang) và đèn/nến (đúng số lượng theo sao chiếu mệnh)",
+    "Mâm ngũ quả tươi",
+    "Trầu cau",
+    "Gạo, muối sạch",
+    "Nước sạch và rượu trắng",
+    "Xôi chè hoặc chè trôi nước (tùy phong tục từng vùng miền)"
+];
+
+// Lễ vật RIÊNG theo từng sao — phản ánh ngũ hành và tính chất cát/hung của từng sao,
+// tránh việc 9 sao dùng chung 1 danh sách giống hệt nhau.
+const LE_VAT_RIENG_THEO_SAO = {
+    "La Hầu": [
+        "Hoa cúc vàng hoặc hoa màu vàng (hợp hành Kim của sao)",
+        "1 đĩa muối gạo riêng, sau khi cúng xong đem rắc ra trước cửa nhà theo 4 hướng để giải trừ thị phi",
+        "Có thể đặt thêm 1 viên đá thạch anh đen hoặc vật phẩm màu đen nhỏ gần mâm lễ (không bắt buộc) để hộ mệnh trong năm"
+    ],
+    "Thổ Tú": [
+        "Hoa màu vàng đất hoặc hoa cúc",
+        "Vài lát gừng tươi đặt cạnh mâm lễ, mang ý nghĩa trấn an gia trạch",
+        "Nếu trong nhà có nuôi vật nuôi, nên thắp thêm 1 nén hương riêng ở khu vực chuồng trại/sân vườn"
+    ],
+    "Thủy Diệu": [
+        "Hoa màu trắng hoặc xanh dương nhạt",
+        "Ly nước sạch nên đặt hướng Bắc, để lâu hơn các lễ vật khác một chút trước khi hạ lễ",
+        "Có thể thêm cá chép giấy tượng trưng (nếu không tiện phóng sinh cá thật) đặt cạnh mâm lễ"
+    ],
+    "Thái Bạch": [
+        "Hoa màu trắng (tránh hoa quá sặc sỡ, phô trương)",
+        "1 đồng tiền xu cũ đặt lên mâm lễ, mang ý nghĩa giữ của trong năm hao tài",
+        "Vàng mã nên chuẩn bị đơn giản, vừa đủ — tránh mua sắm lễ vật cầu kỳ, tốn kém trong năm này"
+    ],
+    "Thái Dương": [
+        "Hoa màu đỏ hoặc cam (hợp hành Hỏa, thay vì cúc vàng thông thường)",
+        "1 đĩa bánh hoặc oản màu đỏ",
+        "Nên bày lễ ở nơi có ánh sáng tốt, thoáng đãng nếu cúng buổi sáng sớm"
+    ],
+    "Vân Hớn": [
+        "Hoa màu trắng hoặc xanh lá (dịu, tránh hoa quá sặc sỡ vì sao chủ nóng nảy)",
+        "Không nên đốt quá nhiều vàng mã cùng lúc — làm lễ chậm rãi, tránh vội vàng",
+        "Có thể thêm 1 ly nước mát đặt cạnh mâm lễ, mang ý nghĩa hạ hỏa"
+    ],
+    "Kế Đô": [
+        "Hoa màu vàng nhạt hoặc trắng, tránh màu quá sặc sỡ",
+        "Nữ mạng có thể đặt thêm 1 chuỗi hạt/tràng hạt cạnh mâm lễ để cầu bình an",
+        "Vàng mã chuẩn bị trang nhã, không cần cầu kỳ — quan trọng ở sự thành tâm"
+    ],
+    "Thái Âm": [
+        "Hoa màu trắng hoặc bạc (thay vì cúc vàng thông thường)",
+        "Thêm 1 đĩa bánh trôi hoặc bánh ít, mang ý nghĩa viên mãn",
+        "Có thể thêm chút phấn/nước hoa nhẹ trên bàn lễ (theo tục một số vùng), không bắt buộc"
+    ],
+    "Mộc Đức": [
+        "Hoa màu xanh lá hoặc hoa tươi nhiều màu (sao vương giả, cát khí)",
+        "Một cành lộc nhỏ hoặc chậu cây con đặt gần bàn thờ trong tháng cúng",
+        "Nếu năm nay có việc cưới hỏi/thi cử, có thể khấn riêng thêm nguyện vọng đó khi hành lễ"
+    ]
+};
+
+// Gợi ý ăn chay - phóng sinh - xuất hành để hỗ trợ hóa giải sao hạn, tự soạn theo tục lệ phổ biến.
+const LOI_KHUYEN_CHAY_PHONG_SINH = {
+    default: {
+        anChay: "Nên ăn chay vào đúng ngày cúng sao trong tháng (hoặc thêm ngày mùng 1, ngày Rằm) để thanh tịnh thân tâm trước khi hành lễ.",
+        phongSinh: "Phóng sinh chim, cá hoặc các loài vật nhỏ vào đúng ngày cúng sao hoặc trong tuần lễ đó, số lượng tùy tâm, quan trọng là thành tâm chứ không cần nhiều.",
+        xuatHanh: "Nếu cần xuất hành xa trong tháng có hạn nặng, nên chọn ngày Hoàng Đạo, tránh giờ Hắc Đạo và các ngày xấu trong tháng (xem mục Ngày Âm Lịch & Ngày Cần Lưu Ý bên trên).",
+        tuThien: "Làm từ thiện, giúp đỡ người khó khăn trong năm có hạn là cách hóa giải được tin là hiệu quả nhất theo dân gian — không cần chờ đúng ngày, nhưng nếu kết hợp vào các ngày lễ/rằm lớn trong năm thì ý nghĩa được nhân lên (xem gợi ý các ngày bên dưới)."
+    }
+};
+
+// Các ngày lễ/rằm lớn trong năm phù hợp để làm việc thiện, phóng sinh, ăn chay kết hợp hóa giải sao hạn.
+// "am" = ngày âm lịch (lặp lại theo âm lịch mỗi năm), "duong" = ngày dương lịch cố định.
+// Câu châm ngôn/ca dao tục ngữ mỗi ngày, kiểu tờ lịch treo tường — nhưng chọn theo ĐÚNG tương quan
+// ngày xem với bản mệnh (relType: Sinh nhập/Sinh xuất/Tương khắc/Bị tiết/Đồng hành/Bình hòa) để câu
+// châm ngôn thực sự ăn khớp với tinh thần luận giải hôm đó, không còn chọn ngẫu nhiên lạc chủ đề.
+// Vẫn chọn cố định theo ngày xem (không đổi mỗi lần bấm lại) nhờ seed theo Julian Day.
+const CHAM_NGON_BY_REL = {
+    "Sinh nhập": [ // ngày nuôi dưỡng mệnh — thuận lợi, được trợ giúp, nên nắm lấy cơ hội
+        "Ăn quả nhớ kẻ trồng cây.",
+        "Uống nước nhớ nguồn.",
+        "Thời đến cản không kịp, vận đến cưỡng không được — hãy nắm lấy cơ hội hôm nay.",
+        "Trời sinh voi, trời sinh cỏ.",
+        "Cơ hội đến, người khôn ngoan biết nắm lấy ngay.",
+        "Được mùa chớ phụ ngô khoai, đến khi thất bát lấy ai bạn cùng.",
+        "Ở hiền gặp lành.",
+        "Có quý nhân phù trợ, muôn sự hanh thông.",
+        "Khi cơ hội gõ cửa, đừng để nó đứng đợi ngoài hiên quá lâu. — ST",
+        "Người may mắn không phải là người chưa từng gặp khó khăn, mà là người biết nắm lấy đúng thời điểm để bứt lên. — ST",
+        "Có những ngày cuộc đời tự nhiên rộng lòng với ta, hãy đón nhận bằng lòng biết ơn thay vì sự hoài nghi. — ST",
+        "Đằng sau mỗi thành công đều có bóng dáng của một ai đó đã âm thầm nâng đỡ ta trên đường đi. — ST"
+    ],
+    "Sinh xuất": [ // mệnh phải nuôi dưỡng ngày — bỏ công sức, chưa thấy quả ngay, cần kiên trì
+        "Có công mài sắt, có ngày nên kim.",
+        "Kiến tha lâu cũng đầy tổ.",
+        "Muốn ăn quả ngọt, phải chăm sóc cây từ khi còn nhỏ.",
+        "Không có việc gì khó, chỉ sợ lòng không bền.",
+        "Nước chảy đá mòn.",
+        "Cái khó ló cái khôn.",
+        "Gieo nhân nào, gặt quả nấy — gieo hôm nay, gặt ngày mai.",
+        "Trồng cây gây rừng, đời sau hưởng phúc.",
+        "Không phải hạt giống nào gieo hôm nay cũng nở hoa ngày mai, nhưng chắc chắn sẽ chẳng có bông hoa nào nếu ta không gieo trồng. — ST",
+        "Sự kiên nhẫn không phải là ngồi yên chờ đợi, mà là tiếp tục cố gắng ngay cả khi kết quả còn ở rất xa. — ST",
+        "Cho đi khi chưa chắc sẽ nhận lại là một loại bản lĩnh, không phải sự dại khờ. — ST",
+        "Đường dài mới biết ngựa hay, ở lâu mới biết lòng người có bền hay không. — ST"
+    ],
+    "Tương khắc": [ // xung khắc — khó khăn, trở ngại, cần bền chí vượt qua
+        "Chớ thấy sóng cả mà ngã tay chèo.",
+        "Lửa thử vàng, gian nan thử sức.",
+        "Đường đi khó, không khó vì ngăn sông cách núi, mà khó vì lòng người ngại núi e sông.",
+        "Sông có khúc, người có lúc.",
+        "Chớ vội mừng khi thắng, chớ vội nản khi thua.",
+        "Thất bại là mẹ thành công.",
+        "Có chí thì nên.",
+        "Ai ơi giữ chí cho bền, dù ai xoay hướng đổi nền mặc ai.",
+        "Khi bạn cười, cả thế giới sẽ cười với bạn. Nếu bạn khóc, bạn chỉ có thể một mình rơi nước mắt mà thôi. — ST",
+        "Sóng gió không phải để nhấn chìm ta, mà để dạy ta cách bơi giỏi hơn mỗi ngày. — ST",
+        "Không ai đánh thuế sự cố gắng, vậy nên hãy cứ cố gắng thêm một chút nữa trước khi bỏ cuộc. — ST",
+        "Đêm tối nào rồi cũng có bình minh chờ ở cuối con đường, miễn là ta chưa dừng bước. — ST"
+    ],
+    "Bị tiết": [ // ngày hao tổn sức mệnh — cần thận trọng, tiết chế, giữ sức
+        "Sự bình an trong tâm quý hơn ngàn vàng.",
+        "Chậm mà chắc.",
+        "Đói cho sạch, rách cho thơm.",
+        "Giấy rách phải giữ lấy lề.",
+        "Của bền tại người.",
+        "Một điều nhịn, chín điều lành.",
+        "Biết đủ là đủ, chờ đủ thì chẳng bao giờ đủ.",
+        "Tiên trách kỷ, hậu trách nhân.",
+        "Người khôn ngoan không phải người không bao giờ mệt, mà là người biết khi nào cần dừng lại để nghỉ ngơi. — ST",
+        "Giữ gìn sức khỏe hôm nay chính là món quà quý giá nhất bạn tặng cho chính mình của ngày mai. — ST",
+        "Đôi khi im lặng và lùi lại một bước không phải là thua cuộc, mà là để bước tiếp vững vàng hơn. — ST",
+        "Của cải mất đi còn có thể tìm lại, nhưng sức khỏe và thời gian một khi đã mất thì không bao giờ quay về. — ST"
+    ],
+    "Đồng hành": [ // cùng hành với mệnh — hợp tác, đồng lòng, tránh cạnh tranh nội bộ
+        "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao.",
+        "Muốn đi nhanh thì đi một mình, muốn đi xa thì đi cùng nhau.",
+        "Ngựa chạy có bầy, chim bay có bạn.",
+        "Đoàn kết là sức mạnh.",
+        "Chị ngã em nâng.",
+        "Anh em như thể tay chân.",
+        "Bẻ đũa chẳng bẻ được cả nắm.",
+        "Chín người mười ý, hòa hợp mới nên việc lớn.",
+        "Một mình ta có thể đi nhanh, nhưng có nhau ta mới đi được thật xa. — ST",
+        "Tình bạn chân thành giống như đôi tay — dù không nói ra nhưng vẫn luôn âm thầm nâng đỡ nhau. — ST",
+        "Sức mạnh của một tập thể không nằm ở việc luôn đồng ý với nhau, mà ở việc biết lắng nghe nhau khi bất đồng. — ST",
+        "Người bạn tốt là người vẫn còn ở lại khi cả thế giới đã quay lưng rời đi. — ST"
+    ],
+    "Bình hòa": [ // trung tính — ổn định, đều đặn, giữ nhịp
+        "An cư lạc nghiệp.",
+        "Tốt gỗ hơn tốt nước sơn.",
+        "Việc hôm nay chớ để ngày mai.",
+        "Trước lạ sau quen.",
+        "Cần cù bù thông minh.",
+        "Học, học nữa, học mãi.",
+        "Muốn biết phải hỏi, muốn giỏi phải học.",
+        "Tấc đất tấc vàng.",
+        "Hạnh phúc không phải là đích đến, mà là cách ta bước đi trên mỗi chặng đường bình dị hằng ngày. — ST",
+        "Mỗi ngày bình yên trôi qua cũng là một ngày đáng được trân trọng, dù chẳng có gì nổi bật để kể lại. — ST",
+        "Đừng đánh giá thấp những ngày tưởng chừng như không có gì đặc biệt, vì chính chúng đang âm thầm nuôi lớn ta. — ST",
+        "Sự ổn định không phải là tẻ nhạt, mà là nền móng vững chắc cho mọi điều lớn lao về sau. — ST"
+    ]
+};
+
+const NGAY_LE_LAM_THIEN = [
+    { ten: "Tết Nguyên Đán",            ngay: "Mùng 1 tháng Giêng", loai: "am", dd:[1], mm:1,   goiY: "Lì xì, tặng quà Tết cho người già neo đơn, trẻ em có hoàn cảnh khó khăn." },
+    { ten: "Vía Thần Tài",              ngay: "Mùng 10 tháng Giêng", loai: "am", dd:[10], mm:1, goiY: "Ngoài cầu tài lộc, nên trích một phần nhỏ làm công đức, giúp người khó khăn để lộc được bền." },
+    { ten: "Tết Nguyên Tiêu (Rằm tháng Giêng)", ngay: "15 tháng Giêng", loai: "am", dd:[15], mm:1, goiY: "Đi chùa cầu an, cúng dường, phát tâm bồ đề đầu năm." },
+    { ten: "Tết Hàn Thực",              ngay: "3 tháng 3",          loai: "am", dd:[3], mm:3,   goiY: "Làm bánh trôi bánh chay chia sẻ hàng xóm, tặng quà người neo đơn." },
+    { ten: "Giỗ Tổ Hùng Vương",         ngay: "10 tháng 3",         loai: "am", dd:[10], mm:3,  goiY: "Hướng về cội nguồn — có thể góp công đức tu bổ đình chùa, nhà thờ họ." },
+    { ten: "Phật Đản",                  ngay: "15 tháng 4",         loai: "am", dd:[15], mm:4,  goiY: "Ăn chay, phóng sinh, cúng dường Tam Bảo, tham gia các hoạt động thiện nguyện của chùa." },
+    { ten: "Tết Đoan Ngọ",              ngay: "5 tháng 5",          loai: "am", dd:[5], mm:5,   goiY: "Chia sẻ hoa quả, bánh trái đầu mùa cho người xung quanh; phóng sinh giải trừ sâu bọ theo quan niệm dân gian." },
+    { ten: "Xá tội vong nhân / Vu Lan", ngay: "15 tháng 7",         loai: "am", dd:[15], mm:7,  goiY: "Báo hiếu cha mẹ, cúng dường, phóng sinh, làm từ thiện tưởng nhớ người đã khuất — ngày tốt nhất trong năm để tích đức hóa giải hạn nặng." },
+    { ten: "Tết Trung Thu",             ngay: "15 tháng 8",         loai: "am", dd:[15], mm:8,  goiY: "Tặng quà, lồng đèn, bánh trung thu cho trẻ em vùng khó khăn." },
+    { ten: "Rằm tháng 10 (Tết Hạ Nguyên)", ngay: "15 tháng 10",     loai: "am", dd:[15], mm:10, goiY: "Cúng tạ ơn trời đất, làm phước cuối năm, hỗ trợ người khó khăn trước mùa đông." },
+    { ten: "Cúng Ông Táo",              ngay: "23 tháng Chạp",      loai: "am", dd:[23], mm:12, goiY: "Dọn dẹp nhà cửa, quyên góp quần áo/đồ dùng cũ còn tốt cho người cần trước Tết." },
+    { ten: "Quốc tế Phụ nữ",            ngay: "8 tháng 3",          loai: "duong", dd:[8],    mm:3,  goiY: "Tri ân, hỗ trợ phụ nữ có hoàn cảnh khó khăn, nạn nhân bạo lực gia đình." },
+    { ten: "Giải phóng miền Nam",       ngay: "30 tháng 4",         loai: "duong", dd:[30],   mm:4,  goiY: "Tri ân gia đình chính sách, thương binh liệt sĩ." },
+    { ten: "Ngày Gia đình Việt Nam",    ngay: "28 tháng 6",         loai: "duong", dd:[28],   mm:6,  goiY: "Sum họp, thăm hỏi và hỗ trợ các gia đình neo đơn, khó khăn trong khu phố." },
+    { ten: "Quốc khánh",                ngay: "2 tháng 9",          loai: "duong", dd:[2],    mm:9,  goiY: "Tham gia hoạt động thiện nguyện cộng đồng, đền ơn đáp nghĩa." },
+    { ten: "Ngày Nhà giáo Việt Nam",    ngay: "20 tháng 11",        loai: "duong", dd:[20],   mm:11, goiY: "Hỗ trợ học bổng, dụng cụ học tập cho học sinh nghèo hiếu học." },
+    { ten: "Giáng Sinh",                ngay: "24-25 tháng 12",     loai: "duong", dd:[24,25],mm:12, goiY: "Tặng quà, chia sẻ yêu thương với trẻ em, người vô gia cư dịp cuối năm." }
+];
+
+// Đối chiếu ngày đang XEM (dương lịch) với ngày lễ DƯƠNG LỊCH cố định.
+function checkNgayLeDuongLich(dateV){
+    const d = new Date(dateV);
+    const dd = d.getDate(), mm = d.getMonth() + 1;
+    return NGAY_LE_LAM_THIEN.filter(l => l.loai === "duong" && l.mm === mm && l.dd.includes(dd));
+}
+
+// Đối chiếu ngày đang XEM (âm lịch) với danh sách ngày lễ ÂM LỊCH, dùng solar2LunarInfo() có sẵn.
+function checkNgayLeAmLich(dateV){
+    const am = solar2LunarInfo(dateV);
+    return NGAY_LE_LAM_THIEN.filter(l => l.loai === "am" && l.mm === am.lMonth && l.dd.includes(am.lDay))
+        .map(l => ({ ...l, amLichHienThi: `${am.lDay}/${am.lMonth} âm lịch` }));
+}
+
+// Gộp cả 2 loại để dùng 1 lần trong tab Xem Ngày
+function checkNgayLeHomNay(dateV){
+    return [...checkNgayLeDuongLich(dateV), ...checkNgayLeAmLich(dateV)];
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// ✅❌ VIỆC NÊN / KHÔNG NÊN LÀM TRONG CẢ NĂM — theo SAO CHIẾU MỆNH (9 sao)
+// Cố ý dùng trục dữ liệu khác với pool NGÀY (vốn theo relType ngũ hành ngày-mệnh)
+// để không trùng lặp nội dung: đây là khuyến nghị tầm nhìn CẢ NĂM, không phải hôm nay.
+// Luôn hiển thị TĨNH (không phụ thuộc AI) để đảm bảo luôn có nội dung.
+// ═══════════════════════════════════════════════════════════════════
+const yearNenKhongNenBySao = {
+    "La Hầu": {
+        nen: [
+            "Giữ gìn lời ăn tiếng nói, tránh vạ miệng gây thị phi kéo dài cả năm",
+            "Rà soát kỹ giấy tờ, hợp đồng, các cam kết pháp lý trước khi ký",
+            "Ưu tiên tích lũy, hạn chế chi tiêu phô trương",
+            "Đi khám sức khỏe định kỳ, đặc biệt vùng tai mắt, máu huyết",
+            "Giữ mối quan hệ minh bạch, rõ ràng trong công việc lẫn tiền bạc",
+            "Dành thời gian tĩnh tâm, hạn chế nơi đông người thị phi"
+        ],
+        khong: [
+            "Đứng ra bảo lãnh hoặc vay giúp người khác số tiền lớn",
+            "Tham gia tranh chấp, kiện tụng không thật cần thiết",
+            "Đầu tư mạo hiểm dựa trên tin đồn chưa kiểm chứng",
+            "Ký kết hợp đồng quan trọng vào tháng Giêng hoặc tháng 7 âm lịch",
+            "Nói xấu, bàn tán chuyện của người khác",
+            "Chủ quan trước các dấu hiệu bất thường về sức khỏe"
+        ]
+    },
+    "Thổ Tú": {
+        nen: [
+            "Giữ gia đạo êm ấm, tránh để mâu thuẫn nhỏ tích tụ thành lớn",
+            "Cẩn trọng khi hợp tác làm ăn với người mới quen",
+            "Ưu tiên công việc quen thuộc, tránh mạo hiểm sang lĩnh vực mới",
+            "Chăm sóc vật nuôi, cây cối cẩn thận hơn thường lệ",
+            "Giữ đúng lời hứa để tránh mất lòng tin với người xung quanh",
+            "Dành thời gian cho gia đình vào cuối tuần"
+        ],
+        khong: [
+            "Xuất hành xa vào tháng 4, tháng 8 âm lịch nếu không thật cần thiết",
+            "Vội tin lời hứa hẹn từ người chưa hiểu rõ",
+            "Mua bán, cho vay lớn dựa trên cảm tính",
+            "Để việc gia đạo ảnh hưởng đến công việc chung",
+            "Nuôi thêm vật nuôi mới khi chưa chuẩn bị kỹ",
+            "Phản ứng gay gắt trước lời gièm pha của tiểu nhân"
+        ]
+    },
+    "Thủy Diệu": {
+        nen: [
+            "Đẩy mạnh kinh doanh, buôn bán — đây là năm khá thuận cho tài lộc",
+            "Chủ động mở rộng quan hệ đối tác mới",
+            "Đầu tư có kế hoạch, tính toán kỹ dòng tiền",
+            "Giữ hòa khí với đồng nghiệp, tránh khẩu thiệt thị phi nhỏ",
+            "Tận dụng cơ hội thăng tiến trong công việc",
+            "Duy trì thói quen tiết kiệm dù đang thuận lợi"
+        ],
+        khong: [
+            "Đi lại vùng sông nước, biển đảo vào tháng 4, tháng 8 âm lịch mà chủ quan",
+            "Bỏ qua rủi ro chỉ vì đang thấy thuận lợi",
+            "Ganh đua, đố kỵ với đồng nghiệp cùng giới",
+            "Vay mượn quá khả năng dù đang có cơ hội tốt",
+            "Bỏ lỡ cơ hội vì do dự quá lâu",
+            "Nói năng bộc trực, thiếu tế nhị gây mất lòng đối tác"
+        ]
+    },
+    "Thái Bạch": {
+        nen: [
+            "Giữ nguyên mô hình kinh doanh hiện tại, tránh thay đổi quy mô lớn",
+            "Ưu tiên phòng thủ tài chính: quỹ dự phòng, bảo hiểm cần thiết",
+            "Kiểm tra kỹ mọi hợp đồng, điều khoản trước khi ký",
+            "Tham khảo người có kinh nghiệm trước các quyết định tài chính lớn",
+            "Duy trì công việc ổn định thay vì nhảy việc, khởi nghiệp vội vàng",
+            "Chăm sóc sức khỏe nội tạng, ăn uống điều độ"
+        ],
+        khong: [
+            "Cho vay hoặc hùn vốn làm ăn số tiền lớn, đặc biệt vào tháng 5 âm lịch",
+            "Đầu tư mạo hiểm, đa cấp, hoặc các kênh chưa được kiểm chứng",
+            "Đứng tên vay hộ hoặc bảo lãnh tài chính cho người khác",
+            "Mở rộng quy mô kinh doanh đột ngột trong năm nay",
+            "Tin tưởng tuyệt đối vào lời mời đầu tư hấp dẫn bất thường",
+            "Mang theo nhiều tiền mặt, tài sản giá trị khi ra ngoài"
+        ]
+    },
+    "Thái Dương": {
+        nen: [
+            "Mạnh dạn theo đuổi mục tiêu công danh, sự nghiệp lớn đã ấp ủ",
+            "Chủ động đề xuất ý tưởng, xin thăng tiến, nhận thêm trọng trách",
+            "Mở rộng mạng lưới quý nhân, đối tác chiến lược",
+            "Nam mạng nên phát huy vai trò dẫn dắt, lãnh đạo",
+            "Nữ mạng nên chú ý sức khỏe và sự hòa hợp trong gia đạo",
+            "Khởi động các dự án lớn đã chuẩn bị kỹ từ trước"
+        ],
+        khong: [
+            "Bỏ lỡ cơ hội tốt vì thiếu tự tin",
+            "Nữ mạng lấn át quá mức trong gia đình gây bất hòa với nam giới",
+            "Chủ quan, xem nhẹ đối thủ cạnh tranh",
+            "Trì hoãn những quyết định quan trọng đã chuẩn bị kỹ",
+            "Quá tự mãn ngay khi đạt được thành công bước đầu",
+            "Bỏ bê sức khỏe vì mải theo đuổi công danh"
+        ]
+    },
+    "Vân Hớn": {
+        nen: [
+            "Giữ bình tĩnh, kiềm chế cảm xúc trong giao tiếp hằng ngày",
+            "Ưu tiên đối thoại thay vì tranh cãi khi có bất đồng",
+            "Rèn luyện thể thao để giải tỏa năng lượng dư thừa",
+            "Cẩn trọng khi tham gia giao thông, tránh vội vàng",
+            "Nữ mạng đặc biệt chú ý chăm sóc sức khỏe thai sản (nếu có)",
+            "Duy trì công việc ở mức ổn định, không nóng vội đốt cháy giai đoạn"
+        ],
+        khong: [
+            "Tranh luận, đôi co hơn thua nơi công cộng",
+            "Nóng giận đưa ra quyết định quan trọng trong công việc",
+            "Gây gổ, xung đột với đồng nghiệp hoặc người thân",
+            "Chủ quan trong tháng 2 và tháng 8 âm lịch",
+            "Tham gia các hoạt động dễ gây thương tích, va chạm",
+            "Để cảm xúc nhất thời chi phối lời nói với người khác"
+        ]
+    },
+    "Kế Đô": {
+        nen: [
+            "Giữ tâm lý ổn định, tránh lo âu thái quá về những điều chưa xảy ra",
+            "Minh bạch tài chính, ghi chép rõ ràng các khoản chi tiêu",
+            "Tìm đến người thân tin cậy khi gặp khó khăn thay vì giữ trong lòng",
+            "Nữ mạng mang thai có thể yên tâm hơn — riêng việc sinh nở lại là điểm may của sao này",
+            "Tập trung vào công việc thực tế, tránh xa tin đồn thị phi",
+            "Giữ gìn sức khỏe tinh thần, ngủ đủ giấc"
+        ],
+        khong: [
+            "Tin theo lời dụ dỗ đầu tư tài chính không rõ nguồn gốc",
+            "Để bản thân rơi vào trạng thái u sầu kéo dài mà không chia sẻ",
+            "Nữ mạng đưa ra quyết định lớn về gia đạo trong tháng 3, tháng 9 âm lịch",
+            "Tham gia vào những chuyện thị phi không liên quan đến mình",
+            "Giấu giếm vấn đề tài chính khiến tình hình xấu thêm",
+            "Bỏ qua các dấu hiệu bất ổn tâm lý mà không tìm hỗ trợ"
+        ]
+    },
+    "Thái Âm": {
+        nen: [
+            "Nữ mạng nên chủ động nắm bắt cơ hội thăng tiến sự nghiệp",
+            "Đầu tư vào đất đai, nhà cửa nếu đã có kế hoạch từ trước",
+            "Mở rộng networking, xây dựng hình ảnh cá nhân tích cực",
+            "Giữ tinh thần lạc quan, vui vẻ để thu hút thêm may mắn",
+            "Chăm sóc sức khỏe, giữ ấm cơ thể vào tháng 11 âm lịch",
+            "Chia sẻ thành công với người xung quanh để giữ vững phúc lộc"
+        ],
+        khong: [
+            "Bỏ lỡ cơ hội tốt chỉ vì quá khiêm tốn, do dự",
+            "Chủ quan về sức khỏe khi mọi việc đang thuận lợi",
+            "Giữ thái độ kiêu ngạo khi vừa đạt được thành tựu",
+            "Trì hoãn các kế hoạch nhà cửa, đất đai đã chuẩn bị kỹ",
+            "Xem nhẹ lời khuyên của người thân vì đang quá tự tin",
+            "Tiêu xài quá tay vì tâm lý \"năm may mắn\""
+        ]
+    },
+    "Mộc Đức": {
+        nen: [
+            "Tiến hành việc cưới hỏi, đính ước nếu đã có kế hoạch từ trước",
+            "Tập trung học hành, thi cử — năm khá thuận cho việc đỗ đạt",
+            "Chủ động tìm kiếm sự giúp đỡ, nâng đỡ từ quý nhân",
+            "Nắm bắt cơ hội thăng chức, tăng lương khi có",
+            "Mở rộng mối quan hệ mới có tiềm năng lâu dài",
+            "Duy trì lối sống tích cực, biết ơn để giữ vững may mắn"
+        ],
+        khong: [
+            "Chậm trễ nắm bắt cơ hội chỉ vì do dự",
+            "Chủ quan, không chuẩn bị kỹ trước kỳ thi hoặc sự kiện quan trọng",
+            "Bỏ lỡ lời đề nghị giúp đỡ từ quý nhân vì e ngại",
+            "Lơ là sức khỏe máu huyết dù vận đang thuận",
+            "Quá tự tin dẫn đến chủ quan trong công việc",
+            "Trì hoãn hôn sự đã được gia đình hai bên ủng hộ"
+        ]
+    }
+};
+
+// Ghép thêm cảnh báo NÊN/KHÔNG NÊN theo Kim Lâu / Hoàng Ốc / Tam Tai / Thái Tuế —
+// đảm bảo nội dung gắn đúng vào lá số của người xem, không phải công thức chung chung.
+function buildYearNenKhongNenHtml(sh, kl, ho, tamTaiInfo, thaiTue){
+    const base = yearNenKhongNenBySao[sh.sao] || { nen: [], khong: [] };
+    const extraKhong = [];
+    if(kl.pham) extraKhong.push(`Động thổ, xây nhà, sửa nhà lớn hoặc mua bán bất động sản trong năm (đang phạm ${kl.loai})`);
+    if(ho.pham) extraKhong.push(`Khởi công, nhập trạch nhà mới trong năm (đang phạm cung ${ho.name} của Hoàng Ốc)`);
+    if(tamTaiInfo.pham) extraKhong.push(`Khởi sự nhiều việc lớn cùng lúc, mở rộng đầu tư quy mô lớn (đang trong hạn Tam Tai)`);
+    if(thaiTue.pham) extraKhong.push(`Đưa ra thay đổi lớn về nơi ở, công việc mà chưa cân nhắc kỹ (đang phạm ${thaiTue.loai})`);
+
+    const nenHtml = base.nen.map(i => `<li>${i}</li>`).join("");
+    const khongHtml = base.khong.concat(extraKhong).map(i => `<li>${i}</li>`).join("");
+
+    const ngayLeHtml = NGAY_LE_LAM_THIEN.map(d =>
+        `<li><b>${d.ten}</b> <span style="color:#64748b;">(${d.ngay}${d.loai === "am" ? " âm lịch" : ""})</span> — ${d.goiY}</li>`
+    ).join("");
+
+    return `
+        <div style="margin-top:15px; padding: 15px; background: #f7fdf7; border: 1px solid #bbf7d0; border-radius: 15px; text-align:left;">
+            <div style="font-weight:bold;color:#166534;font-size:14px;border-bottom:1px dashed #86efac;padding-bottom:6px;margin-bottom:10px;">✅❌ VIỆC NÊN / KHÔNG NÊN LÀM TRONG NĂM</div>
+
+            <p style="font-size:12.5px;font-weight:bold;color:#0f766e;margin:2px 0 6px;">🙏 Hóa giải chung (áp dụng mọi sao)</p>
+            <p style="font-size:12.5px;margin:3px 0;line-height:1.6;"><b>🥗 Ăn chay:</b> ${LOI_KHUYEN_CHAY_PHONG_SINH.default.anChay}</p>
+            <p style="font-size:12.5px;margin:6px 0;line-height:1.6;"><b>🕊️ Phóng sinh:</b> ${LOI_KHUYEN_CHAY_PHONG_SINH.default.phongSinh}</p>
+            <p style="font-size:12.5px;margin:6px 0;line-height:1.6;"><b>🧭 Xuất hành:</b> ${LOI_KHUYEN_CHAY_PHONG_SINH.default.xuatHanh}</p>
+            <p style="font-size:12.5px;margin:6px 0 10px;line-height:1.6;"><b>❤️ Làm từ thiện:</b> ${LOI_KHUYEN_CHAY_PHONG_SINH.default.tuThien}</p>
+
+            <details style="margin:2px 0 12px;">
+                <summary style="cursor:pointer;font-size:12.5px;font-weight:bold;color:#0f766e;">📅 Gợi ý các ngày lễ tốt trong năm để làm từ thiện (bấm để mở)</summary>
+                <ul style="margin:8px 0 0 16px;padding:0;font-size:12px;line-height:1.7;color:#334155;">
+                    ${ngayLeHtml}
+                </ul>
+            </details>
+
+            <p style="font-size:12.5px;font-weight:bold;color:#166534;margin:10px 0 4px;border-top:1px dashed #bbf7d0;padding-top:10px;">✅ Nên làm (riêng theo sao chiếu mệnh)</p>
+            <ul style="margin:2px 0 10px 16px;padding:0;font-size:12.5px;line-height:1.6;">${nenHtml}</ul>
+            <p style="font-size:12.5px;font-weight:bold;color:#991b1b;margin:6px 0 4px;">❌ Không nên làm</p>
+            <ul style="margin:2px 0 4px 16px;padding:0;font-size:12.5px;line-height:1.6;">${khongHtml}</ul>
+            <p style="font-size:11px;color:#94a3b8;margin-top:8px;">💡 Danh sách dựa trên sao chiếu mệnh${(kl.pham||ho.pham||tamTaiInfo.pham||thaiTue.pham) ? " và các hạn đang phạm trong năm nay" : ""}, mang tính tham khảo dân gian.</p>
+        </div>
+    `;
+}
+
+// Văn khấn mẫu chung, tự soạn theo văn phong khấn vái dân gian truyền thống —
+// chèn đúng tên hiệu Tinh Quân của từng sao và để chỗ trống cho người đọc tự điền họ tên/tuổi/địa chỉ.
+function vanKhanMauSaoHan(saoName){
+    const nl = DATA_NGHI_LE_SAO_HAN[saoName] || {};
+    const tinhQuan = nl.tinhQuan || (saoName + " Tinh Quân");
+    return `Nam mô A Di Đà Phật! (đọc 3 lần)
+Con kính lạy chín phương Trời, mười phương Chư Phật, chư vị Tinh Quân cai quản năm nay.
+Con kính lạy Đức ${tinhQuan}.
+Hôm nay là ngày ..... tháng ..... năm ....., tín chủ con là ................. (họ tên), tuổi ................., ngụ tại .................
+Thành tâm sắm sửa hương hoa, lễ vật, thắp nén tâm hương, kính cẩn dâng lên trước án.
+Cúi xin Đức ${tinhQuan} xót thương chứng giám, giải trừ tai ương vận hạn cho tín chủ trong năm nay.
+Nguyện cầu gia đạo bình an, sức khỏe dồi dào, công việc hanh thông, tài lộc vượng tiến.
+Tín chủ con nguyện sống lương thiện, tu tâm dưỡng tính, ăn chay hành thiện, phóng sinh tích đức, ăn ở hiền hòa.
+Cúi mong Đức ${tinhQuan} soi xét, phù hộ độ trì.
+Nam mô A Di Đà Phật! (đọc 3 lần)`;
+}
+
+const DATA_TAM_TAI = {
+    pham: {
+        title: "⚠️ Phạm Tam Tai",
+        text: "Năm nay bản chủ đang nằm trong chu kỳ Tam Tai. Theo kinh nghiệm phong thủy dân gian, đây là giai đoạn nên hạn chế khởi sự quá nhiều việc lớn cùng lúc. Công việc dễ phát sinh trở ngại ngoài dự kiến, tài chính cần tính toán thận trọng, tránh đầu tư theo cảm tính hoặc bảo lãnh tài chính cho người khác. Trong gia đạo nên giữ hòa khí, lấy ổn định làm trọng."
+    },
+
+    namDau: "Đây là năm đầu Tam Tai, không nên bắt đầu những việc trọng đại nếu chưa thực sự cần thiết.",
+    namGiua: "Đây là năm giữa Tam Tai, thường là giai đoạn dễ phát sinh biến động mạnh nhất về công việc, tài chính hoặc quan hệ xã hội.",
+    namCuoi: "Đây là năm cuối Tam Tai, vận hạn có xu hướng giảm dần nhưng vẫn nên cẩn trọng trước khi mở rộng đầu tư hoặc thay đổi lớn.",
+
+    khong: {
+        title: "✅ Không phạm Tam Tai",
+        text: "Năm nay không nằm trong chu kỳ Tam Tai. Các kế hoạch dài hạn có điều kiện thuận lợi hơn để triển khai. Tuy nhiên vẫn cần kết hợp xem xét các yếu tố Sao Hạn, Thái Tuế và Kim Lâu trước khi quyết định các việc trọng đại."
+    }
+};
+
+const DATA_THAI_TUE = {
+
+    "Trực Thái Tuế": {
+        level: "⭐⭐⭐⭐⭐",
+        text: "Đây là năm tuổi của bản mệnh. Vận khí biến động mạnh, thường xuất hiện những thay đổi lớn về công việc, môi trường sống, quan hệ hoặc định hướng tương lai. Không hẳn là xấu nhưng cần chuẩn bị kỹ trước mọi quyết định quan trọng."
+    },
+
+    "Xung Thái Tuế": {
+        level: "⭐⭐⭐⭐⭐",
+        text: "Xung Thái Tuế là dạng va chạm mạnh nhất với trường khí của năm. Dễ phát sinh cạnh tranh, mâu thuẫn, tranh chấp hoặc những biến động bất ngờ. Khi xử lý giấy tờ, hợp đồng hoặc các quyết định tài chính lớn cần đặc biệt thận trọng."
+    },
+
+    "Hại Thái Tuế": {
+        level: "⭐⭐⭐",
+        text: "Dễ gặp thị phi, hiểu lầm hoặc bị người khác cản trở. Nên cẩn trọng trong các mối quan hệ xã hội, hợp tác làm ăn và tránh tiết lộ quá nhiều kế hoạch cá nhân."
+    },
+
+    "Phá Thái Tuế": {
+        level: "⭐⭐⭐⭐",
+        text: "Các kế hoạch đang triển khai có thể bị trì hoãn hoặc phát sinh trở ngại ngoài dự kiến. Cần chuẩn bị phương án dự phòng, hạn chế đầu tư mạo hiểm và tránh nóng vội trong các quyết định quan trọng."
+    },
+
+    "Hình Thái Tuế": {
+        level: "⭐⭐⭐⭐",
+        text: "Áp lực tinh thần và trách nhiệm gia tăng. Cần chú ý đến pháp lý, giấy tờ hành chính, sức khỏe và các mối quan hệ nơi làm việc. Hành sự minh bạch sẽ giúp giảm thiểu rủi ro."
+    },
+
+    "Không phạm Thái Tuế": {
+        level: "⭐⭐",
+        text: "Không nằm trong nhóm tuổi phạm Thái Tuế của năm. Vận trình tương đối ổn định, thuận lợi hơn trong việc duy trì các kế hoạch hiện có."
+    }
+};
+
+
+function helperTinhSaoHan(tuoiTa, gender) {
+
+    const saoNam = [
+        "La Hầu",
+        "Thổ Tú",
+        "Thủy Diệu",
+        "Thái Bạch",
+        "Thái Dương",
+        "Vân Hớn",
+        "Kế Đô",
+        "Thái Âm",
+        "Mộc Đức"
+    ];
+
+    const saoNu = [
+        "Kế Đô",
+        "Vân Hớn",
+        "Mộc Đức",
+        "Thái Âm",
+        "Thổ Tú",
+        "La Hầu",
+        "Thái Dương",
+        "Thái Bạch",
+        "Thủy Diệu"
+    ];
+
+    const hanNam = {
+    "Huỳnh Tiền": [10,18,27,36,45,54,63,72,81],
+    "Tam Kheo": [11,19,20,28,37,46,55,64,73,82],
+    "Ngũ Mộ": [12,21,29,30,38,47,56,65,74,83],
+    "Thiên Tinh": [13,22,31,39,40,48,57,66,75,84],
+    "Tán Tận": [14,23,32,41,49,50,58,67,76,85],
+    "Thiên La": [15,24,33,42,51,59,60,68,77,86],
+    "Địa Võng": [16,25,34,43,52,61,69,70,78,87],
+    "Diêm Vương": [17,26,35,44,53,62,71,79,80,88]
+};
+
+const hanNu = {
+    "Tán Tận": [10,18,27,36,45,54,63,72,81],
+    "Thiên Tinh": [11,19,20,28,37,46,55,64,73,82],
+    "Ngũ Mộ": [12,21,29,30,38,47,56,65,74,83],
+    "Tam Kheo": [13,22,31,39,40,48,57,66,75,84],
+    "Huỳnh Tiền": [14,23,32,41,49,50,58,67,76,85],
+    "Diêm Vương": [15,24,33,42,51,59,60,68,77,86],
+    "Địa Võng": [16,25,34,43,52,61,69,70,78,87],
+    "Thiên La": [17,26,35,44,53,62,71,79,80,88]
+};
+
+function getHan(tuoiTa, isMale) {
+    const table = isMale ? hanNam : hanNu;
+
+    for (const [han, ages] of Object.entries(table)) {
+        if (ages.includes(tuoiTa)) {
+            return han;
+        }
+    }
+
+    return "";
+}
+    const idxSao = (tuoiTa - 1) % 9;
+    const idxHan = tuoiTa % 9;
+
+    const isMale =
+        gender === "Nam" ||
+        gender === "male" ||
+        gender === "M";
+
+    return {
+        sao: isMale ? saoNam[idxSao] : saoNu[idxSao],
+        han: getHan(tuoiTa, isMale)
+    };
+}
+
+
+
+function helperTinhKimLau(tuoiTa) {
+    const du = tuoiTa % 9;
+    if (du === 1) return { pham: true, loai: "Kim Lâu Thân (Hại bản thân)" };
+    if (du === 3) return { pham: true, loai: "Kim Lâu Thê (Hại vợ chồng)" };
+    if (du === 6) return { pham: true, loai: "Kim Lâu Tử (Hại con cái)" };
+    if (du === 8) return { pham: true, loai: "Kim Lâu Súc (Hại kinh tế gia đình)" };
+    return { pham: false, loai: "Không phạm Kim Lâu" };
+}
+
+function helperTinhHoangOc(tuoiTa) {
+    const cungNames = [
+        "Nhất Cát (Tốt - An cư lạc nghiệp)", "Nhì Nghi (Tốt - Nhà cửa hưng vượng)",
+        "Tam Địa Sát (Xấu - Sinh bệnh tật)", "Tứ Tấn Tài (Tốt - Phước lộc tới)",
+        "Ngũ Thọ Tử (Xấu - Ly tán, lâm bệnh)", "Lục Hoang Ốc (Xấu - Hoang vắng, khó thành)"
+    ];
+    let hangChuc = Math.floor(tuoiTa / 10);
+    let hangDonVi = tuoiTa % 10;
+    let cungKien = ((hangChuc - 1) + hangDonVi) % 6;
+    if (cungKien < 0) cungKien += 6;
+    return { pham: (cungKien === 2 || cungKien === 4 || cungKien === 5), name: cungNames[cungKien] };
+}
+
+function helperTamTai(chi) {
+
+    const tamTai = {
+        "Thân,Dần,Tý": ["Dần","Mão","Thìn"],
+        "Dần,Ngọ,Tuất": ["Thân","Dậu","Tuất"],
+        "Hợi,Mão,Mùi": ["Tỵ","Ngọ","Mùi"],
+        "Tỵ,Dậu,Sửu": ["Hợi","Tý","Sửu"]
+    };
+
+    for(const nhom in tamTai){
+        const arr = nhom.split(",");
+        if(arr.includes(chi)){
+            return tamTai[nhom];
+        }
+    }
+
+    return [];
+}
+
+function helperTamTaiInfo(chiSinh, chiNamXem){
+
+    const tamTaiYears = helperTamTai(chiSinh);
+    const pham = tamTaiYears.includes(chiNamXem);
+
+    let giaiDoan = "";
+    let moTa = DATA_TAM_TAI.khong.text;
+
+    if(pham){
+
+        const idx = tamTaiYears.indexOf(chiNamXem);
+
+        if(idx === 0){
+            giaiDoan = "Năm đầu Tam Tai";
+            moTa = DATA_TAM_TAI.namDau;
+        }
+        else if(idx === 1){
+            giaiDoan = "Năm giữa Tam Tai";
+            moTa = DATA_TAM_TAI.namGiua;
+        }
+        else{
+            giaiDoan = "Năm cuối Tam Tai";
+            moTa = DATA_TAM_TAI.namCuoi;
+        }
+    }
+
+    return {
+        pham,
+        years: tamTaiYears,
+        giaiDoan,
+        moTa
+    };
+}
+
+function helperThaiTue(chiSinh, chiNamXem) 
+
+{
+    const chiArr = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"];
+    
+    const idxSinh = chiArr.indexOf(chiSinh);
+    const idxNam = chiArr.indexOf(chiNamXem);
+    
+    // Nếu không tìm thấy địa chi phù hợp (hoặc nhập sai từ ngữ)
+    if (idxSinh === -1 || idxNam === -1) {
+        return { pham: false, loai: "Không phạm Thái Tuế" };
+    }
+
+    // 1. Kiểm tra XUNG THÁI TUẾ (Lục Xung - Khoảng cách giữa 2 chi là 6)
+    if (Math.abs(idxSinh - idxNam) === 6) {
+        return { pham: true, loai: "Xung Thái Tuế" };
+    }
+
+    // 2. Kiểm tra TRỰC THÁI TUẾ (Tuổi trùng năm xem)
+    if (idxSinh === idxNam) {
+        return { pham: true, loai: "Trực Thái Tuế" };
+    }
+
+    // 3. Kiểm tra HÌNH THÁI TUẾ (Các trường hợp Tam Hình chuẩn)
+    // Cặp Tý (0) - Mão (3) hình nhau
+    if ((idxNam === 0 && idxSinh === 3) || (idxNam === 3 && idxSinh === 0)) {
+        return { pham: true, loai: "Hình Thái Tuế" };
+    }
+    
+    // Bộ ba Dần (2) - Tỵ (5) - Thân (8)
+    if (idxNam === 2 && idxSinh === 8) return { pham: true, loai: "Hình Thái Tuế" }; // Năm Dần - Tuổi Thân bị hình
+    if (idxNam === 5 && idxSinh === 2) return { pham: true, loai: "Hình Thái Tuế" }; // Năm Tỵ - Tuổi Dần bị hình
+    if (idxNam === 8 && idxSinh === 5) return { pham: true, loai: "Hình Thái Tuế" }; // Năm Thân - Tuổi Tỵ bị hình
+
+    // Bộ ba Sửu (1) - Mùi (7) - Tuất (10)
+    if (idxNam === 1 && idxSinh === 7) return { pham: true, loai: "Hình Thái Tuế" };  // Năm Sửu - Tuổi Mùi bị hình
+    if (idxNam === 10 && idxSinh === 1) return { pham: true, loai: "Hình Thái Tuế" }; // Năm Tuất - Tuổi Sửu bị hình
+    if (idxNam === 7 && idxSinh === 10) return { pham: true, loai: "Hình Thái Tuế" }; // Năm Mùi - Tuổi Tuất bị hình
+
+
+    // 4. Kiểm tra HẠI THÁI TUẾ (Lục Hại)
+    const lucHaiMap = {
+        0: 7,  // Tý - Mùi
+        1: 6,  // Sửu - Ngọ
+        2: 5,  // Dần - Tỵ
+        3: 4,  // Mão - Thìn
+        8: 11, // Thân - Hợi
+        9: 10  // Dậu - Tuất
+    };
+    if (lucHaiMap[idxNam] === idxSinh || lucHaiMap[idxSinh] === idxNam) {
+        return { pham: true, loai: "Hại Thái Tuế" };
+    }
+
+    // 5. Kiểm tra PHÁ THÁI TUẾ (Lục Phá)
+    const lucPhaPairs = [
+        [0, 9],  // Tý - Dậu
+        [3, 6],  // Mão - Ngọ
+        [1, 4],  // Sửu - Thìn
+        [7, 10], // Mùi - Tuất
+        [2, 11], // Dần - Hợi
+        [5, 8]   // Tỵ - Thân
+    ];
+    const laPha = lucPhaPairs.some(pair => (pair[0] === idxNam && pair[1] === idxSinh) || (pair[0] === idxSinh && pair[1] === idxNam));
+    if (laPha) {
+        return { pham: true, loai: "Phá Thái Tuế" };
+    }
+
+    // Không phạm mối quan hệ nào ở trên
+    return { pham: false, loai: "Không phạm Thái Tuế" };
+}
+
+
+// ============ TAB "XEM TRỌN NĂM" (Sao Hạn / Kim Lâu / Hoàng Ốc / Tam Tai / Thái Tuế / Vận Niên) ============
+function runYear(){
+    const yearV = parseInt(document.getElementById("yearY").value);
+    const genderV = document.getElementById("genderY").value;
+    const viewYear = parseInt(document.getElementById("targetYear").value) || new Date().getFullYear();
+
+    if(!yearV){
+        alert("Vui lòng nhập năm sinh!");
+        return;
+    }
+
+    const ageTa = viewYear - yearV + 1;
+    const age = viewYear - yearV;
+
+    const [cU, chU] = getYearCanChi(yearV);
+    const nU = napAm[`${cU} ${chU}`];
+    const eU = getElement(nU);
+
+    const sh = helperTinhSaoHan(ageTa, genderV);
+    const kl = helperTinhKimLau(ageTa);
+    const ho = helperTinhHoangOc(ageTa);
+    const canChiXem = getYearCanChi(viewYear);
+    const [, chiSinh] = getYearCanChi(yearV);
+    const [, chiNamXem] = getYearCanChi(viewYear);
+
+    const tamTaiInfo = helperTamTaiInfo(chiSinh, chiNamXem);
+    const thaiTue = helperThaiTue(chiSinh, chiNamXem);
+    const thaiTueText = thaiTue.pham
+        ? DATA_THAI_TUE[thaiTue.loai]
+        : DATA_THAI_TUE["Không phạm Thái Tuế"];
+
+    const nl = DATA_NGHI_LE_SAO_HAN[sh.sao] || { ngay:"—", gio:"—", huong:"—", soDen:"—", mau:"—", ghiChu:"", tinhQuan:"—" };
+
+    // Ngũ hành của NĂM XEM để luận vận niên cả năm
+    const nNamXem = napAm[`${canChiXem[0]} ${canChiXem[1]}`];
+    const eNamXem = getElement(nNamXem);
+    let relYear = "Bình hòa";
+    if(nguHanh.sinh[eNamXem] === eU) relYear = "Sinh nhập";
+    else if(nguHanh.sinh[eU] === eNamXem) relYear = "Sinh xuất";
+    else if(nguHanh.khac[eNamXem] === eU) relYear = "Tương khắc";
+    else if(nguHanh.khac[eU] === eNamXem) relYear = "Bị tiết";
+    else if(eU === eNamXem) relYear = "Đồng hành";
+
+    const tuongTinh = TUONG_TINH[chU] || "—";
+    const bonMang = BON_MANG_PHAT[chU] || "—";
+    const relFn = VAN_NIEN_REL_TEXT[relYear] || VAN_NIEN_REL_TEXT["Bình hòa"];
+    const relText = relFn(eU, eNamXem);
+
+    // Lưu ý đặc biệt KHÔNG trùng với Kim Lâu/Hoàng Ốc/Tam Tai/Thái Tuế (đã hiển thị riêng bên dưới)
+    let luuYExtra = [];
+    if(age % 12 === 0) luuYExtra.push(`Năm nay là <b>năm xung bản mệnh</b> (đúng chu kỳ 12 năm tuổi) — nên cẩn thận đi lại, cầu an đầu năm.`);
+    if(age % 10 === 0) luuYExtra.push(`Năm nay rơi vào <b>mốc đại hạn 10 năm</b> — thường có biến động lớn về công việc/nơi ở, nên chuẩn bị tâm thế trước.`);
+
+    // Dữ liệu phong thủy hợp MỆNH TUỔI — dùng cho báo cáo trọn năm
+    const menhColorData = luckyColorData[eU] || luckyColorData["Thổ"];
+    const menhLuckyNums = canLuckyNum[cU] || [1,6,8];
+    const menhLuckyDir = luckyDirMap[chU] || "Bắc 🧭";
+    const menhAvoidDir = avoidDirMap[chU] || "Nam";
+
+    // 🤖 Lưu ngữ cảnh NĂM để các nút Luận chuyên sâu (Sao Hạn / Báo cáo trọn năm) dùng lại — tách riêng khỏi __tuviDayContext
+    window.__tuviYearContext = {
+        ageTa, genderV, sh, kl, ho, tamTaiInfo, thaiTue, thaiTueText, canChiXem, nl,
+        cU, chU, eU, nU, viewYear, yearV,
+        menhColorData, menhLuckyNums, menhLuckyDir, menhAvoidDir
+    };
+
+    const htmlSaoHanMoi = `
+        <div class="sao-han-box" style="margin-top: 15px; padding: 15px; background: #fffcf2; border: 1px solid #f1e4c3; border-radius: 15px; color: #332700; text-align: left;">
+            <div class="sao-han-title" style="font-weight: bold; color: #991b1b; font-size: 14px; border-bottom: 1px dashed #d4af37; padding-bottom: 6px; margin-bottom: 10px; display: flex; justify-content: space-between;">
+                <span>🏮 SAO HẠN NĂM ${canChiXem[0].toUpperCase()} ${canChiXem[1].toUpperCase()} ${viewYear}</span>
+                <span style="font-size:12px;color:#475569;">Tuổi âm: ${ageTa} tuổi</span>
+            </div>
+            <p style="margin:4px 0; font-size:12.5px; color:#475569;">🐾 <b>Tướng tinh:</b> ${tuongTinh} (tuổi ${chU}) &nbsp;|&nbsp; 🙏 <b>Vị Phật/Bồ Tát độ mạng:</b> ${bonMang}</p>
+            <p style="margin:6px 0; font-size:12.5px; line-height:1.6; color:#332700;">${relText}</p>
+
+            <p style="margin:8px 0 4px; font-size:13px;">⭐ Sao chiếu mệnh: <span class="sao-badge">${sh.sao}</span></p>
+            <p style="font-size:12.5px;color:#475569;margin:2px 0 8px 0;line-height:1.5;">👉 <i>${DATA_SAO_CUU_DIEU[sh.sao][genderV]}</i></p>
+
+            <p style="margin:4px 0; font-size:13px;">📉 Hạn niên năm này: <span class="han-badge">${sh.han}</span></p>
+
+            <p style="font-size:12.5px;color:#7f1d1d;margin:4px 0;background:rgba(239,68,68,0.1);padding:6px;border-radius:6px;">⚠️ <b>Chú ý vận hạn:</b> ${DATA_SAO_CUU_DIEU[sh.sao].chuy}</p>
+
+            <div style="border-top:1px dashed #d4af37;margin-top:10px;padding-top:8px;">
+                <div style="font-weight:bold;color:#7c3aed;font-size:13px;margin-bottom:6px;">🕯️ NGHI LỄ CÚNG SAO ${sh.sao.toUpperCase()} (Tham khảo dân gian)</div>
+                <p style="font-size:12.5px;margin:3px 0;">🙏 Vị Tinh Quân cai quản: <b>${nl.tinhQuan}</b></p>
+                <p style="font-size:12.5px;margin:3px 0;">📅 Ngày cúng: <b>${nl.ngay}</b> âm lịch hằng tháng &nbsp;|&nbsp; ⏰ Giờ cúng: <b>${nl.gio}</b></p>
+                <p style="font-size:12.5px;margin:3px 0;">🧭 Hướng cúng: <b>${nl.huong}</b> &nbsp;|&nbsp; 🕯️ Số đèn/nến: <b>${nl.soDen}</b> &nbsp;|&nbsp; 🎨 Màu bài vị: <b>${nl.mau}</b></p>
+                <p style="font-size:12.5px;margin:5px 0 3px 0;color:#475569;">${nl.ghiChu}</p>
+
+                <div style="margin-top:8px;padding:9px 10px;background:rgba(124,58,237,0.07);border-left:3px solid #7c3aed;border-radius:0 8px 8px 0;">
+                    <p style="font-size:12.5px;margin:0;line-height:1.6;"><b>🎯 Hành động cụ thể:</b> Vào đúng ngày <b>${nl.ngay}</b> âm lịch hằng tháng, lúc <b>${nl.gio}</b>, bày mâm lễ quay mặt về hướng <b>${nl.huong}</b>, thắp <b>${nl.soDen}</b> ngọn đèn/nến, dùng bài vị viết trên giấy màu <b>${nl.mau}</b> ghi danh hiệu "${nl.tinhQuan}", khấn xong hóa vàng mã và bài vị.</p>
+                </div>
+
+                <p style="font-size:12.5px;margin:8px 0 3px 0;"><b>🪷 Lễ vật cần chuẩn bị:</b></p>
+                <ul style="margin:2px 0 6px 15px;padding:0;font-size:12.5px;">
+                    ${(LE_VAT_RIENG_THEO_SAO[sh.sao] || []).map(i=>`<li>${i}</li>`).join("")}
+                    ${LE_VAT_CUNG_SAO_CHUNG.map(i=>`<li>${i}</li>`).join("")}
+                    <li>Bài vị ghi danh hiệu Tinh Quân trên giấy màu <b>${nl.mau}</b>, cùng giấy tiền vàng mã</li>
+                </ul>
+                <details style="margin-top:8px;">
+                    <summary style="cursor:pointer;font-size:12.5px;font-weight:bold;color:#1e3a5f;">🙏 Xem văn khấn mẫu (bấm để mở)</summary>
+                    <p style="font-size:12px;line-height:1.7;margin:6px 0;font-style:italic;white-space:pre-line;background:#f8fafc;padding:8px;border-radius:8px;">${vanKhanMauSaoHan(sh.sao)}</p>
+                </details>
+                <p style="font-size:11px;color:#94a3b8;margin-top:6px;">⚠️ Nghi lễ mang tính tham khảo dân gian phổ biến, có thể khác nhau theo vùng miền/gia phong — nên tham vấn thêm thầy cúng/chuyên gia tại địa phương nếu cần chuẩn xác tuyệt đối.</p>
+            </div>
+            <div style="border-top:1px dashed #cbd5e1;margin-top:10px;padding-top:8px;font-size:13px;color:#1e293b;">
+                <p style="margin:3px 0;"><b>🏠 Kim Lâu:</b> ${kl.pham ? `<span style="color:#dc2626;font-weight:bold;">Phạm ${kl.loai}</span>` : `<span style="color:#16a34a;">Không phạm Kim Lâu</span>`}</p>
+                <p style="margin:3px 0;"><b>🏗️ Hoang Ốc:</b> ${ho.pham ? `<span style="color:#dc2626;font-weight:bold;">Phạm ${ho.name}</span>` : `<span style="color:#16a34a;">Tốt - Cung ${ho.name}</span>`}</p>
+                ${(kl.pham || ho.pham) ? `<p style="font-size:12px;color:#b91c1c;margin:4px 0 0 0;line-height:1.4;">🚫 <b>Điều cấm kỵ:</b> Tuổi này phạm hạn trạch cát, kỵ đứng tên động thổ xây nhà, đổ trần, sửa sang đại sự trạch kiến trúc hoặc mua bán tài sản lớn trong năm.</p>` : ''}
+
+                <p style="margin:3px 0;">
+                    <b>⚠️ Tam Tai:</b>
+                    ${
+                        tamTaiInfo.pham
+                        ? `<span style="color:#dc2626;font-weight:bold;">Phạm Tam Tai (${tamTaiInfo.years.join(" → ")})</span>
+                           <br><span style="font-size:12px;color:#991b1b;"><b>${tamTaiInfo.giaiDoan}</b><br>${tamTaiInfo.moTa}</span>`
+                        : `<span style="color:#16a34a;">Không phạm Tam Tai</span>
+                           <br><span style="font-size:12px;color:#475569;">${tamTaiInfo.moTa}</span>`
+                    }
+                </p>
+
+                <p style="margin:3px 0;">
+                    <b>👑 Thái Tuế:</b>
+                    ${
+                        thaiTue.pham
+                        ? `<span style="color:#dc2626;font-weight:bold;">${thaiTue.loai}</span>
+                           <br><span style="font-size:12px;color:#991b1b;">${thaiTueText.text}</span>`
+                        : `<span style="color:#16a34a;">Không phạm Thái Tuế</span>
+                           <br><span style="font-size:12px;color:#475569;">${thaiTueText.text}</span>`
+                    }
+                </p>
+                ${luuYExtra.length > 0 ? `
+                <p style="margin:8px 0 3px;font-size:12.5px;">
+                    <b>📌 Lưu ý thêm:</b>
+                    <ul style="margin:4px 0 0 15px;padding:0;font-size:12px;color:#475569;">
+                        ${luuYExtra.map(i=>`<li>${i}</li>`).join("")}
+                    </ul>
+                </p>` : ''}
+                <div style="text-align:center;margin-top:10px;">
+                    <button onclick="runAISaoHan()" style="width:auto;height:auto;padding:9px 16px;font-size:12px;background:linear-gradient(45deg,#7c3aed,#db2777);margin-top:4px;border:none;border-radius:12px;color:white;font-weight:bold;cursor:pointer;letter-spacing:0.5px;">🔍 LUẬN CHUYÊN SÂU: THUẬN LỢI - KHÓ KHĂN</button>
+                </div>
+                <div id="aiSaoHanResult" style="display:none;"></div>
+            </div>
+        </div>
+    `;
+
+    const nenKhongNenHtml = buildYearNenKhongNenHtml(sh, kl, ho, tamTaiInfo, thaiTue);
+
+    document.getElementById("outYear").innerHTML = `
+        <div class="result-card good" style="margin-top:20px; border-radius:20px; overflow:hidden; animation: slideUp 0.5s ease;">
+            <div class="luan-content" style="padding:14px;">
+                ${htmlSaoHanMoi}
+                ${nenKhongNenHtml}
+            </div>
+            <div class="luan-content" style="padding-top:14px;text-align:center;">
+                <button onclick="runAIFullYearReport()" style="width:auto;height:auto;padding:11px 18px;font-size:12.5px;background:linear-gradient(45deg,#991b1b,#7c3aed);border:none;border-radius:14px;color:white;font-weight:bold;cursor:pointer;letter-spacing:0.5px;">📜 TẠO BÁO CÁO TỬ VI TRỌN NĂM (CHUYÊN SÂU)</button>
+                <div id="aiFullReportResult" style="display:none;text-align:left;"></div>
+            </div>
+        </div>
+    `;
+}
+
+// ============ TAB "HỢP TUỔI" (2 người) ============
+const CAN_HOP = {"Giáp":"Kỷ","Kỷ":"Giáp","Ất":"Canh","Canh":"Ất","Bính":"Tân","Tân":"Bính","Đinh":"Nhâm","Nhâm":"Đinh","Mậu":"Quý","Quý":"Mậu"};
+// Ngũ hành riêng của từng Thiên Can — dùng để xét tương sinh/tương khắc giữa 2 Thiên Can,
+// tương tự cách xét ngũ hành bản Mệnh (không chỉ dừng ở mỗi việc có phải Ngũ Hợp hay không).
+const CAN_NGU_HANH = {"Giáp":"Mộc","Ất":"Mộc","Bính":"Hỏa","Đinh":"Hỏa","Mậu":"Thổ","Kỷ":"Thổ","Canh":"Kim","Tân":"Kim","Nhâm":"Thủy","Quý":"Thủy"};
+
+function isTamHopPair(c1, c2){
+    return tamHop[c1] === c2 || tamHop[c2] === c1;
+}
+
+// Bảng "Nam Nữ Phối Ngũ Hành" — diễn giải lại theo cổ pháp dân gian, nhưng tiêu chí chấm điểm dùng
+// đúng nguyên tắc tương sinh/tương khắc chuẩn: tương sinh = tốt, tương khắc = xấu, ĐỒNG HÀNH (cùng
+// 1 hành) đồng nhất xem là mức TRUNG BÌNH — chấp nhận được, không phạt riêng cặp nào (không còn phân
+// biệt Kim-Kim khác Thủy-Thủy như trước, để nhất quán với tiêu chí ngũ hành thông thường).
+function napAmPhoiHonKey(e1, e2){
+    return [e1, e2].sort().join("-");
+}
+const NAP_AM_PHOI_HON = {
+    "Kim-Kim": { rating: "binh", text: "Hai mệnh cùng là Kim — tính cách, sở thích dễ tương đồng, ở mức chấp nhận được. Cả hai đều khá cứng cỏi, có chủ kiến riêng, nên biết nhường nhịn để tránh va chạm quan điểm không cần thiết." },
+    "Kim-Mộc": { rating: "xau",  text: "Kim khắc Mộc — dễ nảy sinh bất đồng, một bên cảm thấy bị chèn ép, cần bên còn lại chủ động nhường nhịn để giữ hòa khí." },
+    "Kim-Thủy": { rating: "tot", text: "Kim sinh Thủy — hai mệnh hỗ trợ nhau rất tự nhiên, dễ tích lũy của cải, gia đạo êm ấm, con cái thường thông minh, sáng dạ." },
+    "Hỏa-Kim": { rating: "xau",  text: "Hỏa khắc Kim — tiềm ẩn mâu thuẫn ngầm, dễ có lúc căng thẳng không rõ nguyên do, cả hai cần học cách lắng nghe nhau nhiều hơn." },
+    "Kim-Thổ": { rating: "tot",  text: "Thổ sinh Kim — nhân duyên bền chặt, được người thân hai bên ủng hộ, gia đạo bình an, ít điều tiếng thị phi." },
+    "Mộc-Mộc": { rating: "binh", text: "Hai mệnh cùng là Mộc — như hai cây cùng vươn lên một hướng, dễ đồng cảm, ở mức chấp nhận được. Thuận lợi khi đồng lòng nhưng cũng dễ có lúc cạnh tranh nếu không phân vai rõ ràng." },
+    "Mộc-Thủy": { rating: "tot", text: "Thủy sinh Mộc — nhân duyên tốt đẹp, gia đạo sung túc dần theo thời gian, con cái học hành tấn tới." },
+    "Hỏa-Mộc": { rating: "tot",  text: "Mộc sinh Hỏa — tình cảm nồng ấm, người này tiếp thêm động lực cho người kia, dễ cùng nhau tiến bộ trong sự nghiệp." },
+    "Mộc-Thổ": { rating: "xau",  text: "Mộc khắc Thổ — dễ bất đồng ý kiến trong những quyết định lớn của gia đình, cần thời gian thấu hiểu nhau nhiều hơn mới bền lâu." },
+    "Thủy-Thủy": { rating: "binh", text: "Hai mệnh cùng là Thủy — như nước hòa cùng một dòng, dễ tâm đầu ý hợp, ở mức chấp nhận được. Nhìn chung dễ đồng cảm nhưng cả hai nên chủ động, tránh cùng thụ động chờ đợi nhau." },
+    "Hỏa-Thủy": { rating: "xau", text: "Thủy khắc Hỏa — dễ trái ý nhau trong sinh hoạt hằng ngày, một người nóng vội một người thận trọng, cần khéo léo dung hòa." },
+    "Thổ-Thủy": { rating: "xau", text: "Thổ khắc Thủy — dễ có giai đoạn xa cách hoặc trắc trở về tài chính, nên chủ động vun đắp, giao tiếp thường xuyên để không xa lòng nhau." },
+    "Hỏa-Hỏa": { rating: "binh", text: "Hai mệnh cùng là Hỏa — như lửa gặp lửa, tình cảm dễ nồng nhiệt, ở mức chấp nhận được. Cả hai nên biết tiết chế cảm xúc, tránh nóng vội cùng lúc kẻo dễ bùng phát mâu thuẫn." },
+    "Hỏa-Thổ": { rating: "tot", text: "Hỏa sinh Thổ — hôn phối thuận lợi, dễ có công danh và tài lộc, con cái ngoan hiền, gia đạo hưng thịnh lâu dài." },
+    "Thổ-Thổ": { rating: "binh", text: "Hai mệnh cùng là Thổ — như đất bồi thêm đất, nền tảng khá vững, ở mức chấp nhận được. Gia đạo nhìn chung ổn định, ít xáo trộn lớn." }
+};
+
+// Tứ Hành Xung — 3 nhóm 4 Chi được dân gian xem là xung khắc với nhau (rộng hơn Lục Xung thông thường,
+// vì bao gồm cả các cặp không đối xứng trực tiếp trong cùng nhóm, ví dụ Sửu - Thìn cùng nhóm Thổ khố).
+const TU_HANH_XUNG_GROUPS = [["Dần","Thân","Tỵ","Hợi"], ["Tý","Ngọ","Mão","Dậu"], ["Thìn","Tuất","Sửu","Mùi"]];
+function isTuHanhXungPair(ch1, ch2){
+    return ch1 !== ch2 && TU_HANH_XUNG_GROUPS.some(g => g.includes(ch1) && g.includes(ch2));
+}
+
+// Luận giải Địa Chi (văn xuôi, giọng tử vi truyền thống — không hiện điểm số)
+const DIA_CHI_LUAN = {
+    "hop": (ch1, ch2) => `Xét về Địa Chi, hai tuổi <b>${ch1}</b> và <b>${ch2}</b> nằm trong thế <b>Lục Hợp</b> — đây là cách hợp được người xưa xem trọng bậc nhất khi so đôi, chủ về ăn ý, dễ cảm thông, gặp việc khó vẫn tìm được tiếng nói chung.`,
+    "tamhop": (ch1, ch2) => `Xét về Địa Chi, hai tuổi <b>${ch1}</b> và <b>${ch2}</b> cùng chung một <b>Tam Hợp Cục</b> — như kiềng ba chân tuy không kề sát nhưng cùng chung chí hướng, chủ về đồng lòng, biết nương tựa nhau lúc khó khăn.`,
+    "xung": (ch1, ch2) => `Xét về Địa Chi, hai tuổi <b>${ch1}</b> và <b>${ch2}</b> phạm thế <b>Lục Xung</b> — đây là cách xung nặng nhất trong 12 Chi, chủ về tính khí trái ngược, dễ va chạm ngay từ những điều nhỏ nhặt nếu không sớm học cách nhường nhau.`,
+    "tuhanhxung": (ch1, ch2) => `Xét về Địa Chi, hai tuổi <b>${ch1}</b> và <b>${ch2}</b> tuy không phải Lục Xung trực tiếp nhưng lại cùng chung nhóm <b>Tứ Hành Xung</b> — cách xung này nhẹ hơn, song vẫn nên lưu tâm, nhất là những lúc cả hai cùng gặp chuyện không vui, dễ khiến mâu thuẫn âm ỉ kéo dài.`,
+    "trung": (ch1, ch2) => `Xét về Địa Chi, hai tuổi <b>${ch1}</b> và <b>${ch2}</b> không rơi vào Hợp cũng chẳng phạm Xung — đây là thế bình hòa, cát hung không rõ rệt, phần nhiều do duyên phận và cách hai người cư xử với nhau mà nên.`
+};
+
+// Lời khuyên tổng kết — 4 mức × 2 mục đích, giọng văn tử vi truyền thống thay vì lời khuyên đời thường
+const LOI_KHUYEN_HOP_TUOI = {
+    honnhan: {
+        rat_hop: "Xét tổng thể, đây là đôi tuổi được xem là thiên tác chi hợp — mọi bề khá thuận, nếu đã có duyên gặp gỡ thì nên trân trọng mà vun đắp, ít gặp trở ngại lớn về đường con cái lẫn tài lộc về sau.",
+        kha_hop: "Xét tổng thể, đôi tuổi này thuộc diện duyên lành, nền tảng khá vững vàng để tính chuyện trăm năm. Vẫn nên giữ sự chân thành, biết nhường nhịn nhau trong những năm đầu chung sống để duyên càng thêm bền.",
+        binh_thuong: "Xét tổng thể, đôi tuổi này không phạm điều đại kỵ nhưng cũng chưa có điểm tương hợp nổi bật theo cổ pháp — cát hung phần lớn tùy vào cách hai người đối đãi, nhường nhịn nhau trong đời sống hằng ngày hơn là do tuổi tác định đoạt.",
+        can_nhac: "Xét tổng thể, đôi tuổi này có những điểm xung khắc đáng lưu tâm theo cổ pháp. Người xưa vẫn có câu \"hữu duyên thiên lý năng tương ngộ\" — tuổi tác chỉ là một yếu tố tham khảo, nếu tình cảm đã sâu đậm thì nên biết cách nhường nhịn, hóa giải để cùng nhau đi đường dài, tránh để những điều nhỏ nhặt tích tụ thành rạn nứt lớn."
+    },
+    lamAn: {
+        rat_hop: "Xét tổng thể, đây là sự kết hợp thuận buồm xuôi gió, hai bên dễ đồng lòng trong định hướng, ít khi giành phần hơn thiệt. Vẫn nên có thỏa thuận rõ ràng về vai trò và lợi nhuận ngay từ đầu để việc hợp tác được lâu bền.",
+        kha_hop: "Xét tổng thể, sự hợp tác này có nền tảng khá tốt, hai bên dễ tìm được tiếng nói chung trong công việc. Nên minh bạch tài chính, phân chia trách nhiệm cụ thể ngay từ đầu để tránh phát sinh hiềm khích khi công việc lớn dần.",
+        binh_thuong: "Xét tổng thể, sự hợp tác này không có điểm xung khắc rõ rệt nhưng cũng chưa có điểm tương hợp nổi bật theo cổ pháp — thành bại phần nhiều nằm ở năng lực, sự minh bạch và thiện chí của cả hai hơn là do tuổi tác.",
+        can_nhac: "Xét tổng thể, sự kết hợp này có những điểm cần cân nhắc kỹ theo cổ pháp, dễ nảy sinh bất đồng trong điều hành về lâu dài. Nếu vẫn quyết định hợp tác, nên có hợp đồng rõ ràng, phân vai minh bạch, tránh góp vốn theo cảm tính để hạn chế rủi ro."
+    }
+};
+
+function runHopTuoi(){
+    const year1 = parseInt(document.getElementById("year1").value);
+    const gender1 = document.getElementById("gender1").value;
+    const year2 = parseInt(document.getElementById("year2").value);
+    const gender2 = document.getElementById("gender2").value;
+    const mucDich = document.getElementById("mucDichHop").value;
+
+    if(!year1 || !year2){
+        alert("Vui lòng nhập đủ năm sinh của cả 2 người!");
+        return;
+    }
+
+    const [c1, ch1] = getYearCanChi(year1);
+    const [c2, ch2] = getYearCanChi(year2);
+    const n1 = napAm[`${c1} ${ch1}`], n2 = napAm[`${c2} ${ch2}`];
+    const e1 = getElement(n1), e2 = getElement(n2);
+
+    let score = 0;
+
+    // 1. Ngũ hành bản mệnh — theo bảng Nam Nữ Phối Ngũ Hành (cổ pháp), không phải công thức sinh/khắc đơn thuần
+    const phoiHon = NAP_AM_PHOI_HON[napAmPhoiHonKey(e1, e2)] || { rating: "binh", text: `Mệnh ${e1} và mệnh ${e2} không thuộc nhóm được ghi chép rõ trong cổ pháp — xét theo ngũ hành cơ bản là quan hệ trung tính.` };
+    if(phoiHon.rating === "tot") score += 3;
+    else if(phoiHon.rating === "xau") score -= 3;
+
+    // 2. Địa chi (tuổi con giáp)
+    let chiLoai = "trung";
+    if(lucHop[ch1] === ch2){ score += 3; chiLoai = "hop"; }
+    else if(isTamHopPair(ch1, ch2)){ score += 3; chiLoai = "tamhop"; }
+    else if(lucXung[ch1] === ch2){ score -= 4; chiLoai = "xung"; }
+    else if(isTuHanhXungPair(ch1, ch2)){ score -= 2; chiLoai = "tuhanhxung"; }
+
+    // 3. Thiên Can — xét cả Ngũ Hợp lẫn tương sinh/tương khắc theo ngũ hành riêng của Can (giống cách xét ngũ hành Mệnh)
+    const canHopFlag = CAN_HOP[c1] === c2;
+    const canE1 = CAN_NGU_HANH[c1], canE2 = CAN_NGU_HANH[c2];
+    let canLoai;
+    if(canHopFlag){ score += 2; canLoai = "hop"; }
+    else if(nguHanh.sinh[canE1] === canE2 || nguHanh.sinh[canE2] === canE1){ score += 1; canLoai = "sinh"; }
+    else if(nguHanh.khac[canE1] === canE2 || nguHanh.khac[canE2] === canE1){ score -= 1; canLoai = "khac"; }
+    else { canLoai = "trung"; }
+
+    let verdict, mauSac, icon, verdictKey;
+    if(score >= 5){ verdict = "RẤT HỢP"; mauSac = "#16a34a"; icon = "💯"; verdictKey = "rat_hop"; }
+    else if(score >= 2){ verdict = "KHÁ HỢP"; mauSac = "#65a30d"; icon = "✅"; verdictKey = "kha_hop"; }
+    else if(score >= -1){ verdict = "BÌNH THƯỜNG"; mauSac = "#d97706"; icon = "⚠️"; verdictKey = "binh_thuong"; }
+    else { verdict = "NÊN CÂN NHẮC THÊM"; mauSac = "#dc2626"; icon = "❌"; verdictKey = "can_nhac"; }
+
+    const mucDichText = mucDich === "honnhan" ? "hôn nhân, tình duyên" : "hợp tác làm ăn";
+
+    const diaChiText = DIA_CHI_LUAN[chiLoai](ch1, ch2);
+    const THIEN_CAN_LUAN = {
+        hop: () => `Thêm vào đó, Thiên Can <b>${c1}</b> và <b>${c2}</b> ở thế Ngũ Hợp — điểm cộng đáng quý nhất về Thiên Can, chủ về tình nghĩa bền lâu, về sau vẫn giữ được sự gắn bó như thuở ban đầu.`,
+        sinh: () => `Về Thiên Can, <b>${c1}</b> (${canE1}) và <b>${c2}</b> (${canE2}) tương sinh — cũng là một điểm cộng, chủ về hai người dễ bổ trợ nhau trong tính cách và cách ứng xử hằng ngày.`,
+        khac: () => `Về Thiên Can, <b>${c1}</b> (${canE1}) và <b>${c2}</b> (${canE2}) tương khắc — nên lưu ý thêm, đôi lúc dễ có chút trái ý nhau trong những chuyện vụn vặt thường ngày.`,
+        trung: () => `Về Thiên Can, <b>${c1}</b> (${canE1}) và <b>${c2}</b> (${canE2}) ở mức trung tính — không phải điều đáng lo, chỉ đơn thuần không có thêm điểm nhấn nào từ yếu tố này.`
+    };
+    const thienCanText = THIEN_CAN_LUAN[canLoai]();
+
+    const loiKhuyen = LOI_KHUYEN_HOP_TUOI[mucDich === "honnhan" ? "honnhan" : "lamAn"][verdictKey];
+
+    document.getElementById("outHop").innerHTML = `
+        <div class="result-card good" style="margin-top:20px; border-radius:20px; overflow:hidden; animation: slideUp 0.5s ease;">
+            <div class="header-info">
+                💑 <b>${c1} ${ch1}</b> (${gender1}, ${n1}) &nbsp;×&nbsp; <b>${c2} ${ch2}</b> (${gender2}, ${n2})<br>
+                <span style="font-size:12px; opacity:0.85;">Xét cho mục đích: ${mucDichText}</span>
+            </div>
+            <div class="luan-content">
+                <div style="text-align:center; padding:16px; background:${mauSac}14; border:2px solid ${mauSac}; border-radius:14px; margin-bottom:14px;">
+                    <div style="font-size:12px; color:#64748b; margin-bottom:4px;">🔮 Mức độ hợp tuổi</div>
+                    <div style="font-size:22px; font-weight:900; color:${mauSac};">${icon} ${verdict}</div>
+                </div>
+
+                <b>🧬 Tương quan Mệnh (theo cổ pháp Nam Nữ Phối Ngũ Hành)</b><br>
+                <div style="margin:6px 0 14px; font-size:13px; line-height:1.7;">${phoiHon.text}</div>
+
+                <b>📜 Luận Địa Chi &amp; Thiên Can</b><br>
+                <div style="margin:6px 0 6px; font-size:13px; line-height:1.7;">${diaChiText}</div>
+                <div style="margin:6px 0 14px; font-size:13px; line-height:1.7;">${thienCanText}</div>
+
+                <b>💡 Lời khuyên</b><br>
+                <div style="margin-top:6px; font-size:13px; line-height:1.7; background:#f8fafc; padding:12px; border-radius:10px;">${loiKhuyen}</div>
+
+                <p style="font-size:11.5px; color:#b45309; margin-top:14px; padding:10px 12px; background:#fffbeb; border:1px solid #fde68a; border-radius:10px; text-align:center; font-weight:600;">⚠️ Lưu ý: Việc xem hợp tuổi này CHỈ MANG TÍNH THAM KHẢO theo tử vi - phong tục dân gian (dựa trên năm sinh, ngũ hành nạp âm và địa chi), chưa xét đến giờ/ngày/tháng sinh chi tiết, tính cách hay hoàn cảnh thực tế của hai người — không dùng để thay thế cho sự tìm hiểu, thấu hiểu và quyết định thực sự của chính hai người trong cuộc.</p>
+            </div>
+        </div>
+    `;
+}
+
+// ============ CHUYỂN TAB NGÀY / TRỌN NĂM / HỢP TUỔI ============
+function switchTab(tab){
+    document.getElementById("panelDay").style.display = tab === 'day' ? "block" : "none";
+    document.getElementById("panelYear").style.display = tab === 'year' ? "block" : "none";
+    document.getElementById("panelHop").style.display = tab === 'hop' ? "block" : "none";
+    document.getElementById("tabBtnDay").classList.toggle("active", tab === 'day');
+    document.getElementById("tabBtnYear").classList.toggle("active", tab === 'year');
+    document.getElementById("tabBtnHop").classList.toggle("active", tab === 'hop');
+}
+
+window.onload = () => {
+    document.getElementById("date").value = formatDateLocal(new Date());
+
+    // Populate dropdown "Xem vận hạn cho năm": năm hiện tại + 2 năm tới, mặc định năm hiện tại
+    const nowY = new Date().getFullYear();
+    const targetSel = document.getElementById("targetYear");
+    for(let y = nowY; y <= nowY + 2; y++){
+        const opt = document.createElement("option");
+        opt.value = y;
+        const [cY, chY] = getYearCanChi(y);
+        opt.textContent = `${y} (${cY} ${chY})` + (y === nowY ? " — năm nay" : "");
+        targetSel.appendChild(opt);
+    }
+};
+</script>
+</body>
+</html>
